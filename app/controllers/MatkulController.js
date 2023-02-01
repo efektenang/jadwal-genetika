@@ -5,9 +5,26 @@ import Matkul from '../models/MatkulModel.js'
 export const getMatkul = async (req, res) => {
     try {
         const matkul = await Matkul.findAll()
-        res.status(200).send({msg: 'Data Ditemukan!', data: matkul})
+        res.render('pagematkul/menumatkul', {
+            title: 'Menu Mata Kuliah',
+            layout: 'layouts/templates',
+            matkul
+        })
+        res.status(200)
     } catch (error) {
         res.status(500).json({msg: error.message, data: null})
+    }
+}
+
+export const getCreateMatkul = async (req, res) => {
+    try {
+        res.render('pagematkul/formtambah', {
+           title: 'Menu Tambah Mata Kuliah',
+           layout: 'layouts/templates',
+        })
+        res.status(200)
+    } catch (error) {
+       res.status(500).json({msg: error.message})
     }
 }
 
@@ -22,9 +39,30 @@ export const createMatkul = async (req, res) => {
             kode_mk, matkul, sks, semester, jenis
         })
 
-        res.status(200).send({msg: "Data Berhasil disimpan!", data: response})
+        res.redirect('/matkul')
+        res.status(200)
     } catch (error) {
         res.status(400).send(error.message)
+    }
+}
+
+export const getEditMatkul = async (req, res) => {
+    try {
+        const mk = await Matkul.findOne({
+            where: { id: req.params.id }
+        })
+        if (!mk) {
+            res.redirect('/matkul')
+        }
+        res.render('pagematkul/formedit', {
+            title: 'Edit Mata Kuliah',
+            layout: 'layouts/templates',
+            id: req.params.id,
+            mk
+        });
+        res.status(200);
+    } catch (error) {
+        res.status(500).json({msg: error.message});
     }
 }
 
@@ -48,7 +86,9 @@ export const updateMatkul = async (req, res) => {
                 id: response.id
             }
         })
-        res.status(200).send({msg: "Data Berhasil diubah!", data: response})
+
+        res.redirect('/matkul')
+        res.status(200)
     } catch (error) {
         res.status(400).send(error.message)
     }
@@ -71,7 +111,9 @@ export const deleteMatkul = async (req, res) => {
                 id: response.id
             }
         })
-        res.status(200).send({msg: 'Data berhasil dihapus!'})
+
+        res.redirect('/matkul')
+        res.status(200)
     } catch (error) {
         res.status(400).send(error.message)
     }

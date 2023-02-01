@@ -4,10 +4,27 @@ import Dosen from '../models/DosenModel.js'
 export const getDosen = async (req, res) => {
     try {
         const dosen = await Dosen.findAll()
-        res.status(200).send(dosen)
+        res.render('pagedosen/menudosen', {
+            title: 'Menu Dosen',
+            layout: 'layouts/templates',
+            dosen
+        })
+        res.status(200)
     } catch (error) {
         res.status(500).json({msg: error.message})
     }
+}
+
+export const getCreateDosen = async (req, res) => {
+     try {
+         res.render('pagedosen/formtambah', {
+            title: 'Menu Tambah Dosen',
+            layout: 'layouts/templates',
+         })
+         res.status(200)
+     } catch (error) {
+        res.status(500).json({msg: error.message})
+     }
 }
 
 export const createDosen = async (req, res) => {
@@ -18,14 +35,32 @@ export const createDosen = async (req, res) => {
         const insertDosen = await Dosen.create({
             nidn, name, phone
         })
-        res.status(201).json({
-            msg: "Data Berhasil dikirim!",
-            data: insertDosen
-        })
+        res.redirect('/dosen')
+        res.status(201)
     } catch (error) {
         res.status(400).json({msg: error.message})
     }
 
+}
+
+export const getEditDosen = async (req, res) => {
+    try {
+        const dosen = await Dosen.findOne({
+            where: { id: req.params.id }
+        })
+        if (!dosen) {
+            res.redirect('/dosen')
+        }
+        res.render('pagedosen/formedit', {
+            title: 'Edit Dosen',
+            layout: 'layouts/templates',
+            id: req.params.id,
+            dosen
+        });
+        res.status(200);
+    } catch (error) {
+        res.status(500).json({msg: error.message});
+    }
 }
 
 export const updateDosen = async (req, res) => {
@@ -44,9 +79,9 @@ export const updateDosen = async (req, res) => {
         }, {
             where: { id: dosen.id}
         })
-        res.status(200).json({
-            msg: "Data berhasil diubah!"
-        })
+
+        res.redirect('/dosen')
+        res.status(200)
 
     } catch (error) {
         res.status(400).json({msg: error.message})
@@ -68,7 +103,8 @@ export const deleteDosen = async (req, res) => {
                 id: dosen.id
             }
         })
-        res.status(200).json({msg: 'Data Berhasil dihapus!'})
+        res.redirect('/dosen')
+        res.status(200)
     } catch (error) {
         res.status(400).json({msg: error.message})
     }

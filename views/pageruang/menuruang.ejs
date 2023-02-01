@@ -1,0 +1,55 @@
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary"><%- title %> </h6>
+    </div>
+    
+    <a href="/formruang" class="btn btn-primary btn-icon-split" style="width: 200px; margin: 20px 0 0 20px;">                
+        <span class="text">Tambah Data Ruangan</span>
+    </a>
+
+    <div class="card-body">
+        
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Nomor Ruangan</th>
+                        <th>Kapasitas Ruangan</th>
+                        <th>Jenis</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>No.</th>
+                        <th>Nomor Ruangan</th>
+                        <th>Kapasitas Ruangan</th>
+                        <th>Jenis</th>
+                        <th>Action</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <% let no = 1; %> 
+                    <% ruang.forEach(room => { %>
+                        <tr>
+                            <td><%= no++ %> </td>
+                            <td><%- room.no_ruang %> </td>
+                            <td><%- room.kapasitas %> mahasiswa</td>
+                            <td><%- room.jenis %></td>
+                            <td width="12%">
+                                <a href="/editruang/<%= room.id %> " class="btn btn-warning btn-circle btn-sm">
+                                    <i class="fas fa-edit" title="Edit"></i>
+                                </a>
+                                <form action="/deleteruang/<%= room.id%>?_method=DELETE" method="post"  style="display: inline;">
+                                    <button type="submit" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>                             
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

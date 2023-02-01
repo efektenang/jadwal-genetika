@@ -1,6 +1,8 @@
 import express from 'express'
 import AdminRoute from './app/routes/AdminRoute.js'
 import errorHandler from './app/middlewares/errorMiddleware.js'
+import expressEjsLayouts from 'express-ejs-layouts'
+import path from "path"
 import db from './app/config/Database.js'
 // import Matkul from './app/models/MatkulModel.js'
 const app = express()
@@ -11,8 +13,13 @@ try {
     console.log('Database is connected...')
     // await Matkul.sync()
 } catch (error) {
-    console.log(error)
+    console.log('Database is not connected!', error.message)
 }
+
+// set view engine use EJS
+app.set('view engine', 'ejs')
+app.use(expressEjsLayouts)
+app.use(express.static(path.join('public')))
 
 //middlewares
 app.use(express.urlencoded({ extended: false }))
