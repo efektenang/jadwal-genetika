@@ -2,6 +2,7 @@ import express from 'express'
 import { createDosen, deleteDosen, getCreateDosen, getDosen, getEditDosen, updateDosen } from '../controllers/DosenController.js'
 import { getDashboard, getHari } from '../controllers/HariController.js'
 import { createMatkul, deleteMatkul, getCreateMatkul, getEditMatkul, getMatkul, updateMatkul } from '../controllers/MatkulController.js'
+import { createPengampu, deletePengampu, getCreatePengampu, getPengampu, getUpdatePengampu, updatePengampu } from '../controllers/PengampuController.js'
 import { createRuang, deleteRuang, getCreateRuang, getEditRuang, getRuang, updateRuang } from '../controllers/RuangController.js'
 import { createWaktu, deleteWaktu, getCreateWaktu, getUpdateWaktu, getWaktu, updateWaktu } from '../controllers/WaktuController.js'
 
@@ -47,5 +48,14 @@ router.get('/ruang', getRuang)
 router.post('/insertruang', createRuang)
 router.post('/updateruang/:id', updateRuang)
 router.post('/deleteruang/:id', deleteRuang)
+
+// Manage Data Pengampu
+router.get('/pengampu', getPengampu)
+router.get('/formpengampu', getCreatePengampu)
+router.get('/editpengampu/:id', getUpdatePengampu)
+
+router.post('/insertpengampu', createPengampu)
+router.post('/updatepengampu/:id', updatePengampu)
+router.post('/deletepengampu/:id', deletePengampu)
 
 export default router
