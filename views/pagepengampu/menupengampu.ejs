@@ -1,0 +1,58 @@
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary"><%- title %> </h6>
+    </div>
+    
+    <a href="/formpengampu" class="btn btn-primary btn-icon-split" style="width: 200px; margin: 20px 0 0 20px;">                
+        <span class="text">Tambah Data Pengampu</span>
+    </a>
+
+    <div class="card-body">
+        
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Mata Kuliah</th>
+                        <th>Nama Dosen Pengampu</th>
+                        <th>Kelas</th>
+                        <th>Jenis</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>No.</th>
+                        <th>Mata Kuliah</th>
+                        <th>Nama Dosen Pengampu</th>
+                        <th>Kelas</th>
+                        <th>Jenis</th>
+                        <th>Action</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <% let no = 1; %> 
+                    <% pengampu.forEach(pgp => { %>
+                        <tr>
+                            <td><%= no++ %> </td>
+                            <td><%- pgp.matkul %> </td>
+                            <td><%- pgp.name_pengampu %> </td>
+                            <td><%- pgp.kelas %></td>
+                            <td><%- pgp.tahun_akademik %></td>
+                            <td width="12%">
+                                <a href="/editpengampu/<%= pgp.id %> " class="btn btn-warning btn-circle btn-sm">
+                                    <i class="fas fa-edit" title="Edit"></i>
+                                </a>
+                                <form action="/deletepengampu/<%= pgp.id%>?_method=DELETE" method="post"  style="display: inline;">
+                                    <button type="submit" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>                             
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

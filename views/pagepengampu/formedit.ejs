@@ -1,0 +1,40 @@
+<div class="row">
+    <div class="col">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary"><%- title %> </h6>
+            </div>
+            <div class="card-body">
+                <form action="/updatepengampu/<%- id %>" method="post">
+                    <div class="mb-3">
+                        <label for="matkul" class="form-label">Mata Kuliah</label>
+                        <select class="form-select" id="matkul" name="matkul" aria-label="Default select example">
+                            <option value="<%- pengampu.matkul %>" selected><%- pengampu.matkul %></option>
+                            <% matkul.forEach(mk => { %>
+                                <option value="<%- mk.matkul %>"><%- mk.matkul %></option>
+                            <% }) %> 
+                          </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="name_pengampu" class="form-label">Mata Kuliah</label>
+                        <select class="form-select" id="name_pengampu" name="name_pengampu" aria-label="Default select example">
+                            <option value="<%- pengampu.name_pengampu %>"><%- pengampu.name_pengampu %></option>
+                            <% dosen.forEach(dsn => { %>
+                                <option value="<%- dsn.name %>"><%- dsn.name %></option>
+                            <% }) %> 
+                          </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="kelas" class="form-label">Kelas</label>  
+                        <input type="text" value="<%- pengampu.kelas %>" class="form-control" id="kelas" name="kelas" aria-describedby="no_ruangHelp"  placeholder="cth. A1">
+                    </div>
+                    <div class="mb-3">
+                        <label for="tahun_akademik" class="form-label">Tahun Akademik</label>  
+                        <input type="text" value="<%- pengampu.tahun_akademik %>" class="form-control" id="tahun_akademik" name="tahun_akademik" aria-describedby="no_ruangHelp" placeholder="cth. 2022/2023">
+                    </div>
+                    <button class="btn btn-success" type="submit"> Tambahkan </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
