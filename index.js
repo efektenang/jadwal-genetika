@@ -28,4 +28,4 @@ app.use(AdminRoute)
 app.use(errorHandler)
 
 // Connecting to server...
-app.listen(5000, () => console.log('Server berjalan pada portt 5000'))
+app.listen(5000, '0.0.0.0', () => console.log('Server berjalan pada portt 5000'))
