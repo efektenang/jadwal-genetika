@@ -4,7 +4,11 @@ import Matkul from '../models/MatkulModel.js'
 
 export const getMatkul = async (req, res) => {
     try {
-        const matkul = await Matkul.findAll()
+        const matkul = await Matkul.findAll({
+            order: [
+                ['matkul', 'ASC']
+            ]
+        })
         res.render('pagematkul/menumatkul', {
             title: 'Menu Mata Kuliah',
             layout: 'layouts/templates',

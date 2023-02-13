@@ -3,7 +3,12 @@ import Dosen from '../models/DosenModel.js'
 // Dosen Controller 
 export const getDosen = async (req, res) => {
     try {
-        const dosen = await Dosen.findAll()
+        const dosen = await Dosen.findAll({
+            order: [
+                ['id', 'DESC'],
+                ['name', 'ASC']
+            ]
+        })
         res.render('pagedosen/menudosen', {
             title: 'Menu Dosen',
             layout: 'layouts/templates',
@@ -12,6 +17,19 @@ export const getDosen = async (req, res) => {
         res.status(200)
     } catch (error) {
         res.status(500).json({msg: error.message})
+    }
+}
+
+export const getDosenById = async (req, res) => {
+    try {
+        const dosen = await Dosen.findOne({
+            where: {
+                id: req.params.id
+            }
+        })
+        res.status(200).send(dosen)
+    } catch (error) {
+        res.status(400).json({msg: error.message})
     }
 }
 
