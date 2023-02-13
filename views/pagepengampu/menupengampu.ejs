@@ -17,7 +17,7 @@
                         <th>Mata Kuliah</th>
                         <th>Nama Dosen Pengampu</th>
                         <th>Kelas</th>
-                        <th>Jenis</th>
+                        <th>Tahun Akademik</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -27,7 +27,7 @@
                         <th>Mata Kuliah</th>
                         <th>Nama Dosen Pengampu</th>
                         <th>Kelas</th>
-                        <th>Jenis</th>
+                        <th>Tahun Akademik</th>
                         <th>Action</th>
                     </tr>
                 </tfoot>
@@ -36,8 +36,8 @@
                     <% pengampu.forEach(pgp => { %>
                         <tr>
                             <td><%= no++ %> </td>
-                            <td><%- pgp.matkul %> </td>
-                            <td><%- pgp.name_pengampu %> </td>
+                            <td><%- pgp.nama_mk %> </td>
+                            <td><%- pgp.nama_dosen %> </td>
                             <td><%- pgp.kelas %></td>
                             <td><%- pgp.tahun_akademik %></td>
                             <td width="12%">

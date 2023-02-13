@@ -7,32 +7,32 @@
             <div class="card-body">
                 <form action="/updatepengampu/<%- id %>" method="post">
                     <div class="mb-3">
-                        <label for="matkul" class="form-label">Mata Kuliah</label>
-                        <select class="form-select" id="matkul" name="matkul" aria-label="Default select example">
-                            <option value="<%- pengampu.matkul %>" selected><%- pengampu.matkul %></option>
+                        <label for="id_mk" class="form-label">Mata Kuliah</label>
+                        <select class="form-select" id="id_mk" name="id_mk" aria-label="Default select example">
+                            <option value="<%- rows[0].id_mk %>" selected><%- rows[0].nama_mk %></option>
                             <% matkul.forEach(mk => { %>
-                                <option value="<%- mk.matkul %>"><%- mk.matkul %></option>
+                                <option value="<%- mk.id %>"><%- mk.matkul %></option>
                             <% }) %> 
                           </select>
                     </div>
                     <div class="mb-3">
-                        <label for="name_pengampu" class="form-label">Mata Kuliah</label>
-                        <select class="form-select" id="name_pengampu" name="name_pengampu" aria-label="Default select example">
-                            <option value="<%- pengampu.name_pengampu %>"><%- pengampu.name_pengampu %></option>
+                        <label for="id_dosen" class="form-label">Nama Dosen</label>
+                        <select class="form-select" id="id_dosen" name="id_dosen" aria-label="Default select example">
+                            <option value="<%- rows[0].id_dosen %>"><%- rows[0].nama_dosen %></option>
                             <% dosen.forEach(dsn => { %>
-                                <option value="<%- dsn.name %>"><%- dsn.name %></option>
+                                <option value="<%- dsn.id %>"><%- dsn.matkul %></option>
                             <% }) %> 
                           </select>
                     </div>
                     <div class="mb-3">
                         <label for="kelas" class="form-label">Kelas</label>  
-                        <input type="text" value="<%- pengampu.kelas %>" class="form-control" id="kelas" name="kelas" aria-describedby="no_ruangHelp"  placeholder="cth. A1">
+                        <input type="text" value="<%- rows[0].kelas %>" class="form-control" id="kelas" name="kelas" aria-describedby="no_ruangHelp"  placeholder="cth. A1">
                     </div>
                     <div class="mb-3">
                         <label for="tahun_akademik" class="form-label">Tahun Akademik</label>  
-                        <input type="text" value="<%- pengampu.tahun_akademik %>" class="form-control" id="tahun_akademik" name="tahun_akademik" aria-describedby="no_ruangHelp" placeholder="cth. 2022/2023">
+                        <input type="text" value="<%- rows[0].tahun_akademik %>" class="form-control" id="tahun_akademik" name="tahun_akademik" aria-describedby="no_ruangHelp" placeholder="cth. 2022/2023">
                     </div>
-                    <button class="btn btn-success" type="submit"> Tambahkan </button>
+                    <button class="btn btn-success" type="submit"> Simpan Data </button>
                 </form>
             </div>
         </div>
