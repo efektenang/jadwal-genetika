@@ -1,6 +1,7 @@
 import express from 'express'
-import { createDosen, deleteDosen, getCreateDosen, getDosen, getEditDosen, updateDosen } from '../controllers/DosenController.js'
-import { getDashboard, getHari } from '../controllers/HariController.js'
+import { createDosen, deleteDosen, getCreateDosen, getDosen, getDosenById, getEditDosen, updateDosen } from '../controllers/DosenController.js'
+import { createHari, getDashboard, getHari } from '../controllers/HariController.js'
+import { getJadwal } from '../controllers/JadwalController.js'
 import { createMatkul, deleteMatkul, getCreateMatkul, getEditMatkul, getMatkul, updateMatkul } from '../controllers/MatkulController.js'
 import { createPengampu, deletePengampu, getCreatePengampu, getPengampu, getUpdatePengampu, updatePengampu } from '../controllers/PengampuController.js'
 import { createRuang, deleteRuang, getCreateRuang, getEditRuang, getRuang, updateRuang } from '../controllers/RuangController.js'
@@ -15,6 +16,7 @@ router.get('/formdosen', getCreateDosen)
 router.get('/editdosen/:id', getEditDosen)
 
 router.get('/dosen', getDosen)
+router.get('/dosen/:id', getDosenById)
 router.post('/insertdosen', createDosen)
 router.post('/updatedosen/:id', updateDosen)
 router.post('/deletedosen/:id', deleteDosen)
@@ -57,5 +59,8 @@ router.get('/editpengampu/:id', getUpdatePengampu)
 router.post('/insertpengampu', createPengampu)
 router.post('/updatepengampu/:id', updatePengampu)
 router.post('/deletepengampu/:id', deletePengampu)
+
+// Manage Jadwal Kuliah
+router.get('/jadwalkuliah', getJadwal)
 
 export default router
