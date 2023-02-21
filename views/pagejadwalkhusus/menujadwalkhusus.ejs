@@ -1,0 +1,69 @@
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary"><%- title %> </h6>
+    </div>
+
+    <div class="card-body">
+
+        <form action="/insert-waktu" method="post">
+            <div class="mb-3">
+                <label for="kode_dosen" class="form-label">Nama Dosen</label>
+                <select class="form-select" id="kode_dosen" name="kode_dosen" onchange="change_dosen_tidak_bersedia()">
+                    <% dosen.forEach(dsn => { %>
+                        <option value="<%- dsn.id %>" <%- idDosen == dsn.id ? 'selected' : '' %>><%- dsn.name %></option>
+                    <% }) %> 
+                  </select>
+            </div>
+            <div>
+                <button  class="btn btn-success mb-4" type="submit"> Simpan Data </button>
+                <input type="hidden" name="hide_me" value="hide_me">
+            </div>
+
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Hari</th>
+                        <th>Jam</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Hari</th>
+                        <th>Jam</th>
+                        <th>Status</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <% t_hari.forEach(day => { %>
+                        <% waktu.forEach(wkt => { %>
+                            <tr>
+                                <td><%- day.hari %></td>
+                                <td><%- wkt.range_waktu %></td>
+                                <%
+                                    let status = ''
+                                    response.forEach(arr => {
+                                        if (arr.kode_hari == day.id && arr.kode_waktu == wkt.id) {
+                                            status = 'checked'
+                                        }
+                                    });
+                                %>
+                                <td>
+                                    <div class="input-group">
+                                        <div class="input-group-text" style="width: 40px;">
+                                          <input id="checkready" name="arr_tidak_bersedia" class="form-check-input" type="checkbox" style="margin: 0 auto;" value="<%- idDosen + '-' + day.id + '-' + wkt.id %>" <%- status %>>
+                                        </div>
+                                        <label for="checkready" class="form-control">Tidak Bersedia</label>
+                                      </div>
+                                </td>
+                            </tr>
+                    
+                        <% }) %>
+                    <% }) %>
+
+                </tbody>
+            </table>
+        </form>
+
+    </div>
+</div>
