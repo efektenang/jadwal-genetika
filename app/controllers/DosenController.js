@@ -5,7 +5,6 @@ export const getDosen = async (req, res) => {
     try {
         const dosen = await Dosen.findAll({
             order: [
-                ['id', 'DESC'],
                 ['name', 'ASC']
             ]
         })

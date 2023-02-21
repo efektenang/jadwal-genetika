@@ -4,7 +4,47 @@
     </div>
 
     <div class="card-body">
-       
+        <form action="" method="post">
+            <div class="row">
+                <div class="col">
+                    <div class="mb-3">
+                        <label for="semester_tipe" class="form-label">Semester</label>
+                        <select class="form-select" id="semester_tipe" name="semester_tipe" aria-label="Default select example">
+                            <option value="0">Genap</option>
+                            <option value="1">Ganjil</option>
+                          </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tahun_akademik" class="form-label">Tahun Akademik</label>
+                        <select class="form-select" id="tahun_akademik" name="tahun_akademik" aria-label="Default select example">
+                            <option value="2020-2021">2020-2021</option>
+                            <option value="2020-2021">2021-2022</option>
+                            <option value="2020-2021">2022-2023</option>
+                            <option value="2020-2021">2023-2024</option>
+                          </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="jmlh_populasi" class="form-label">Jumlah Populasi</label>  
+                        <input value="10" type="text" class="form-control" id="jmlh_populasi" name="jmlh_populasi" aria-describedby="jmlh_populasiHelp">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="mb-3">
+                        <label for="probabilitas_crossover" class="form-label">Probabilitas Crossover</label>
+                        <input value="0.70" type="text" class="form-control" id="probabilitas_crossover" name="probabilitas_crossover" aria-describedby="nameHelp" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="probabilitas_mutasi" class="form-label">Probabilitas Mutasi</label>
+                        <input value="0.40" type="text" class="form-control" id="probabilitas_mutasi" name="probabilitas_mutasi" aria-describedby="nameHelp" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="jmlh_generasi" class="form-label">Jumlah Generasi</label>  
+                        <input value="10000" type="text" class="form-control" id="jmlh_generasi" name="jmlh_generasi" aria-describedby="jmlh_generasiHelp">
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-success" type="submit"> Proses Jadwal </button>
+        </form>
         <h3> Mohon maaf untuk saat ini jadwal masih belum tersedia</h3>
         <br>
 

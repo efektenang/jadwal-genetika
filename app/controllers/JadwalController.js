@@ -1,4 +1,3 @@
-import GeneticAlgorithm from "../middlewares/geneticAlgorithm.js"
 import sequelize from 'sequelize'
 
 // jenis ruang kelas
