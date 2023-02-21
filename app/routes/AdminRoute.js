@@ -6,6 +6,7 @@ import { createMatkul, deleteMatkul, getCreateMatkul, getEditMatkul, getMatkul, 
 import { createPengampu, deletePengampu, getCreatePengampu, getPengampu, getUpdatePengampu, updatePengampu } from '../controllers/PengampuController.js'
 import { createRuang, deleteRuang, getCreateRuang, getEditRuang, getRuang, updateRuang } from '../controllers/RuangController.js'
 import { createWaktu, deleteWaktu, getCreateWaktu, getUpdateWaktu, getWaktu, updateWaktu } from '../controllers/WaktuController.js'
+import { getJadwalKhusus, inputWaktuKhusus } from '../controllers/WaktuKhususController.js'
 
 const router = express.Router()
 
@@ -59,6 +60,12 @@ router.get('/editpengampu/:id', getUpdatePengampu)
 router.post('/insertpengampu', createPengampu)
 router.post('/updatepengampu/:id', updatePengampu)
 router.post('/deletepengampu/:id', deletePengampu)
+
+// Manage Waktu tidak bersedia
+router.get('/waktu-tidak-bersedia', getJadwalKhusus)
+router.get('/waktu-tidak-bersedia/:id', getJadwalKhusus)
+router.post('/insert-waktu', inputWaktuKhusus)
+// router.post('/update-waktu/:id', inputWaktuKhusus)
 
 // Manage Jadwal Kuliah
 router.get('/jadwalkuliah', getJadwal)
