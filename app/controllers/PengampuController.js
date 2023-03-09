@@ -23,8 +23,16 @@ export const getPengampu = async (req, res) => {
 // Create Data Pengampu
 export const getCreatePengampu = async (req, res) => {
     try {
-        const dosen = await Dosen.findAll()
-        const matkul = await Matkul.findAll()
+        const dosen = await Dosen.findAll({
+            order: [
+                ['name', 'ASC']
+            ]
+        })
+        const matkul = await Matkul.findAll({
+            order: [
+                ['matkul', 'ASC']
+            ]
+        })
         res.render('pagepengampu/formtambah', {
             title: 'Menu Tambah Data Pengampu',
             layout: 'layouts/templates',

@@ -4,7 +4,18 @@ import Matkul from '../models/MatkulModel.js'
 
 export const getMatkul = async (req, res) => {
     try {
+
+        let smstr = req.params.semester
+        let arr_smstr = [1,2,3,4,5,6,7,8]
+
+        if ( smstr === undefined) {
+            smstr = arr_smstr[0]
+        }
+        
         const matkul = await Matkul.findAll({
+            where: {
+                semester: smstr
+            },
             order: [
                 ['matkul', 'ASC']
             ]
@@ -12,6 +23,8 @@ export const getMatkul = async (req, res) => {
         res.render('pagematkul/menumatkul', {
             title: 'Menu Mata Kuliah',
             layout: 'layouts/templates',
+            arr_smstr,
+            smstr,
             matkul
         })
         res.status(200)
@@ -43,7 +56,7 @@ export const createMatkul = async (req, res) => {
             kode_mk, matkul, sks, semester, jenis
         })
 
-        res.redirect('/matkul')
+        res.redirect('/matkul/'+ semester)
         res.status(200)
     } catch (error) {
         res.status(400).send(error.message)
@@ -91,7 +104,7 @@ export const updateMatkul = async (req, res) => {
             }
         })
 
-        res.redirect('/matkul')
+        res.redirect('/matkul' + semester)
         res.status(200)
     } catch (error) {
         res.status(400).send(error.message)

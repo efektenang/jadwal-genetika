@@ -2,7 +2,11 @@ import Ruang from '../models/RuangModel.js'
 
 export const getRuang = async (req, res) => {
     try {
-        const ruang = await Ruang.findAll()
+        const ruang = await Ruang.findAll({
+            order: [
+                ['no_ruang', 'ASC']
+            ]
+        })
         res.render('pageruang/menuruang', {
             title: 'Menu Ruangan Kelas',
             layout: 'layouts/templates',
