@@ -4,21 +4,23 @@ import errorHandler from './app/middlewares/errorMiddleware.js'
 import expressEjsLayouts from 'express-ejs-layouts'
 import path from "path"
 import conn from './app/config/ConnectDB.js'
-// import Hari from './app/models/HariModel.js'
+import db from './app/config/Database.js'
+// import Ruang from './app/models/RuangModel.js'
 
 const app = express()
 
 // Connect to Database using mysql module
     conn.connect((err) => {
         if (err) return console.log(err.message)
-        console.log('database is connected...')
+        console.log('penjadwalan-app is connected...')
     })
 
 // Connect to Database using Sequelize Module
 // try {
 //     await db.authenticate()
 //     console.log('Database is connected...')
-//     // await Hari.sync()
+//     // if we need to create table automatically, delete comment below
+//     // await Ruang.sync()
 // } catch (error) {
 //     console.log('Database is not connected!', error.message)
 // }
@@ -35,4 +37,4 @@ app.use(AdminRoute)
 app.use(errorHandler)
 
 // Connecting to server...
-app.listen(5000, '0.0.0.0', () => console.log('Server berjalan pada portt 5000'))
+app.listen(5000, '0.0.0.0', () => console.log('Server berjalan pada port 5000'))
