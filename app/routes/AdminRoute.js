@@ -1,7 +1,7 @@
 import express from 'express'
 import { createDosen, deleteDosen, getCreateDosen, getDosen, getDosenById, getEditDosen, updateDosen } from '../controllers/DosenController.js'
 import { createHari, getDashboard, getHari } from '../controllers/HariController.js'
-import { getJadwal } from '../controllers/JadwalController.js'
+import { getJadwal, processPenjadwalan } from '../controllers/JadwalController.js'
 import { createMatkul, deleteMatkul, getCreateMatkul, getEditMatkul, getMatkul, updateMatkul } from '../controllers/MatkulController.js'
 import { createPengampu, deletePengampu, getCreatePengampu, getPengampu, getUpdatePengampu, updatePengampu } from '../controllers/PengampuController.js'
 import { createRuang, deleteRuang, getCreateRuang, getEditRuang, getRuang, updateRuang } from '../controllers/RuangController.js'
@@ -39,6 +39,7 @@ router.get('/formmatkul', getCreateMatkul)
 router.get('/editmatkul/:id', getEditMatkul)
 
 router.get('/matkul', getMatkul)
+router.get('/matkul/:semester', getMatkul)
 router.post('/insertmatkul', createMatkul)
 router.post('/updatematkul/:id', updateMatkul)
 router.post('/deletematkul/:id', deleteMatkul)
@@ -69,5 +70,6 @@ router.post('/insert-waktu', inputWaktuKhusus)
 
 // Manage Jadwal Kuliah
 router.get('/jadwalkuliah', getJadwal)
+router.post('/getprocess', processPenjadwalan)
 
 export default router
