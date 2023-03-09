@@ -2,12 +2,23 @@
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary"><%- title %> </h6>
     </div>
-    
+
     <a href="/formmatkul" class="btn btn-primary btn-icon-split" style="width: 230px; margin: 20px 0 0 20px;">                
         <span class="text">Tambah Data Mata Kuliah</span>
     </a>
 
     <div class="card-body">
+
+        <div class="">
+            <label for="smstr" class="form-label">Filter semester:</label>
+            <select class="form-select" id="smstr" name="smstr" onchange="change_filter_matkul()">
+                 
+                <% arr_smstr.forEach(row => { %>
+                    <option value="<%- row %>" <%- smstr == row ? 'selected' : '' %>><%- row %></option>
+                <% }) %> 
+              </select>
+        </div>
+        <br>
         
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">

@@ -24,6 +24,11 @@
             var idDosen = document.getElementById('kode_dosen')
             window.location.href = "http://localhost:5000/waktu-tidak-bersedia/" + idDosen.options[idDosen.selectedIndex].value
         }
+
+        function change_filter_matkul() {
+            var smstr = document.getElementById('smstr')
+            window.location.href = "http://localhost:5000/matkul/" + smstr.options[smstr.selectedIndex].value
+        }
     </script>
 
 </head>
