@@ -20,7 +20,7 @@
                         <select class="form-select" id="id_dosen" name="id_dosen" aria-label="Default select example">
                             <option value="<%- rows[0].id_dosen %>"><%- rows[0].nama_dosen %></option>
                             <% dosen.forEach(dsn => { %>
-                                <option value="<%- dsn.id %>"><%- dsn.matkul %></option>
+                                <option value="<%- dsn.id %>"><%- dsn.name %></option>
                             <% }) %> 
                           </select>
                     </div>
