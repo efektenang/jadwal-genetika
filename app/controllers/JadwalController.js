@@ -1,7 +1,6 @@
 import conn from "../config/ConnectDB.js"
 import GeneticAlgorithm from "../config/GeneticAlgorithm.js"
 import { getResult, getRuangLab, getRuangReg, resData } from "../models/JadwalModel.js"
-import { getData, initialization } from "../config/GA.js"
 
 export const getJadwal = async (req, res) => {
     try {

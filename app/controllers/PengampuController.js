@@ -62,8 +62,16 @@ export const createPengampu = async (req, res) => {
 export const getUpdatePengampu = async (req, res) => {
     try {
         const pengampuId = req.params.id
-        const dosen = await Dosen.findAll()
-        const matkul = await Matkul.findAll()
+        const dosen = await Dosen.findAll({
+            order: [
+                ['name', 'ASC']
+            ]
+        })
+        const matkul = await Matkul.findAll({
+            order: [
+                ['matkul', 'ASC']
+            ]
+        })
 
         conn.query("SELECT a.id as id, b.id as `id_mk`, b.matkul as `nama_mk`, c.id as `id_dosen`, c.name as `nama_dosen`, a.kelas as kelas, a.tahun_akademik as `tahun_akademik` FROM t_pengampu a LEFT JOIN t_matkul b ON a.id_mk = b.id LEFT JOIN t_dosen c ON a.id_dosen = c.id WHERE a.id = ?", [pengampuId], function (error, rows, fields) {
             if (error) throw error
