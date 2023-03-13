@@ -10,10 +10,14 @@ import db from './app/config/Database.js'
 const app = express()
 
 // Connect to Database using mysql module
+try {
     conn.connect((err) => {
         if (err) return console.log(err.message)
         console.log('penjadwalan-app is connected...')
     })
+} catch (error) {
+    console.log(error.message)
+}
 
 // Connect to Database using Sequelize Module
 // try {
