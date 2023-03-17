@@ -36,14 +36,13 @@ class GeneticAlgorithm {
     }
 
     async getData() {
-        
         // create array of data pengampu
         const rsData = await resData(this.semester_tipe, this.tahun_akademik)
         for ( let i = 0; i < rsData.length; i++) {
-            this.pengampu.push(parseInt(rsData[i].id))
-            this.sks.push(parseInt(rsData[i].sks))
-            this.dosen.push(parseInt(rsData[i].id_dosen))
-            this.jenis_mk.push(rsData[i].jenis)
+            this.pengampu[i] = parseInt(rsData[i].id)
+            this.sks[i] = parseInt(rsData[i].sks)
+            this.dosen[i] = parseInt(rsData[i].id_dosen)
+            this.jenis_mk[i] = rsData[i].jenis
         }
 
         // create array range_waktu
@@ -97,31 +96,31 @@ class GeneticAlgorithm {
 
                 // random check if sks is 1
                 if (sks == 1) {
-                    this.individu[i][j][1] = Math.floor(Math.random() * Math.floor(jumlah_jam - 1))
+                    this.individu[i][j][1] = Math.abs(Math.floor(Math.random() * jumlah_jam ))
                 }
 
                 // random check if sks is 2
                 if (sks == 2) {
-                    this.individu[i][j][1] = Math.floor(Math.random() * Math.floor((jumlah_jam - 1) - 1 ))
+                    this.individu[i][j][1] = Math.abs(Math.floor((Math.random() * jumlah_jam) - 1))
                 }
 
                 // random check if sks is 3
                 if (sks == 3) {
-                    this.individu[i][j][1] = Math.floor(Math.random() * Math.floor((jumlah_jam - 1) - 2 ))
+                    this.individu[i][j][1] = Math.abs(Math.floor((Math.random() * jumlah_jam) - 2))
                 }
 
                 // random check if sks is 4
                 if (sks == 4) {
-                    this.individu[i][j][1] = Math.floor(Math.random() * Math.floor((jumlah_jam - 1) - 3 ))
+                    this.individu[i][j][1] = Math.abs(Math.floor((Math.random() * jumlah_jam) - 3))
                 }
 
                 // penetuan hari secara acak
-                this.individu[i][j][2] = Math.floor(Math.random() * (jumlah_hari - 1))
+                this.individu[i][j][2] = Math.floor(Math.random() * jumlah_hari)
                 
                 if (this.jenis_mk[j] === 'teori') {
-                    this.individu[i][j][3] = parseInt(this.ruangReg[Math.floor(Math.random() * (jumlah_ruang_reg - 1))])
+                    this.individu[i][j][3] = parseInt(this.ruangReg[Math.floor(Math.random() * jumlah_ruang_reg)])
                 } else {
-                    this.individu[i][j][3] = parseInt(this.ruangLab[Math.floor(Math.random() * (jumlah_ruang_lab - 1))])
+                    this.individu[i][j][3] = parseInt(this.ruangLab[Math.floor(Math.random() * jumlah_ruang_lab)])
                 }
             }
         }
@@ -273,7 +272,6 @@ class GeneticAlgorithm {
         
         let fitness = parseFloat(1 / (1 + penalty))
         return fitness
-        // console.log(fitness)
     } // end checkFitness(indv)
 
     async countFitness() {
@@ -283,7 +281,6 @@ class GeneticAlgorithm {
             fitness[indv] = await this.checkFitness(indv)
         }
         return fitness
-        // console.log(fitness)
     } // end countFitness()
 
     async selection(fitness) {
@@ -307,7 +304,7 @@ class GeneticAlgorithm {
         const jmlh_rank = rank.length
         for (let i = 0; i < this.jmlh_populasi; i++) {
             // proses rangking berdasarkan rangking
-            const target = Math.floor(Math.random() * Math.floor(jumlah + 1))
+            const target = Math.floor(Math.random() * jumlah)
             
             let cek = 0
             for (let j = 0; j < jmlh_rank; j++) {
@@ -318,7 +315,6 @@ class GeneticAlgorithm {
                 }
             }
         }
-        // console.log(rank)
     } // end selection()
 
     async startCrossover() {
@@ -340,9 +336,9 @@ class GeneticAlgorithm {
                 if (parseFloat(cr) < parseFloat(this.crossover)) {
                     // ketika nilai random < nilai probabilitas crossover, jadwal mengalami pertukaran
     
-                    let a = Math.floor((Math.random() * jmlh_pengampu) - 2)
+                    let a = Math.abs(Math.floor((Math.random() * jmlh_pengampu) - 2))
                     while (b <= a) {
-                        b = Math.floor((Math.random() * jmlh_pengampu) - 1)
+                        b = Math.abs(Math.floor((Math.random() * jmlh_pengampu) - 1))
                     }
     
                     // penetapan jadwal baru dari awal sampai titik ke-1
@@ -394,9 +390,8 @@ class GeneticAlgorithm {
                 }
             }
         } catch (error) {
-            
+            console.log('Data processing...')
         }
-
     } // end startCrossover()
 
     async mutate() {
@@ -416,38 +411,37 @@ class GeneticAlgorithm {
             // ketika nilai random kurang dari nilai probabiliti mutasi, maka terjadi pergantian komponen
 
             if (r < this.mutasi) {
-                let chrom = Math.floor(Math.random() * 20)
+                let chrom = Math.floor(Math.random() * jmlh_pengampu)
 
                 let j = parseInt(this.sks[chrom])
 
                 switch (j) {
                     case 1:
-                        this.individu[i][chrom][1] = Math.floor((Math.random() * jumlah_jam) - 1)
+                        this.individu[i][chrom][1] = Math.abs(Math.floor(Math.random() * jumlah_jam))
                         break
                     case 2:
-                        this.individu[i][chrom][1] = Math.floor(((Math.random() * jumlah_jam) - 1) - 1)
+                        this.individu[i][chrom][1] = Math.abs(Math.floor((Math.random() * jumlah_jam) - 1))
                         break
                     case 3:
-                        this.individu[i][chrom][1] = Math.floor(((Math.random() * jumlah_jam) - 1) - 2)
+                        this.individu[i][chrom][1] = Math.abs(Math.floor((Math.random() * jumlah_jam) - 2))
                         break
                     case 4:
-                        this.individu[i][chrom][1] = Math.floor(((Math.random() * jumlah_jam) - 1) - 3)
+                        this.individu[i][chrom][1] = Math.abs(Math.floor((Math.random() * jumlah_jam) - 3))
                         break
                 }
                 // proses pergantian hari
-                this.individu[i][chrom][2] = Math.floor((Math.random() * jumlah_hari) - 1)
+                this.individu[i][chrom][2] = Math.floor(Math.random() * jumlah_hari)
 
                 // proses penggantian ruang
                 if (this.jenis_mk[chrom] === this.teori) {
-                    this.individu[i][chrom][3] = this.ruangReg[Math.floor((Math.random() * jumlah_ruang_reg) + 1)]
+                    this.individu[i][chrom][3] = this.ruangReg[Math.floor(Math.random() * jumlah_ruang_reg)]
                 } else {
-                    this.individu[i][chrom][3] = this.ruangLab[Math.floor((Math.random() * jumlah_ruang_lab) + 1)]
+                    this.individu[i][chrom][3] = this.ruangLab[Math.floor(Math.random() * jumlah_ruang_lab)]
                 }
             }
             fitness[i] = await this.checkFitness(i)
         }
         return fitness
-        // console.log(fitness)
     } // end mutate()
 
     async getIndividu(indv) {
@@ -456,13 +450,12 @@ class GeneticAlgorithm {
 
         for (let j = 0; j < this.pengampu.length; j++) {
             best_solution[j] = []
-            best_solution[j][0] = parseInt(this.pengampu[this.individu[indv][j][0]])
-            best_solution[j][1] = parseInt(this.jam[this.individu[indv][j][1]])
-            best_solution[j][2] = parseInt(this.hari[this.individu[indv][j][2]])
-            best_solution[j][3] = parseInt(this.individu[indv][j][3])
+            best_solution[j][0] = this.pengampu[this.individu[indv][j][0]]
+            best_solution[j][1] = this.jam[this.individu[indv][j][1]]
+            best_solution[j][2] = this.hari[this.individu[indv][j][2]]
+            best_solution[j][3] = this.individu[indv][j][3]
         }
         return best_solution
-        // console.log(best_solution)
     } // end getIndividu()
 }
 
