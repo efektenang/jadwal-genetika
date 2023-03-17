@@ -20,6 +20,7 @@ export const getJadwal = async (req, res) => {
 
 export const processPenjadwalan = async (req, res) => {
     try {
+        const start = performance.now()
         const {
             jmlh_populasi,
             probabilitas_crossover,
@@ -28,8 +29,8 @@ export const processPenjadwalan = async (req, res) => {
             semester_tipe,
             tahun_akademik
         } = req.body
-        
         const jadwal = await resData(semester_tipe, tahun_akademik)
+        
 
         if (jadwal === undefined) {
             
@@ -83,6 +84,10 @@ export const processPenjadwalan = async (req, res) => {
                 throw new Error('Tidak ditemukan solusi')
             }
         }
+
+        const end = performance.now()
+        const timeInSeconds = (end - start) / 1000
+        console.log(`Program executed in ${timeInSeconds} seconds`)
         res.redirect('/jadwalkuliah')
     } catch (error) {
         console.log(error)

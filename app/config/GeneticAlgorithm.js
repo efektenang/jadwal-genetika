@@ -318,79 +318,75 @@ class GeneticAlgorithm {
     } // end selection()
 
     async startCrossover() {
-        try {
-            await this.getAllData()
-            let max = 0.999999999
-    
-            let new_individu = []
-            const jmlh_pengampu = this.pengampu.length
-    
-            for (let i = 0; i < this.jmlh_populasi; i += 2) { //perulangan untuk jadwal terpilih
-                let b = 0
-                new_individu[i] = []
-                new_individu[i+1] = []
-                
-                let cr = Math.random() * max
-    
-                // two point crossover 
-                if (parseFloat(cr) < parseFloat(this.crossover)) {
-                    // ketika nilai random < nilai probabilitas crossover, jadwal mengalami pertukaran
-    
-                    let a = Math.abs(Math.floor((Math.random() * jmlh_pengampu) - 2))
-                    while (b <= a) {
-                        b = Math.abs(Math.floor((Math.random() * jmlh_pengampu) - 1))
-                    }
-    
-                    // penetapan jadwal baru dari awal sampai titik ke-1
-                    for (let j = 0; j < a; j++) {
-                        new_individu[i][j] = []
-                        new_individu[i+1][j] = []
-                        for (let k = 0; k < 4; k++) {
-                            // new_individu[i][j][k]
-                            new_individu[i][j][k] = this.individu[this.induk[i]][j][k]
-                            new_individu[i+1][j][k] = this.individu[this.induk[i+1]][j][k]
-                        }
-                    }
-                    // // penetapan jadwal baru dari awal sampai titik ke-2
-                    for (let j = a; j < b; j++) {
-                        new_individu[i][j] = []
-                        new_individu[i+1][j] = []
-                        for (let k = 0; k < 4; k++) {
-                            new_individu[i][j][k] = this.individu[this.induk[i+1]][j][k]
-                            new_individu[i+1][j][k] = this.individu[this.induk[i]][j][k]
-                        }
-                    }
-                    // // penetapan jadwal baru dari titik kedua sampai titik akhir
-                    for (let j = b; j < jmlh_pengampu; j++) {
-                        new_individu[i][j] = []
-                        new_individu[i+1][j] = []
-                        for (let k = 0; k < 4; k++) {
-                            new_individu[i][j][k] = this.individu[this.induk[i]][j][k]
-                            new_individu[i+1][j][k] = this.individu[this.induk[i+1]][j][k]
-                        }
-                    }
-                } else {   //Ketika nilai random > nilai probabilitas crossover, maka jadwal baru = jadwal terpilih
-                    for (let j = 0; j < jmlh_pengampu; j++) {
-                        new_individu[i][j] = []
-                        new_individu[i+1][j] = []
-                        for (let k = 0; k < 4; k++) {
-                            new_individu[i][j][k] = this.individu[this.induk[i]][j][k]
-                            new_individu[i+1][j][k] = this.individu[this.induk[i+1]][j][k]
-                        }
-                    }
+        await this.getAllData()
+        let max = 0.999999999
+
+        let new_individu = []
+        const jmlh_pengampu = this.pengampu.length
+
+        for (let i = 0; i < this.jmlh_populasi; i += 2) { //perulangan untuk jadwal terpilih
+            let b = 0
+            new_individu[i] = []
+            new_individu[i+1] = []
+            
+            let cr = Math.random() * max
+
+            // two point crossover 
+            if (parseFloat(cr) < parseFloat(this.crossover)) {
+                // ketika nilai random < nilai probabilitas crossover, jadwal mengalami pertukaran
+
+                let a = Math.abs(Math.floor((Math.random() * jmlh_pengampu) - 2))
+                while (b <= a) {
+                    b = Math.abs(Math.floor((Math.random() * jmlh_pengampu) - 1))
                 }
-            }
-    
-            for (let i = 0; i < this.jmlh_populasi; i += 2) {
-                for (let j = 0; j < jmlh_pengampu; j++) {
+
+                // penetapan jadwal baru dari awal sampai titik ke-1
+                for (let j = 0; j < a; j++) {
+                    new_individu[i][j] = []
+                    new_individu[i+1][j] = []
                     for (let k = 0; k < 4; k++) {
-                        this.individu[i][j][k] = new_individu[i][j][k]
-                        this.individu[i+1][j][k] = new_individu[i+1][j][k]
+                        // new_individu[i][j][k]
+                        new_individu[i][j][k] = this.individu[this.induk[i]][j][k]
+                        new_individu[i+1][j][k] = this.individu[this.induk[i+1]][j][k]
+                    }
+                }
+                // // penetapan jadwal baru dari awal sampai titik ke-2
+                for (let j = a; j < b; j++) {
+                    new_individu[i][j] = []
+                    new_individu[i+1][j] = []
+                    for (let k = 0; k < 4; k++) {
+                        new_individu[i][j][k] = this.individu[this.induk[i+1]][j][k]
+                        new_individu[i+1][j][k] = this.individu[this.induk[i]][j][k]
+                    }
+                }
+                // // penetapan jadwal baru dari titik kedua sampai titik akhir
+                for (let j = b; j < jmlh_pengampu; j++) {
+                    new_individu[i][j] = []
+                    new_individu[i+1][j] = []
+                    for (let k = 0; k < 4; k++) {
+                        new_individu[i][j][k] = this.individu[this.induk[i]][j][k]
+                        new_individu[i+1][j][k] = this.individu[this.induk[i+1]][j][k]
+                    }
+                }
+            } else {   //Ketika nilai random > nilai probabilitas crossover, maka jadwal baru = jadwal terpilih
+                for (let j = 0; j < jmlh_pengampu; j++) {
+                    new_individu[i][j] = []
+                    new_individu[i+1][j] = []
+                    for (let k = 0; k < 4; k++) {
+                        new_individu[i][j][k] = this.individu[this.induk[i]][j][k]
+                        new_individu[i+1][j][k] = this.individu[this.induk[i+1]][j][k]
                     }
                 }
             }
-        } catch (error) {
-            console.log('Data processing...')
+        }
+
+        for (let i = 0; i < this.jmlh_populasi; i += 2) {
+            for (let j = 0; j < jmlh_pengampu; j++) {
+                for (let k = 0; k < 4; k++) {
+                    this.individu[i][j][k] = new_individu[i][j][k]
+                    this.individu[i+1][j][k] = new_individu[i+1][j][k]
+                }
+            }
         }
     } // end startCrossover()
 
