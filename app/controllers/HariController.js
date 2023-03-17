@@ -1,19 +1,6 @@
 import Hari from '../models/HariModel.js'
 
-export const getDashboard = async (req, res) => {
-    try {
-        res.render('index', {
-            title: 'Dashboard',
-            layout: 'layouts/templates'
-        })
-        res.status(200)
-    } catch (error) {
-        res.status(500).json({msg: error.message})
-    }
-}
-
 // Hari Controller
-
 export const getHari = async (req, res) => {
     try {
         const hari = await Hari.findAll()

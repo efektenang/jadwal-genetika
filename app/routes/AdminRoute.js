@@ -1,7 +1,8 @@
 import express from 'express'
+import { getDashboard } from '../controllers/Dashboard.js'
 import { createDosen, deleteDosen, getCreateDosen, getDosen, getDosenById, getEditDosen, updateDosen } from '../controllers/DosenController.js'
-import { createHari, getDashboard, getHari } from '../controllers/HariController.js'
-import { getJadwal, processPenjadwalan } from '../controllers/JadwalController.js'
+import { getHari } from '../controllers/HariController.js'
+import { getJadwal, getJadwalReport, processPenjadwalan } from '../controllers/JadwalController.js'
 import { createMatkul, deleteMatkul, getCreateMatkul, getEditMatkul, getMatkul, updateMatkul } from '../controllers/MatkulController.js'
 import { createPengampu, deletePengampu, getCreatePengampu, getPengampu, getUpdatePengampu, updatePengampu } from '../controllers/PengampuController.js'
 import { createRuang, deleteRuang, getCreateRuang, getEditRuang, getRuang, updateRuang } from '../controllers/RuangController.js'
@@ -66,10 +67,10 @@ router.post('/deletepengampu/:id', deletePengampu)
 router.get('/waktu-tidak-bersedia', getJadwalKhusus)
 router.get('/waktu-tidak-bersedia/:id', getJadwalKhusus)
 router.post('/insert-waktu', inputWaktuKhusus)
-// router.post('/update-waktu/:id', inputWaktuKhusus)
 
 // Manage Jadwal Kuliah
 router.get('/jadwalkuliah', getJadwal)
 router.post('/getprocess', processPenjadwalan)
+router.post('/createreport', getJadwalReport)
 
 export default router
