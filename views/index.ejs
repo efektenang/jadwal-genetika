@@ -2,9 +2,7 @@
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary"><%- title %> </h6>
     </div>
-
-    <div class="card-body">
-       
+    <div class="card-body">    
         <h3> Selamat datang di Aplikasi Sistem Penjadwalan Ruang Kuliah</h3>
         <br>
 
@@ -19,6 +17,150 @@
                 Aplikasi ini mempermudah proses penjadwalan dengan menyediakan antarmuka yang mudah digunakan dan mempermudah akses ke data yang relevan.
                 Algoritma genetika yang digunakan dalam aplikasi memastikan bahwa solusi yang diberikan selalu up-to-date dan sesuai dengan kondisi terkini sehingga memastikan hasil yang maksimal.
             </article>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-s font-weight-bold text-primary text-uppercase mb-1">
+                            <a href="/dosen">Total Dosen</a>
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800"><%- dosen %></div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-users fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-s font-weight-bold text-uppercase mb-1">
+                            <a class="text-success" href="/pengampu">Jumlah Pengampu</a>
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800"><%- pengampu %></div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-address-card fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-s font-weight-bold text-uppercase mb-1">
+                            <a class="text-info" href="/matkul">Jumlah Mata Kuliah</a>
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800"><%- matkul %></div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pending Requests Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-s font-weight-bold text-uppercase mb-1">
+                            <a href="/ruang" class=" text-warning ">Kelas Yang Tersedia</a>
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800"><%- ruang %></div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-comments fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form action="/createreport" method="post">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                <i class="fas fa-download fa-sm text-white-50"></i> Generate Report
+            </button>
+    </div>
+</form>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Tabel Jadwal Kuliah</h6>
+    </div>
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Hari</th>
+                        <th>Sesi</th>
+                        <th>Jam Kuliah</th>
+                        <th>Mata Kuliah</th>
+                        <th>Sks</th>
+                        <th>Semester</th>
+                        <th>Kelas</th>
+                        <th>Dosen</th>
+                        <th>Ruangan</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>No.</th>
+                        <th>Hari</th>
+                        <th>Sesi</th>
+                        <th>Jam Kuliah</th>
+                        <th>Mata Kuliah</th>
+                        <th>Sks</th>
+                        <th>Semester</th>
+                        <th>Kelas</th>
+                        <th>Dosen</th>
+                        <th>Ruangan</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <% let no = 1; %> 
+                    <% result.forEach(res => { %>
+                        <tr>
+                            <td><%= no++ %> </td>
+                            <td><%- res.hari %> </td>
+                            <td><%- res.sesi %></td>
+                            <td><%- res.jam_kuliah %></td>
+                            <td><%- res.nama_mk %></td>
+                            <td><%- res.sks %></td>
+                            <td><%- res.semester %></td>
+                            <td><%- res.kelas %></td>
+                            <td><%- res.dosen %></td>
+                            <td><%- res.ruang %></td>
+                        </tr>                             
+                    <% }) %>
+                </tbody>
+            </table>
         </div>
 
     </div>
