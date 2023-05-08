@@ -56,6 +56,7 @@ router.post('/deleteruang/:id', deleteRuang)
 
 // Manage Data Pengampu
 router.get('/pengampu', getPengampu)
+router.get('/pengampu/:tahun_akademik', getPengampu)
 router.get('/formpengampu', getCreatePengampu)
 router.get('/editpengampu/:id', getUpdatePengampu)
 

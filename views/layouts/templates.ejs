@@ -33,6 +33,12 @@
             var smstr = document.getElementById('smstr')
             window.location.href = "http://localhost:5000/matkul/" + smstr.options[smstr.selectedIndex].value
         }
+
+        function change_filter_pengampu() {
+            // var jenis_semester = document.getElementById('semester_tipe')
+            var thn_akademik = document.getElementById('tahun_akademik')
+            window.location.href = "http://localhost:5000/pengampu/" + tahun_akademik.options[tahun_akademik.selectedIndex].value
+        }
     </script>
 
 </head>

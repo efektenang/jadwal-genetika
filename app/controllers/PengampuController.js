@@ -6,11 +6,15 @@ import { Pengampu, dataPengampu } from '../models/PengampuModel.js'
 //Pengampu Controller 
 export const getPengampu = async (req, res) => {
     try {
-        const pengampu = await dataPengampu(res)
+        // const semester_tipe = req.params.semester_tipe
+        const tahun_akademik = req.params.tahun_akademik
+
+        const pengampu = await dataPengampu(tahun_akademik)
 
         res.render('pagepengampu/menupengampu', {
             title: 'Menu Dosen Pengampu',
             layout: 'layouts/templates',
+            tahun_akademik,
             pengampu
         })
         

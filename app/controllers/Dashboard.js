@@ -6,8 +6,9 @@ import { dataPengampu } from '../models/PengampuModel.js'
 
 export const getDashboard = async (req, res) => {
     try {
+        const tahun_akademik = '2023-2024'
         const getDosen = await Dosen.findAll()
-        const getPengampu = await dataPengampu(res)
+        const getPengampu = await dataPengampu(tahun_akademik)
         const getMatkul = await Matkul.findAll()
         const getRuang = await Ruang.findAll()
         const result = await getResult(res)

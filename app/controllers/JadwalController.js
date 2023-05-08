@@ -8,7 +8,7 @@ export const getJadwal = async (req, res) => {
         const result = await getResult(res)
 
         res.render('pagejadwal/menujadwal', {
-            title: 'Menu Jadwal Kuliah',
+            title: 'Menu Proses Jadwal Kuliah',
             layout: 'layouts/templates',
             result
         })
