@@ -8,70 +8,71 @@ import { createPengampu, deletePengampu, getCreatePengampu, getPengampu, getUpda
 import { createRuang, deleteRuang, getCreateRuang, getEditRuang, getRuang, updateRuang } from '../controllers/RuangController.js'
 import { createWaktu, deleteWaktu, getCreateWaktu, getUpdateWaktu, getWaktu, updateWaktu } from '../controllers/WaktuController.js'
 import { getJadwalKhusus, inputWaktuKhusus } from '../controllers/WaktuKhususController.js'
+import { adminOnly, verifyUser } from '../../auth/middleware/AuthUser.js'
 
 const router = express.Router()
 
-router.get('/', getDashboard)
+router.get('/', verifyUser, adminOnly, getDashboard)
 
 // Manage Dosen Data
-router.get('/formdosen', getCreateDosen)
-router.get('/editdosen/:id', getEditDosen)
+router.get('/formdosen', verifyUser, adminOnly, getCreateDosen)
+router.get('/editdosen/:id', verifyUser, adminOnly, getEditDosen)
 
-router.get('/dosen', getDosen)
-router.get('/dosen/:id', getDosenById)
-router.post('/insertdosen', createDosen)
-router.post('/updatedosen/:id', updateDosen)
-router.post('/deletedosen/:id', deleteDosen)
+router.get('/dosen', verifyUser, adminOnly, getDosen)
+router.get('/dosen/:id', verifyUser, adminOnly, getDosenById)
+router.post('/insertdosen', verifyUser, adminOnly, createDosen)
+router.post('/updatedosen/:id', verifyUser, adminOnly, updateDosen)
+router.post('/deletedosen/:id', verifyUser, adminOnly, deleteDosen)
 
 // Manage Hari Data
-router.get('/hari', getHari)
+router.get('/hari', verifyUser, adminOnly, getHari)
 
 // Manage range waktu Data
-router.get('/formwaktu', getCreateWaktu)
-router.get('/editwaktu/:id', getUpdateWaktu)
+router.get('/formwaktu', verifyUser, adminOnly, getCreateWaktu)
+router.get('/editwaktu/:id', verifyUser, adminOnly, getUpdateWaktu)
 
-router.get('/waktu', getWaktu)
-router.post('/insertwaktu', createWaktu)
-router.post('/updatewaktu/:id', updateWaktu)
-router.post('/deletewaktu/:id', deleteWaktu)
+router.get('/waktu', verifyUser, adminOnly, getWaktu)
+router.post('/insertwaktu', verifyUser, adminOnly, createWaktu)
+router.post('/updatewaktu/:id', verifyUser, adminOnly, updateWaktu)
+router.post('/deletewaktu/:id', verifyUser, adminOnly, deleteWaktu)
 
 // Manage Matkul Data
-router.get('/formmatkul', getCreateMatkul)
-router.get('/editmatkul/:id', getEditMatkul)
+router.get('/formmatkul', verifyUser, adminOnly, getCreateMatkul)
+router.get('/editmatkul/:id', verifyUser, adminOnly, getEditMatkul)
 
-router.get('/matkul', getMatkul)
-router.get('/matkul/:semester', getMatkul)
-router.post('/insertmatkul', createMatkul)
-router.post('/updatematkul/:id', updateMatkul)
-router.post('/deletematkul/:id', deleteMatkul)
+router.get('/matkul', verifyUser, adminOnly, getMatkul)
+router.get('/matkul/:semester', verifyUser, adminOnly, getMatkul)
+router.post('/insertmatkul', verifyUser, adminOnly, createMatkul)
+router.post('/updatematkul/:id', verifyUser, adminOnly, updateMatkul)
+router.post('/deletematkul/:id', verifyUser, adminOnly, deleteMatkul)
 
 // Manage Data Ruang
-router.get('/formruang', getCreateRuang)
-router.get('/editruang/:id', getEditRuang)
+router.get('/formruang', verifyUser, adminOnly, getCreateRuang)
+router.get('/editruang/:id', verifyUser, adminOnly, getEditRuang)
 
-router.get('/ruang', getRuang)
-router.post('/insertruang', createRuang)
-router.post('/updateruang/:id', updateRuang)
-router.post('/deleteruang/:id', deleteRuang)
+router.get('/ruang', verifyUser, adminOnly, getRuang)
+router.post('/insertruang', verifyUser, adminOnly, createRuang)
+router.post('/updateruang/:id', verifyUser, adminOnly, updateRuang)
+router.post('/deleteruang/:id', verifyUser, adminOnly, deleteRuang)
 
 // Manage Data Pengampu
-router.get('/pengampu', getPengampu)
-router.get('/pengampu/:tahun_akademik', getPengampu)
-router.get('/formpengampu', getCreatePengampu)
-router.get('/editpengampu/:id', getUpdatePengampu)
+router.get('/pengampu', verifyUser, adminOnly, getPengampu)
+router.get('/pengampu/:tahun_akademik', verifyUser, adminOnly, getPengampu)
+router.get('/formpengampu', verifyUser, adminOnly, getCreatePengampu)
+router.get('/editpengampu/:id', verifyUser, adminOnly, getUpdatePengampu)
 
-router.post('/insertpengampu', createPengampu)
-router.post('/updatepengampu/:id', updatePengampu)
-router.post('/deletepengampu/:id', deletePengampu)
+router.post('/insertpengampu', verifyUser, adminOnly, createPengampu)
+router.post('/updatepengampu/:id', verifyUser, adminOnly, updatePengampu)
+router.post('/deletepengampu/:id', verifyUser, adminOnly, deletePengampu)
 
 // Manage Waktu tidak bersedia
-router.get('/waktu-tidak-bersedia', getJadwalKhusus)
-router.get('/waktu-tidak-bersedia/:id', getJadwalKhusus)
-router.post('/insert-waktu', inputWaktuKhusus)
+router.get('/waktu-tidak-bersedia', verifyUser, adminOnly, getJadwalKhusus)
+router.get('/waktu-tidak-bersedia/:id', verifyUser, adminOnly, getJadwalKhusus)
+router.post('/insert-waktu', verifyUser, adminOnly, inputWaktuKhusus)
 
 // Manage Jadwal Kuliah
-router.get('/jadwalkuliah', getJadwal)
-router.post('/getprocess', processPenjadwalan)
-router.post('/createreport', getJadwalReport)
+router.get('/jadwalkuliah', verifyUser, adminOnly, getJadwal)
+router.post('/getprocess', verifyUser, adminOnly, processPenjadwalan)
+router.post('/createreport', verifyUser, adminOnly, getJadwalReport)
 
 export default router

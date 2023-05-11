@@ -1,13 +1,27 @@
 import express from 'express'
 import AdminRoute from './app/routes/AdminRoute.js'
+import AuthRoute from './auth/routes/AuthRoute.js'
+import UserRoute from './auth/routes/UserRoute.js'
 import errorHandler from './app/middlewares/errorMiddleware.js'
 import expressEjsLayouts from 'express-ejs-layouts'
 import path from "path"
+import cookieParser from 'cookie-parser'
+import session from 'express-session'
+import SequelizeStore from 'connect-session-sequelize'
+import flash from 'connect-flash'
 import conn from './app/config/ConnectDB.js'
 import db from './app/config/Database.js'
 // import Ruang from './app/models/RuangModel.js'
+// import Users from './auth/models/UserModel.js'
 
 const app = express()
+
+// Auth Session Store 
+const sessionStore = SequelizeStore(session.Store)
+const store = new sessionStore({
+    db: db
+})
+// store.sync();
 
 // Connect to Database using mysql module
 try {
@@ -19,12 +33,17 @@ try {
     console.log(error.message)
 }
 
+// Config Flash Session 
+app.use(cookieParser('secret'))
+app.use(flash())
+// end-flash
+
 // Connect to Database using Sequelize Module
 // try {
 //     await db.authenticate()
 //     console.log('Database is connected...')
 //     // if we need to create table automatically, delete comment below
-//     // await Ruang.sync()
+//     await Users.sync()
 // } catch (error) {
 //     console.log('Database is not connected!', error.message)
 // }
@@ -35,9 +54,22 @@ app.use(expressEjsLayouts)
 app.use(express.static(path.join('public')))
 
 //middlewares
+app.use(session({
+    secret: process.env.SESS_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    store: store,
+    cookie: {
+        secure: 'auto'
+    }
+}))
+
 app.use(express.urlencoded({ extended: false }))
+app.use(cookieParser())
 app.use(express.json())
 app.use(AdminRoute)
+app.use(UserRoute)
+app.use(AuthRoute)
 app.use(errorHandler)
 
 // Connecting to server...
