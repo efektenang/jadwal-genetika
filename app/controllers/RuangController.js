@@ -1,7 +1,14 @@
+import Users from '../../auth/models/UserModel.js'
 import Ruang from '../models/RuangModel.js'
 
 export const getRuang = async (req, res) => {
     try {
+        const user = await Users.findOne({
+            attributes: ['uuid', 'name', 'email', 'role'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
         const ruang = await Ruang.findAll({
             order: [
                 ['no_ruang', 'ASC']
@@ -10,7 +17,8 @@ export const getRuang = async (req, res) => {
         res.render('pageruang/menuruang', {
             title: 'Menu Ruangan Kelas',
             layout: 'layouts/templates',
-            ruang
+            ruang,
+            user
         })
         res.status(200)
     } catch (error) {
@@ -20,9 +28,16 @@ export const getRuang = async (req, res) => {
 
 export const getCreateRuang = async (req, res) => {
     try {
+        const user = await Users.findOne({
+            attributes: ['uuid', 'name', 'email', 'role'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
         res.render('pageruang/formtambah', {
             title: 'Menu Tambah Ruangan',
             layout: 'layouts/templates',
+            user
         })
         res.status(200)
     } catch (error) {
@@ -46,6 +61,12 @@ export const createRuang = async (req, res) => {
 
 export const getEditRuang = async (req, res) => {
     try {
+        const user = await Users.findOne({
+            attributes: ['uuid', 'name', 'email', 'role'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
         const ruang = await Ruang.findOne({
             where: {
                 id: req.params.id
@@ -56,7 +77,8 @@ export const getEditRuang = async (req, res) => {
             title: 'Menu Edit Data Ruangan',
             layout: 'layouts/templates',
             id: req.params.id,
-            ruang
+            ruang,
+            user
         })
         res.status(200)
     } catch (error) {

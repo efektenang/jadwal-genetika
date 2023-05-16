@@ -1,13 +1,21 @@
+import Users from '../../auth/models/UserModel.js'
 import Hari from '../models/HariModel.js'
 
 // Hari Controller
 export const getHari = async (req, res) => {
     try {
+        const user = await Users.findOne({
+            attributes: ['uuid', 'name', 'email', 'role'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
         const hari = await Hari.findAll()
         res.render('menuhari', {
             title: 'Daftar Hari',
             layout: 'layouts/templates',
-            hari
+            hari,
+            user
         })
         res.status(200)
     } catch (error) {

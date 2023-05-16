@@ -1,3 +1,4 @@
+import Users from "../../auth/models/UserModel.js"
 import conn from "../config/ConnectDB.js"
 import Dosen from "../models/DosenModel.js"
 import Hari from "../models/HariModel.js"
@@ -6,6 +7,12 @@ import Waktu from "../models/WaktuModel.js"
 
 export const getJadwalKhusus = async (req, res) => {
     try {
+        const user = await Users.findOne({
+            attributes: ['uuid', 'name', 'email', 'role'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
         const dosen = await Dosen.findAll({
             order: ['name']
         })
@@ -37,7 +44,8 @@ export const getJadwalKhusus = async (req, res) => {
                 dosen,
                 t_hari,
                 waktu,
-                response
+                response,
+                user
             })
 
         res.status(200)

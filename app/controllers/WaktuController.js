@@ -1,13 +1,21 @@
+import Users from '../../auth/models/UserModel.js'
 import Waktu from '../models/WaktuModel.js'
 
 // Waktu Controller
 export const getWaktu = async (req, res) => {
     try {
+        const user = await Users.findOne({
+            attributes: ['uuid', 'name', 'email', 'role'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
         const waktu = await Waktu.findAll()
         res.render('pagewaktu/menuwaktu', {
             title: 'Menu Waktu Belajar',
             layout: 'layouts/templates',
-            waktu
+            waktu,
+            user
         })
         res.status(200)
     } catch (error) {
@@ -17,9 +25,16 @@ export const getWaktu = async (req, res) => {
 
 export const getCreateWaktu = async (req, res) => {
     try {
+        const user = await Users.findOne({
+            attributes: ['uuid', 'name', 'email', 'role'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
         res.render('pagewaktu/formtambah', {
             title: 'Menu Tambah Data Waktu', 
-            layout: 'layouts/templates'
+            layout: 'layouts/templates',
+            user
         })
         res.status(200)
     } catch (error) {
@@ -42,6 +57,12 @@ export const createWaktu = async (req, res) => {
 
 export const getUpdateWaktu = async (req, res) => {
     try {
+        const user = await Users.findOne({
+            attributes: ['uuid', 'name', 'email', 'role'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
         const waktu = await Waktu.findOne({
             where: {
                 id: req.params.id
@@ -51,7 +72,8 @@ export const getUpdateWaktu = async (req, res) => {
             title: 'Menu Edit Data Waktu Belajar',
             layout: 'layouts/templates',
             id: req.params.id,
-            waktu
+            waktu,
+            user
         })
     } catch (error) {
         res.status(400).json({msg: 'data gagal dikirim!'})

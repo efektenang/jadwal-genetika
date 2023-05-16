@@ -1,9 +1,16 @@
+import Users from '../../auth/models/UserModel.js'
 import Matkul from '../models/MatkulModel.js'
 
 // Matkul Controller
 
 export const getMatkul = async (req, res) => {
     try {
+        const user = await Users.findOne({
+            attributes: ['uuid', 'name', 'email', 'role'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
 
         let smstr = req.params.semester
         let arr_smstr = [1,2,3,4,5,6,7,8]
@@ -25,7 +32,8 @@ export const getMatkul = async (req, res) => {
             layout: 'layouts/templates',
             arr_smstr,
             smstr,
-            matkul
+            matkul,
+            user
         })
         res.status(200)
     } catch (error) {
@@ -35,9 +43,16 @@ export const getMatkul = async (req, res) => {
 
 export const getCreateMatkul = async (req, res) => {
     try {
+        const user = await Users.findOne({
+            attributes: ['uuid', 'name', 'email', 'role'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
         res.render('pagematkul/formtambah', {
            title: 'Menu Tambah Mata Kuliah',
-           layout: 'layouts/templates',
+            layout: 'layouts/templates',
+           user
         })
         res.status(200)
     } catch (error) {
@@ -65,6 +80,12 @@ export const createMatkul = async (req, res) => {
 
 export const getEditMatkul = async (req, res) => {
     try {
+        const user = await Users.findOne({
+            attributes: ['uuid', 'name', 'email', 'role'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
         const mk = await Matkul.findOne({
             where: { id: req.params.id }
         })
@@ -75,7 +96,8 @@ export const getEditMatkul = async (req, res) => {
             title: 'Edit Mata Kuliah',
             layout: 'layouts/templates',
             id: req.params.id,
-            mk
+            mk,
+            user
         });
         res.status(200);
     } catch (error) {

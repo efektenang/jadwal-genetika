@@ -1,6 +1,7 @@
 import Dosen from '../models/DosenModel.js'
 import Matkul from '../models/MatkulModel.js'
-import Ruang from '../models/RuangModel.js' 
+import Ruang from '../models/RuangModel.js'
+import Users from '../../auth/models/UserModel.js' 
 import { getResult } from '../models/JadwalModel.js'
 import { dataPengampu } from '../models/PengampuModel.js'
 
@@ -13,6 +14,13 @@ export const getDashboard = async (req, res) => {
         const getRuang = await Ruang.findAll()
         const result = await getResult(res)
 
+        const user = await Users.findOne({
+            attributes: ['uuid', 'name', 'email', 'role'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
+
         res.render('index', {
             title: 'Dashboard',
             layout: 'layouts/templates',
@@ -20,6 +28,7 @@ export const getDashboard = async (req, res) => {
             pengampu: getPengampu.length,
             matkul: getMatkul.length,
             ruang: getRuang.length,
+            user,
             result
         })
         res.status(200)

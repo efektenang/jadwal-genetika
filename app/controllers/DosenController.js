@@ -1,3 +1,4 @@
+import Users from '../../auth/models/UserModel.js'
 import Dosen from '../models/DosenModel.js'
 
 // Dosen Controller 
@@ -8,10 +9,19 @@ export const getDosen = async (req, res) => {
                 ['name', 'ASC']
             ]
         })
+
+        const user = await Users.findOne({
+            attributes: ['uuid', 'name', 'email', 'role'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
+
         res.render('pagedosen/menudosen', {
             title: 'Menu Dosen',
             layout: 'layouts/templates',
-            dosen
+            dosen,
+            user
         })
         res.status(200)
     } catch (error) {
@@ -33,10 +43,17 @@ export const getDosenById = async (req, res) => {
 }
 
 export const getCreateDosen = async (req, res) => {
-     try {
+    try {
+        const user = await Users.findOne({
+            attributes: ['uuid', 'name', 'email', 'role'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
          res.render('pagedosen/formtambah', {
             title: 'Menu Tambah Dosen',
             layout: 'layouts/templates',
+            user
          })
          res.status(200)
      } catch (error) {
@@ -62,6 +79,12 @@ export const createDosen = async (req, res) => {
 
 export const getEditDosen = async (req, res) => {
     try {
+        const user = await Users.findOne({
+            attributes: ['uuid', 'name', 'email', 'role'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
         const dosen = await Dosen.findOne({
             where: { id: req.params.id }
         })
@@ -72,7 +95,8 @@ export const getEditDosen = async (req, res) => {
             title: 'Edit Dosen',
             layout: 'layouts/templates',
             id: req.params.id,
-            dosen
+            dosen,
+            user
         });
         res.status(200);
     } catch (error) {

@@ -1,3 +1,4 @@
+import Users from "../../auth/models/UserModel.js"
 import conn from "../config/ConnectDB.js"
 import GeneticAlgorithm from "../config/GeneticAlgorithm.js"
 import { getResult, resData } from "../models/JadwalModel.js"
@@ -5,12 +6,20 @@ import ExcelJS from "exceljs"
 
 export const getJadwal = async (req, res) => {
     try {
+        const user = await Users.findOne({
+            attributes: ['uuid', 'name', 'email', 'role'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
+
         const result = await getResult(res)
 
         res.render('pagejadwal/menujadwal', {
             title: 'Menu Proses Jadwal Kuliah',
             layout: 'layouts/templates',
-            result
+            result,
+            user
         })
         res.status(200)
     } catch (error) {

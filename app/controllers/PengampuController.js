@@ -2,10 +2,17 @@ import Dosen from '../models/DosenModel.js'
 import Matkul from '../models/MatkulModel.js'
 import conn from "../config/ConnectDB.js"
 import { Pengampu, dataPengampu } from '../models/PengampuModel.js'
+import Users from '../../auth/models/UserModel.js'
 
 //Pengampu Controller 
 export const getPengampu = async (req, res) => {
     try {
+        const user = await Users.findOne({
+            attributes: ['uuid', 'name', 'email', 'role'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
         // const semester_tipe = req.params.semester_tipe
         const tahun_akademik = req.params.tahun_akademik
 
@@ -15,7 +22,8 @@ export const getPengampu = async (req, res) => {
             title: 'Menu Dosen Pengampu',
             layout: 'layouts/templates',
             tahun_akademik,
-            pengampu
+            pengampu,
+            user
         })
         
         res.status(200)
@@ -27,6 +35,12 @@ export const getPengampu = async (req, res) => {
 // Create Data Pengampu
 export const getCreatePengampu = async (req, res) => {
     try {
+        const user = await Users.findOne({
+            attributes: ['uuid', 'name', 'email', 'role'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
         const dosen = await Dosen.findAll({
             order: [
                 ['name', 'ASC']
@@ -41,7 +55,8 @@ export const getCreatePengampu = async (req, res) => {
             title: 'Menu Tambah Data Pengampu',
             layout: 'layouts/templates',
             dosen,
-            matkul
+            matkul,
+            user
         })
         res.status(200)
     } catch (error) {
@@ -65,6 +80,12 @@ export const createPengampu = async (req, res) => {
 // Update data Pengampu
 export const getUpdatePengampu = async (req, res) => {
     try {
+        const user = await Users.findOne({
+            attributes: ['uuid', 'name', 'email', 'role'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
         const pengampuId = req.params.id
         const dosen = await Dosen.findAll({
             order: [
@@ -86,7 +107,8 @@ export const getUpdatePengampu = async (req, res) => {
                 id: req.params.id,
                 rows,
                 dosen,
-                matkul
+                matkul,
+                user
             })
             
         })
