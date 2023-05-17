@@ -39,6 +39,14 @@
             var thn_akademik = document.getElementById('tahun_akademik')
             window.location.href = "http://localhost:5000/pengampu/" + tahun_akademik.options[tahun_akademik.selectedIndex].value
         }
+
+        function validate(obj) {
+            if (obj.value.length > 0) {
+                document.getElementById("btnprofile").disabled = false;
+            } else {
+                document.getElementById("btnprofile").disabled = true;
+            }
+        }
     </script>
 
 </head>

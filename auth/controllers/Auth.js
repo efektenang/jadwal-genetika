@@ -70,7 +70,14 @@ export const Me = async (req, res) => {
         }
     });
     if (!user) return res.status(404).json({msg: "User tidak ditemukan"});
-    res.status(200).json(user);
+    res.render('profile', {
+        title: 'Profile',
+        layout: 'layouts/templates',
+        user,
+        msg: req.flash('msg'),
+        profilemsg: req.flash('profilemsg')
+    })
+    res.status(200);
 }
 
 export const Logout = (req, res) => {

@@ -1,0 +1,97 @@
+<!-- Page Heading -->
+<h1 class="h3 mb-4 text-gray-800"><%- title %> Menu</h1>
+
+<div class="row">
+
+    <div class="col-lg-6">
+
+        <!-- Circle Buttons -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Profile Form</h6>
+            </div>
+            <div class="card-body">
+                <% if (profilemsg.length !== 0) { %>
+                    <h4 class="text-danger small font-weight-bold"><%= profilemsg %></h4>
+                <% } %>
+                <form action="/user/update" method="post" >
+                    <div class="mb-3">
+                        <label for="name" class="form-label">User Name</label>  
+                        <input type="text" value="<%- user.name %>" class="form-control" id="name" name="name" aria-describedby="nameHelp" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" value="<%- user.email %>" class="form-control" id="email" name="email" aria-describedby="nameHelp" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Role</label>
+                        <select class="form-select" id="role" value="<%- user.role %>" name="role" aria-label="Default select example" disabled>
+                            <option value="admin">Admin</option>
+                            <option value="user">User</option>
+                          </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="profilepassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="profilepassword" onkeyup="validate(this)" name="profilepassword" aria-describedby="nameHelp" required>
+                    </div>
+                    <button id="btnprofile" class="btn btn-success" type="submit" disabled> Ubah Data </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+
+        <!-- Circle Buttons -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Form Ubah Password</h6>
+            </div>
+            <div class="card-body">
+                <% if (msg.length !== 0) { %>
+                    <h4 class="text-danger small font-weight-bold"><%= msg %></h4>
+                <% } %>
+                <form action="/user/changepassword" method="post">
+                    <div class="mb-3">
+                        <label for="oldPassword" class="form-label">Password Lama</label>  
+                        <input type="password" class="form-control" id="oldPassword" name="oldPassword" aria-describedby="oldPasswordHelp" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password Baru</label>
+                        <input type="password"  class="form-control" id="password" name="password" aria-describedby="nameHelp" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confPassword" class="form-label">Konfirmasi Password Baru</label>
+                        <input type="password"  class="form-control" id="confPassword" name="confPassword" aria-describedby="nameHelp" required>
+                    </div>
+                    <button class="btn btn-success" type="submit"> Ubah Password </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-6">
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Tentang Aplikasi</h6>
+            </div>
+            <div class="card-body">
+                <p>
+                    Aplikasi Penjadwalan Kelas adalah sebuah aplikasi yang dikembangkan menggunakan teknologi Node.js sebagai framework utama dan database MySQL sebagai penyimpanan data. Aplikasi ini dirancang untuk membantu dalam pengaturan jadwal kelas di sebuah institusi pendidikan, seperti sekolah atau universitas.
+                    <br>
+                    Berikut adalah profil teknologi yang digunakan dalam aplikasi ini:
+                </p>
+                <ol>
+                    <li>Node.js: Node.js adalah sebuah platform JavaScript yang berjalan di sisi server. Dalam konteks aplikasi ini, Node.js digunakan sebagai teknologi inti untuk mengembangkan backend aplikasi. Node.js memungkinkan pengembang untuk menulis kode server-side menggunakan JavaScript, yang mempermudah pengembangan dan memungkinkan pemrograman yang efisien.</li>
+                    <li>MySQL: MySQL adalah sistem manajemen basis data relasional (RDBMS) yang sering digunakan dalam pengembangan aplikasi web. Aplikasi Penjadwalan Kelas menggunakan MySQL sebagai database utama untuk menyimpan dan mengelola data terkait jadwal kelas, seperti informasi kelas, mata pelajaran, jadwal, dan pengguna.</li>
+                </ol>
+                <p>
+                    Dalam pengembangan aplikasi ini, penting untuk mempertimbangkan keamanan data, antarmuka pengguna yang responsif, serta pengujian dan pemeliharaan yang baik. Selain itu, aplikasi ini dapat dikembangkan dengan menggunakan framework web seperti Express.js untuk mempermudah pengembangan dan meningkatkan produktivitas.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+</div>

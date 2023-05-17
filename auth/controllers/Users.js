@@ -76,40 +76,73 @@ export const createUser = async (req, res) => {
 }
 
 export const updateUser = async (req, res) => {
+    try {
         const user = await User.findOne({
             where: {
-                uuid: req.params.id
+                uuid: req.session.userId
             }
         });
         if (!user) return res.status(404).json({msg: "Data tidak ditemukan"});
-        const {name, email, password, confPassword, role} = req.body;
+        
+        const { name, email, profilepassword } = req.body
+        const match = await argon2.verify(user.password, profilepassword)
+        if (!match) {
+            req.flash('profilemsg', 'Password Salah!')
+            res.redirect('/profile')
+            return res.status(400)
+        }
 
-        let hashPassword;
-        if (password === "" || password === null) {
-            hashPassword = user.password
-        } else {
-            hashPassword = await argon2.hash(password);
+        await User.update({
+            name: name,
+            email: email
+        }, {
+            where: {
+                uuid: req.session.userId
+            }
+        });
+        
+        res.redirect('/profile')
+        res.status(200)
+    } catch (error) {
+        res.status(400).json({msg: error.message})
+    }
+}
+
+export const changePassword = async (req, res) => {
+    try {
+        const user = await User.findOne({
+            where: {
+                uuid: req.session.userId
+            }
+        })
+        if (!user) return res.status(404).json({msg: "Data tidak ditemukan"});
+        
+        const { oldPassword, password, confPassword } = req.body
+        const match = await argon2.verify(user.password, oldPassword)
+        if (!match) {
+            req.flash('msg', 'Password lama Salah!')
+            res.redirect('/profile')
+            return res.status(400)
         }
 
         if (password !== confPassword) {
-            return res.status(400).json({msg: "Password tidak cocok"})
+            req.flash('msg', 'Password Baru Tidak Sesuai!')
+            res.redirect('/profile')
+            return res.status(400)
         }
 
-        try {
-            await User.update({
-                name: name,
-                email: email,
-                password: hashPassword,
-                role: role
-            }, {
-                where: {
-                    id: user.id
-                }
-            });
-            res.status(200).json({msg: "User Updated"});
-        } catch (error) {
-            res.status(400).json({msg: error.message})
-        }
+        const hashPassword = await argon2.hash(password)
+        await User.update({
+            password: hashPassword
+        }, {
+            where: {uuid: req.session.userId}
+        })
+        res.redirect('/profile')
+        res.status(200)
+
+    } catch (error) {
+        console.log(error.message)
+    }
 }
 
 export const deleteUser = async (req, res) => {

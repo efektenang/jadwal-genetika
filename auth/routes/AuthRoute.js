@@ -1,5 +1,4 @@
 import express from 'express'
-import { body, check } from 'express-validator';
 import {
     getLogin, 
     getRegister, 
@@ -8,11 +7,9 @@ import {
     Me
  } from "../controllers/Auth.js";
 
-
-import { runValidation, loginValidation } from '../validations/AuthValidation.js';
 const router = express.Router()
 
-router.get('/me', Me);
+router.get('/profile', Me);
 router.get('/login', getLogin);
 // router.get('/register', getRegister)
 router.post('/auth/login', Login);
