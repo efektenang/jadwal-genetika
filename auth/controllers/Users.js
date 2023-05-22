@@ -29,7 +29,7 @@ export const getUserById = async (req, res) => {
         const response = await User.findOne({
             attributes: ['uuid', 'name', 'email', 'role'],
             where: {
-                uuid: req.params.id
+                uuid: req.params.uuid
             }
         });
         res.status(200).json(response);
@@ -108,6 +108,32 @@ export const updateUser = async (req, res) => {
     }
 }
 
+export const resetPassword = async (req, res) => {
+    try {
+        const user = await User.findOne({
+            where: {
+                uuid: req.session.userId
+            }
+        })
+
+        if (!user) return res.status(404).json({ msg: "Data tidak ditemukan" })
+        
+        const newPassword = '123456'
+        const hashPassword = await argon2.hash(newPassword)
+
+        await User.update({
+            password: hashPassword
+        }, {
+            where: { uuid: req.params.uuid }
+        })
+
+        res.redirect('/usersmenu')
+        res.status(201)
+    } catch (error) {
+        console.log(error.message)
+    }
+}
+
 export const changePassword = async (req, res) => {
     try {
         const user = await User.findOne({
@@ -137,8 +163,12 @@ export const changePassword = async (req, res) => {
         }, {
             where: {uuid: req.session.userId}
         })
-        res.redirect('/profile')
-        res.status(200)
+
+        req.session.destroy((err) => {
+            if(err) return res.status(400).json({msg: "tidak dapat logout"})
+            res.redirect('/login')
+            res.status(200)
+        })
 
     } catch (error) {
         console.log(error.message)
