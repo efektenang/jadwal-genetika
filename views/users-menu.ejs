@@ -1,0 +1,56 @@
+<h1 class="h3 mb-4 text-gray-800"><%- title; %> </h1>
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Daftar User</h6>
+            </div>
+            <a href="/register" class="btn btn-primary btn-icon-split" style="width: 200px; margin: 20px 0 0 20px;">                
+                <span class="text">Tambah User Baru</span>
+            </a>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>No.</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Action</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            <% let no = 1; %> 
+                            <% response.forEach(tabel => { %>
+                                <tr>
+                                    <td><%= no++ %> </td>
+                                    <td style="text-transform: capitalize;"><%- tabel.name %> </td>
+                                    <td><%- tabel.email %></td>
+                                    <td><%- tabel.role %></td>
+                                    <td width="12%">
+                                        <a href="/user/<%= tabel.uuid %> " class="btn btn-info btn-circle btn-sm">
+                                            <i class="fas fa-info-circle" title="DETAIL"></i>
+                                        </a>
+                                        <form action="/user/reset/<%= tabel.uuid%>" method="post"  style="display: inline;">
+                                            <button type="submit" class="btn btn-warning btn-circle btn-sm"><i class="fas fa-undo"></i></button>
+                                        </form>
+                                        <form action="/contact/delete/<%= tabel.id%>?_method=DELETE " method="post"  style="display: inline;">
+                                            <button type="submit" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>                             
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>

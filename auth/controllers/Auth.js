@@ -37,7 +37,7 @@ export const Login = async (req, res) => {
     if (!user) {
         req.flash('msg', 'Login GAGAL!')
         res.redirect('/login')
-        return res.status(404)
+        return res.status(401)
     } 
 
     const match = await argon2.verify(user.password, req.body.password)
@@ -47,37 +47,42 @@ export const Login = async (req, res) => {
         return res.status(400)
     }
     req.session.userId = user.uuid;
-    
-    const uuid = user.uuid;
-    const name = user.name;
-    const email = user.email;
-    const role = user.role;
 
     res.redirect('/')
     res.status(200)
 }
 
 export const Me = async (req, res) => {
-    if (!req.session.userId) {
-        // return res.redirect('/login');
-        return res.status(401).json({msg: "Mohon login ke akun anda"})
-    }
-
-    const user = await User.findOne({
-        attributes: ['uuid', 'name', 'email', 'role'],
-        where: {
-            uuid: req.session.userId
+    try {
+        if (!req.session.userId) {
+            res.redirect('/login');
+            res.status(401)
         }
-    });
-    if (!user) return res.status(404).json({msg: "User tidak ditemukan"});
-    res.render('profile', {
-        title: 'Profile',
-        layout: 'layouts/templates',
-        user,
-        msg: req.flash('msg'),
-        profilemsg: req.flash('profilemsg')
-    })
-    res.status(200);
+    
+        const user = await User.findOne({
+            attributes: ['uuid', 'name', 'email', 'role', 'updatedAt'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
+        if (!user) return res.status(404).json({ msg: "User tidak ditemukan" })
+
+        const date = new Date(user.updatedAt)
+        const myDate = date.toISOString().replace('T', ' ')
+        const myDateString = myDate.substring(0, myDate.length - 5)
+
+        res.render('profile', {
+            title: 'Profile',
+            layout: 'layouts/templates',
+            user,
+            myDateString,
+            msg: req.flash('msg'),
+            profilemsg: req.flash('profilemsg')
+        })
+        res.status(200);
+    } catch (error) {
+        console.log(error.message)
+    }
 }
 
 export const Logout = (req, res) => {
