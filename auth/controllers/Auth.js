@@ -74,10 +74,12 @@ export const Me = async (req, res) => {
         res.render('profile', {
             title: 'Profile',
             layout: 'layouts/templates',
+            oldEmail: req.body.oldEmail,
             user,
             myDateString,
             msg: req.flash('msg'),
-            profilemsg: req.flash('profilemsg')
+            profilemsg: req.flash('profilemsg'),
+            msgsuccess: req.flash('msgsuccess')
         })
         res.status(200);
     } catch (error) {
