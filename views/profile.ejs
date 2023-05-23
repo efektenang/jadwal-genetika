@@ -1,5 +1,9 @@
-<!-- Page Heading -->
-<h1 class="h3 mb-4 text-gray-800"><%- title %> Menu</h1>
+<% if (msgsuccess.length !== 0) { %>
+    <div class="col-lg-6 alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Good!</strong> <%- msgsuccess %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
 
 <div class="row">
     
@@ -36,9 +40,14 @@
             </div>
             <div class="card-body">
                 <% if (profilemsg.length !== 0) { %>
-                    <h4 class="text-danger small font-weight-bold"><%= profilemsg %></h4>
+                    <div class="card bg-danger text-white shadow mb-2">
+                        <div class="card-body font-weight-bold py-2">
+                            <%= profilemsg %>
+                        </div>
+                    </div>
                 <% } %>
                 <form action="/user/update" method="post" >
+                    <input type="hidden" name="oldEmail" value="<%= oldEmail || user.email %>">
                     <div class="mb-3">
                         <label for="name" class="form-label">User Name</label>  
                         <input type="text" value="<%- user.name %>" class="form-control" id="name" name="name" aria-describedby="nameHelp" required>
@@ -74,7 +83,11 @@
             </div>
             <div class="card-body">
                 <% if (msg.length !== 0) { %>
-                    <h4 class="text-danger small font-weight-bold"><%= msg %></h4>
+                    <div class="card bg-danger text-white shadow mb-2">
+                        <div class="card-body font-weight-bold py-2">
+                            <%= msg %>
+                        </div>
+                    </div>
                 <% } %>
                 <form action="/user/changepassword" method="post">
                     <div class="mb-3">

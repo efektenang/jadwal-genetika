@@ -91,16 +91,28 @@ export const updateUser = async (req, res) => {
             res.redirect('/profile')
             return res.status(400)
         }
+        const users = await User.findOne({
+            where: {
+                email
+            }
+        });
+
+        if (email !== req.body.oldEmail && users) {
+            req.flash('profilemsg', 'Tidak Bisa Menggunakan Email yang Sudah Terdaftar')
+            res.redirect('/profile')
+            return res.status(400)
+        }
 
         await User.update({
             name: name,
-            email: email
+            email: req.body.oldEmail,
         }, {
             where: {
                 uuid: req.session.userId
             }
-        });
+        })
         
+        req.flash('msgsuccess', 'Data berhasil diubah!')
         res.redirect('/profile')
         res.status(200)
     } catch (error) {
@@ -144,15 +156,22 @@ export const changePassword = async (req, res) => {
         if (!user) return res.status(404).json({msg: "Data tidak ditemukan"});
         
         const { oldPassword, password, confPassword } = req.body
-        const match = await argon2.verify(user.password, oldPassword)
-        if (!match) {
-            req.flash('msg', 'Password lama Salah!')
+
+        if (password.length < 6) {
+            req.flash('msg', 'Password Baru harus berisi 6 karakter atau lebih!')
+            res.redirect('/profile')
+            return res.status(400)
+        }
+        
+        if (password !== confPassword) {
+            req.flash('msg', 'Password Baru Tidak Sesuai!')
             res.redirect('/profile')
             return res.status(400)
         }
 
-        if (password !== confPassword) {
-            req.flash('msg', 'Password Baru Tidak Sesuai!')
+        const match = await argon2.verify(user.password, oldPassword)
+        if (!match) {
+            req.flash('msg', 'Password lama Salah!')
             res.redirect('/profile')
             return res.status(400)
         }
