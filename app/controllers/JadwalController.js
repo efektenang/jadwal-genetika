@@ -19,7 +19,8 @@ export const getJadwal = async (req, res) => {
             title: 'Menu Proses Jadwal Kuliah',
             layout: 'layouts/templates',
             result,
-            user
+            user,
+            msg: req.flash('msg')
         })
         res.status(200)
     } catch (error) {
@@ -96,7 +97,7 @@ export const processPenjadwalan = async (req, res) => {
 
         const end = performance.now()
         const timeInSeconds = (end - start) / 1000
-        console.log(`Program executed in ${timeInSeconds} seconds`)
+        req.flash('msg', `Jadwal telah ditentukan dalam waktu ${timeInSeconds} detik`)
         res.redirect('/jadwalkuliah')
     } catch (error) {
         console.log(error)
