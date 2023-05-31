@@ -3,7 +3,7 @@ import argon2 from "argon2"
 
 export const getLogin = async (req, res) => {
     try {
-        res.render('login', {
+        res.render('sign-in', {
             title: 'Login',
             layout: 'layouts/auth',
             msg: req.flash('msg')
@@ -13,6 +13,19 @@ export const getLogin = async (req, res) => {
         res.status(500).json({msg: error.message});
     }
 }
+
+export const getError = async (req, res) => {
+    try {
+        res.render('404', {
+            title: 'Error',
+            layout: 'layouts/auth'
+        });
+        res.status(200);
+    } catch (error) {
+        res.status(500).json({msg: error.message});
+    }
+}
+
 
 export const getRegister = async (req, res) => {
     try {

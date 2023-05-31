@@ -73,4 +73,4 @@ app.use(AuthRoute)
 app.use(errorHandler)
 
 // Connecting to server...
-app.listen(3000, '0.0.0.0', () => console.log('Server berjalan pada port 5000'))
+app.listen(5000, '0.0.0.0', () => console.log('Server berjalan pada port 5000'))

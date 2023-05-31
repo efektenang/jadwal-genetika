@@ -1,72 +1,198 @@
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary"><%- title %> </h6>
-    </div>
-
-    <a href="/formmatkul" class="btn btn-primary btn-icon-split" style="width: 230px; margin: 20px 0 0 20px;">                
-        <span class="text">Tambah Data Mata Kuliah</span>
-    </a>
-
-    <div class="card-body">
-
-        <div class="">
-            <label for="smstr" class="form-label">Filter semester:</label>
-            <select class="form-select" id="smstr" name="smstr" onchange="change_filter_matkul()">
-                 
-                <% arr_smstr.forEach(row => { %>
-                    <option value="<%- row %>" <%- smstr == row ? 'selected' : '' %>><%- row %></option>
-                <% }) %> 
-              </select>
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5>Tabel Mata Kuliah Terdaftar</h5>
+                        </div>
+                        <button data-bs-toggle="modal" data-bs-target="#tambahMatkulModal" class="btn btn-icon btn-3 btn-primary" type="button" style="width: 200px; margin: 20px 0 0 20px;">
+                            <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+                            <span class="btn-inner--text">Tambah Matkul</span>
+                        </button>
+                        <div class="card-body px-0 pt-0 pb-2">
+                            <div class="table-responsive p-0">
+                                <table class="table align-items-center mb-0" id="datatable-basic">
+                                    <thead>
+                                        <tr>
+                                            <th>No.</th>
+                                            <th>Kode Mata Kuliah</th>
+                                            <th>Mata Kuliah</th>
+                                            <th>SKS</th>
+                                            <th>Semester</th>
+                                            <th>Jenis Mata Kuliah</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>No.</th>
+                                            <th>Kode Mata Kuliah</th>
+                                            <th>Mata Kuliah</th>
+                                            <th>SKS</th>
+                                            <th>Semester</th>
+                                            <th>Jenis Mata Kuliah</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        <% let no = 1; %> 
+                                        <% matkul.forEach(mk => { %>
+                                            <tr>
+                                                <td class="text-sm font-weight-normal"><%= no++ %> </td>
+                                                <td class="text-sm font-weight-normal"><%- mk.kode_mk %> </td>
+                                                <td class="text-sm font-weight-normal"><%- mk.matkul %></td>
+                                                <td class="text-sm font-weight-normal"><%- mk.sks %></td>
+                                                <td class="text-sm font-weight-normal"><%- mk.semester %></td>
+                                                <td class="text-sm font-weight-normal"><%- mk.jenis %></td>
+                                                <td width="10%">
+                                                    <button data-bs-toggle="modal" data-bs-target="#editMatkulModal" class="btn bg-gradient-warning btn-icon">
+                                                        <i class="fas fa-edit" title="edit"></i>
+                                                    </button>
+                                                    <form action="/deletematkul/<%= mk.id%>?_method=DELETE" method="post"  style="display: inline;">
+                                                        <!-- <button type="submit" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></button> -->
+                                                        <button class="btn bg-gradient-danger btn-icon" onclick="argon.showSwal('warning-message-and-cancel')"><i class="fas fa-trash"></i></button>
+                                                    </form>
+                                                </td>
+                                            </tr>                             
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <br>
-        
-        <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>No.</th>
-                        <th>Kode Mata Kuliah</th>
-                        <th>Mata Kuliah</th>
-                        <th>SKS</th>
-                        <th>Semester</th>
-                        <th>Jenis Mata Kuliah</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <th>No.</th>
-                        <th>Kode Mata Kuliah</th>
-                        <th>Mata Kuliah</th>
-                        <th>SKS</th>
-                        <th>Semester</th>
-                        <th>Jenis Mata Kuliah</th>
-                        <th>Action</th>
-                    </tr>
-                </tfoot>
-                <tbody>
-                    <% let no = 1; %> 
-                    <% matkul.forEach(mk => { %>
-                        <tr>
-                            <td><%= no++ %> </td>
-                            <td><%- mk.kode_mk %> </td>
-                            <td><%- mk.matkul %></td>
-                            <td><%- mk.sks %></td>
-                            <td><%- mk.semester %></td>
-                            <td><%- mk.jenis %></td>
-                            <td width="12%">
-                                <a href="/editmatkul/<%= mk.id %> " class="btn btn-warning btn-circle btn-sm">
-                                    <i class="fas fa-edit" title="Edit"></i>
-                                </a>
-                                <form action="/deletematkul/<%= mk.id%>?_method=DELETE" method="post"  style="display: inline;">
-                                    <button type="submit" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></button>
-                                </form>
-                            </td>
-                        </tr>                             
-                    <% }) %>
-                </tbody>
-            </table>
-        </div>
-
     </div>
 </div>
+
+<!-- add modal -->
+<div class="modal fade" id="tambahMatkulModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalSignTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-0">
+        <div class="card card-plain">
+          <div class="card-header pb-0 text-left">
+              <h3 class="font-weight-bolder text-primary text-gradient">Edit Mata Kuliah</h3>
+              <p class="mb-0">Pastikan terisi dengan benar</p>
+          </div>
+          <div class="card-body pb-3">
+            <form action="/insertmatkul" method="post" role="form text-left">
+              <div class="mb-3">
+                  <label for="kode_mk" class="form-label">Kode Mata Kuliah</label>  
+                  <input type="text" class="form-control" id="kode_mk" name="kode_mk" aria-describedby="kode_mkHelp" autofocus>
+              </div>
+              <div class="mb-3">
+                  <label for="matkul" class="form-label">Mata Kuliah</label>
+                  <input type="text" class="form-control" id="matkul" name="matkul" aria-describedby="nameHelp" required>
+              </div>
+              <div class="mb-3">
+                  <label for="sks" class="form-label">SKS</label>
+                  <select class="form-select" id="choices-sample" name="sks" aria-label="Default select example">
+                      <option value="1">1 sks</option>
+                      <option value="2">2 sks</option>
+                      <option value="3">3 sks</option>
+                      <option value="4">4 sks</option>
+                    </select>
+              </div>
+              <div class="mb-3">
+                  <label for="semester" class="form-label">Semester</label>
+                  <select class="form-select" id="choices-sample" name="semester" aria-label="Default select example">
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                    </select>
+              </div>
+              <div class="mb-3">
+                  <label for="jenis" class="form-label">Jenis Mata Kuliah</label>
+                  <select class="form-select" id="choices-sample" name="jenis" aria-label="Default select example">
+                      <option value="teori">Teori</option>
+                      <option value="praktek">Praktek</option>
+                    </select>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn bg-gradient-primary">Tambahkan</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- close add modal -->
+
+<!-- edit modal -->
+<div class="modal fade" id="editMatkulModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalSignTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card card-plain">
+            <div class="card-header pb-0 text-left">
+                <h3 class="font-weight-bolder text-primary text-gradient">Tambah Mata Kuliah Baru</h3>
+                <p class="mb-0">Pastikan terisi dengan benar</p>
+            </div>
+            <div class="card-body pb-3">
+              <form action="/updatematkul/<%- //id %>" method="post" role="form text-left">
+                    <div class="mb-3">
+                        <label for="kode_mk" class="form-label">Kode Mata Kuliah</label>  
+                        <input type="text" class="form-control" id="kode_mk" name="kode_mk" aria-describedby="kode_mkHelp" value="<%-// mk.kode_mk%>" autofocus>
+                    </div>
+                    <div class="mb-3">
+                        <label for="matkul" class="form-label">Mata Kuliah</label>
+                        <input type="text" class="form-control" id="matkul" name="matkul" aria-describedby="nameHelp" value="<%-// mk.matkul%>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="sks" class="form-label">SKS</label>
+                        <select class="form-select" id="sks" name="sks" aria-label="Default select example">
+                            <option selected value="<%- //mk.sks%>"><%-// mk.sks%> sks</option>
+                            <option value="1">1 sks</option>
+                            <option value="2">2 sks</option>
+                            <option value="3">3 sks</option>
+                            <option value="4">4 sks</option>
+                          </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="semester" class="form-label">Semester</label>
+                        <select class="form-select" id="semester" name="semester" aria-label="Default select example">
+                            <option selected value="<%- //mk.semester%>"><%- //mk.semester%></option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                          </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="jenis" class="form-label">Jenis Mata Kuliah</label>
+                        <select class="form-select" id="jenis" name="jenis" aria-label="Default select example">
+                            <option selected value="<%- //mk.jenis%>"><%- //mk.jenis%></option>
+                            <option value="teori">Teori</option>
+                            <option value="praktek">Praktek</option>
+                          </select>
+                    </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn bg-gradient-primary">Tambahkan</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- close edit modal -->
+
+

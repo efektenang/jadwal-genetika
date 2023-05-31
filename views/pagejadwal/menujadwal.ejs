@@ -1,109 +1,127 @@
-<% if (msg.length !== 0) { %>
-    <div class="col-lg-6 alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Good!</strong> <%- msg %>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-<% } %>
-
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary"><%- title %> </h6>
-    </div>
-
-    <div class="card-body">
-        
-        <form action="/getprocess" method="post">
-            <div class="row">
-                <div class="col">
-                    <div class="mb-3">
-                        <label for="semester_tipe" class="form-label">Semester</label>
-                        <select class="form-select" id="semester_tipe" name="semester_tipe" aria-label="Default select example">
-                            <option value="0">Genap</option>
-                            <option value="1">Ganjil</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="tahun_akademik" class="form-label">Tahun Akademik</label>
-                        <select class="form-select" id="tahun_akademik" name="tahun_akademik" aria-label="Default select example">
-                            <option value="2020-2021">2020-2021</option>
-                            <option value="2021-2022">2021-2022</option>
-                            <option value="2022-2023">2022-2023</option>
-                            <option value="2023-2024">2023-2024</option>
-                          </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="jmlh_populasi" class="form-label">Jumlah Populasi</label>  
-                        <input value="10" type="text" class="form-control" id="jmlh_populasi" name="jmlh_populasi" aria-describedby="jmlh_populasiHelp">
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="mb-3">
-                        <label for="probabilitas_crossover" class="form-label">Probabilitas Crossover</label>
-                        <input value="0.70" type="text" class="form-control" id="probabilitas_crossover" name="probabilitas_crossover" aria-describedby="nameHelp" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="probabilitas_mutasi" class="form-label">Probabilitas Mutasi</label>
-                        <input value="0.40" type="text" class="form-control" id="probabilitas_mutasi" name="probabilitas_mutasi" aria-describedby="nameHelp" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="jmlh_generasi" class="form-label">Jumlah Generasi</label>  
-                        <input value="10000" type="text" class="form-control" id="jmlh_generasi" name="jmlh_generasi" aria-describedby="jmlh_generasiHelp">
-                    </div>
-                </div>
-            </div>
-            <button class="btn btn-success" type="submit"> Proses Jadwal </button>
-        </form>
-        <br>
-
-        <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>No.</th>
-                        <th>Hari</th>
-                        <th>Sesi</th>
-                        <th>Jam Kuliah</th>
-                        <th>Mata Kuliah</th>
-                        <th>Sks</th>
-                        <th>Semester</th>
-                        <th>Kelas</th>
-                        <th>Dosen</th>
-                        <th>Ruangan</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <th>No.</th>
-                        <th>Hari</th>
-                        <th>Sesi</th>
-                        <th>Jam Kuliah</th>
-                        <th>Mata Kuliah</th>
-                        <th>Sks</th>
-                        <th>Semester</th>
-                        <th>Kelas</th>
-                        <th>Dosen</th>
-                        <th>Ruangan</th>
-                    </tr>
-                </tfoot>
-                <tbody>
-                    <% let no = 1; %> 
-                    <% result.forEach(res => { %>
-                        <tr>
-                            <td><%= no++ %> </td>
-                            <td><%- res.hari %> </td>
-                            <td><%- res.sesi %></td>
-                            <td><%- res.jam_kuliah %></td>
-                            <td><%- res.nama_mk %></td>
-                            <td><%- res.sks %></td>
-                            <td><%- res.semester %></td>
-                            <td><%- res.kelas %></td>
-                            <td><%- res.dosen %></td>
-                            <td><%- res.ruang %></td>
-                        </tr>                             
-                    <% }) %>
-                </tbody>
-            </table>
+<div class="container-fluid py-4">
+    <div class="row">
+    <div class="col-12">
+      <div class="card mb-4">
+        <div class="card-header pb-0">
+          <h6>Daftar Jadwal Kuliah</h6>
         </div>
-
+        <button data-bs-toggle="modal" data-bs-target="#processJadwal" class="btn btn-icon btn-3 btn-primary" type="button" style="width: 200px; margin: 20px 0 0 20px;">
+            <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+            <span class="btn-inner--text">Proses Jadwal</span>
+        </button>
+        <div class="card-body px-0 pt-0 pb-2">
+          <div class="table-responsive p-0">
+            <table class="table align-items-center mb-0" id="datatable-basic">
+              <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Hari</th>
+                    <th>Sesi</th>
+                    <th>Jam Kuliah</th>
+                    <th>Mata Kuliah</th>
+                    <th>Sks</th>
+                    <th>Semester</th>
+                    <th>Kelas</th>
+                    <th>Dosen</th>
+                    <th>Ruangan</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>No.</th>
+                    <th>Hari</th>
+                    <th>Sesi</th>
+                    <th>Jam Kuliah</th>
+                    <th>Mata Kuliah</th>
+                    <th>Sks</th>
+                    <th>Semester</th>
+                    <th>Kelas</th>
+                    <th>Dosen</th>
+                    <th>Ruangan</th>
+                </tr>
+            </tfoot>
+            <tbody>
+                <% let no = 1; %> 
+                <% result.forEach(res => { %>
+                    <tr>
+                        <td><%= no++ %> </td>
+                        <td><%- res.hari %> </td>
+                        <td><%- res.sesi %></td>
+                        <td><%- res.jam_kuliah %></td>
+                        <td><%- res.nama_mk %></td>
+                        <td><%- res.sks %></td>
+                        <td><%- res.semester %></td>
+                        <td><%- res.kelas %></td>
+                        <td><%- res.dosen %></td>
+                        <td><%- res.ruang %></td>
+                    </tr>                             
+                <% }) %>
+            </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
+
+<div class="modal fade" id="processJadwal" tabindex="-1" role="dialog" aria-labelledby="exampleModalSignTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card card-plain">
+            <div class="card-header pb-0 text-left">
+                <h3 class="font-weight-bolder text-primary text-gradient">Form Process Generate Jadwal</h3>
+                <p class="mb-0">Pastikan terisi dengan benar</p>
+            </div>
+            <div class="card-body pb-3">
+              <form action="/getprocess" method="post" role="form text-left">
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="semester_tipe" class="form-label">Semester</label>
+                            <select class="form-select" id="semester_tipe" name="semester_tipe" aria-label="Default select example">
+                                <option value="0">Genap</option>
+                                <option value="1">Ganjil</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="tahun_akademik" class="form-label">Tahun Akademik</label>
+                            <select class="form-select" id="tahun_akademik" name="tahun_akademik" aria-label="Default select example">
+                                <option value="2020-2021">2020-2021</option>
+                                <option value="2021-2022">2021-2022</option>
+                                <option value="2022-2023">2022-2023</option>
+                                <option value="2023-2024">2023-2024</option>
+                              </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="jmlh_populasi" class="form-label">Jumlah Populasi</label>  
+                            <input value="10" type="text" class="form-control" id="jmlh_populasi" name="jmlh_populasi" aria-describedby="jmlh_populasiHelp">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="probabilitas_crossover" class="form-label">Probabilitas Crossover</label>
+                            <input value="0.70" type="text" class="form-control" id="probabilitas_crossover" name="probabilitas_crossover" aria-describedby="nameHelp" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="probabilitas_mutasi" class="form-label">Probabilitas Mutasi</label>
+                            <input value="0.40" type="text" class="form-control" id="probabilitas_mutasi" name="probabilitas_mutasi" aria-describedby="nameHelp" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="jmlh_generasi" class="form-label">Jumlah Generasi</label>  
+                            <input value="10000" type="text" class="form-control" id="jmlh_generasi" name="jmlh_generasi" aria-describedby="jmlh_generasiHelp">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn bg-gradient-primary">Generate Jadwal</button>
+                  </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

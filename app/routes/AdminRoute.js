@@ -13,6 +13,7 @@ import { adminOnly, verifyUser } from '../../auth/middleware/AuthUser.js'
 const router = express.Router()
 
 router.get('/', verifyUser, getDashboard)
+router.get('/dashboard', verifyUser, getDashboard)
 
 // Manage Dosen Data
 router.get('/formdosen', verifyUser, adminOnly, getCreateDosen)
