@@ -97,17 +97,8 @@ export const processPenjadwalan = async (req, res) => {
 
         const end = performance.now()
         const timeInSeconds = (end - start) / 1000
-        req.flash('msg', `Jadwal telah ditentukan dalam waktu ${timeInSeconds} detik`)
-        res.redirect('/jadwalkuliah')
-    } catch (error) {
-        console.log(error)
-        res.redirect('/jadwalkuliah')
-    }
 
-}
-
-export const getJadwalReport = async (req, res) => {
-    try {
+        // Generate report to .xlxs file
         const workbook = new ExcelJS.Workbook()
         const worksheet = workbook.addWorksheet('Sheet1')
 
@@ -125,7 +116,25 @@ export const getJadwalReport = async (req, res) => {
             .then(function () {
             console.log('File tersimpan')
             })
-        res.redirect('/')
+        // end report
+
+        req.flash('msg', `Jadwal telah ditentukan dalam waktu ${timeInSeconds} detik`)
+        res.redirect('/jadwalkuliah')
+    } catch (error) {
+        console.log(error)
+        res.redirect('/jadwalkuliah')
+    }
+
+}
+
+export const getJadwalReport = async (req, res) => {
+    try {
+        const filePath = 'report/jadwal-report.xlsx'
+  
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', 'attachment; filename=jadwal-report.xlsx');
+        
+        res.download(filePath);
     } catch (error) { 
         console.log(error.message)
     }

@@ -74,6 +74,6 @@ router.post('/insert-waktu', verifyUser, adminOnly, inputWaktuKhusus)
 // Manage Jadwal Kuliah
 router.get('/jadwalkuliah', verifyUser, getJadwal)
 router.post('/getprocess', verifyUser, adminOnly, processPenjadwalan)
-router.post('/createreport', verifyUser, getJadwalReport)
+router.get('/getreport', getJadwalReport)
 
 export default router
