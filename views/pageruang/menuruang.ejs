@@ -41,7 +41,7 @@
                                                 <td><%- room.kapasitas %> mahasiswa</td>
                                                 <td><%- room.jenis %></td>
                                                 <td width="12%">
-                                                    <button data-bs-toggle="modal" data-bs-target="#editRuanganModal" class="btn bg-gradient-warning btn-icon">
+                                                    <button id="<%- room.id %>" type="button" data-bs-toggle="modal" data-bs-target="#editRuanganModal" class="btn bg-gradient-warning btn-icon editbutton">
                                                         <i class="fas fa-edit" title="edit"></i>
                                                     </button>
                                                     <form action="/deleteruang/<%= room.id%>?_method=DELETE" method="post"  style="display: inline;">
@@ -112,19 +112,18 @@
                 <p class="mb-0">Pastikan terisi dengan benar</p>
             </div>
             <div class="card-body pb-3">
-              <form action="/updateruang/<%- //id %>" method="post" role="form text-left">
+              <form action="" method="post" id="editForm" role="form text-left">
                 <div class="mb-3">
                     <label for="no_ruang" class="form-label">Nomor Ruangan</label>  
-                    <input type="text" class="form-control" value="<%- ruang.no_ruang %> " id="no_ruang" name="no_ruang" aria-describedby="no_ruangHelp" autofocus>
+                    <input type="text" class="form-control" value="" name="no_ruang" aria-describedby="no_ruangHelp" autofocus>
                 </div>
                 <div class="mb-3">
                     <label for="kapasitas" class="form-label">Kapasitas Ruangan</label>
-                    <input type="text" class="form-control" value="<%- ruang.kapasitas %>" id="kapasitas" name="kapasitas" aria-describedby="nameHelp" required>
+                    <input type="text" class="form-control" value="" name="kapasitas" aria-describedby="nameHelp" required>
                 </div>
                 <div class="mb-3">
                     <label for="jenis" class="form-label">Jenis Ruangan</label>
-                    <select class="form-select" id="jenis" name="jenis" aria-label="Default select example">
-                        <option selected value="<%- ruang.jenis %>"><%- ruang.jenis %></option>
+                    <select class="form-select" name="jenis" aria-label="Default select example">
                         <option value="teori">Teori</option>
                         <option value="praktek">Praktek</option>
                       </select>
@@ -141,3 +140,27 @@
     </div>
   </div>
 <!-- close edit modal -->
+
+<script>
+  $(document).ready(function () {
+    $('.editbutton').click(function () {
+
+      iid = $(this).attr('id')
+      $.ajax({
+        url: 'http://localhost:5000/editruang/' + iid,
+        method: 'get',
+        data: '',
+        dataType: 'json',
+        success: function (response) {
+          $('#editRuanganModal').find('[name=no_ruang]').val(response.ruang.no_ruang).end()
+          $('#editRuanganModal').find('[name=kapasitas]').val(response.ruang.kapasitas).end()
+          $('#editRuanganModal').find('[name=jenis]').val(response.ruang.jenis).end()
+          $('#editForm').attr("action", '/updateruang/' + response.id)
+        },
+        error: function(xhr, status, error) {
+          console.error('Error fetching data:', error);
+        }
+      })
+    })
+  })
+</script>

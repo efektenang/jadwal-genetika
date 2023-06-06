@@ -30,7 +30,7 @@ router.get('/hari', verifyUser,  getHari)
 
 // Manage range waktu Data
 router.get('/formwaktu', verifyUser, adminOnly, getCreateWaktu)
-router.get('/editwaktu/:id', verifyUser, adminOnly, getUpdateWaktu)
+router.get('/editwaktu/:id', verifyUser, getUpdateWaktu)
 
 router.get('/waktu', verifyUser, getWaktu)
 router.post('/insertwaktu', verifyUser, adminOnly, createWaktu)

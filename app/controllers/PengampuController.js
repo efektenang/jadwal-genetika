@@ -13,17 +13,28 @@ export const getPengampu = async (req, res) => {
                 uuid: req.session.userId
             }
         })
-        // const semester_tipe = req.params.semester_tipe
+        
         const tahun_akademik = req.params.tahun_akademik
-
         const pengampu = await dataPengampu(tahun_akademik)
+        const dosen = await Dosen.findAll({
+            order: [
+                ['name', 'ASC']
+            ]
+        })
+        const matkul = await Matkul.findAll({
+            order: [
+                ['matkul', 'ASC']
+            ]
+        })
 
         res.render('pagepengampu/menupengampu', {
             title: 'Menu Dosen Pengampu',
             layout: 'layouts/templates',
             tahun_akademik,
             pengampu,
-            user
+            user,
+            dosen,
+            matkul
         })
         
         res.status(200)
@@ -101,16 +112,22 @@ export const getUpdatePengampu = async (req, res) => {
         conn.query("SELECT a.id as id, b.id as `id_mk`, b.matkul as `nama_mk`, c.id as `id_dosen`, c.name as `nama_dosen`, a.kelas as kelas, a.tahun_akademik as `tahun_akademik` FROM t_pengampu a LEFT JOIN t_matkul b ON a.id_mk = b.id LEFT JOIN t_dosen c ON a.id_dosen = c.id WHERE a.id = ?", [pengampuId], function (error, rows, fields) {
             if (error) throw error
             
-            res.render('pagepengampu/formedit', {
-                title: 'Menu Edit Data Pengampu',
-                layout: 'layouts/templates',
+            // res.render('pagepengampu/formedit', {
+            //     title: 'Menu Edit Data Pengampu',
+            //     layout: 'layouts/templates',
+            //     id: req.params.id,
+            //     rows,
+            //     dosen,
+            //     matkul,
+            //     user
+            // })
+            res.json({
                 id: req.params.id,
                 rows,
                 dosen,
                 matkul,
                 user
             })
-            
         })
 
         res.status(200)

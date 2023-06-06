@@ -91,13 +91,18 @@ export const getEditDosen = async (req, res) => {
         if (!dosen) {
             res.redirect('/dosen')
         }
-        res.render('pagedosen/formedit', {
-            title: 'Edit Dosen',
-            layout: 'layouts/templates',
+        // res.render('pagedosen/formedit', {
+        //     title: 'Edit Dosen',
+        //     layout: 'layouts/templates',
+        //     id: req.params.id,
+        //     dosen,
+        //     user
+        // });
+        res.json({
             id: req.params.id,
             dosen,
             user
-        });
+        })
         res.status(200);
     } catch (error) {
         res.status(500).json({msg: error.message});

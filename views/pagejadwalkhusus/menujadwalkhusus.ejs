@@ -17,10 +17,11 @@
                                         <% }) %> 
                                     </select>
                                 </div>
-                                <button data-bs-toggle="modal" data-bs-target="#tambahPengampuModal" class="btn btn-icon btn-3 btn-primary" type="button" style="width: 200px; margin: 20px 0 0 20px;">
+                                <button data-bs-toggle="modal" data-bs-target="#tambahPengampuModal" class="btn btn-icon btn-3 btn-primary" type="submit" style="width: 200px; margin: 20px 0 0 20px;">
                                     <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
                                     <span class="btn-inner--text">Simpan Perubahan</span>
                                 </button>
+                                <input type="hidden" name="hide_me" value="hide_me">
                                 <div class="table-responsive p-0">
                                     <table class="table align-items-center mb-0" id="datatable-basic">
                                         <thead>
@@ -53,7 +54,7 @@
                                                         %>
                                                         <td class="text-sm font-weight-normal">
                                                               <div class="form-check">
-                                                                <input class="form-check-input" type="checkbox" value="<%- idDosen + '-' + day.id + '-' + wkt.id %>" id="fcustomCheck1" name="arr_tidak_bersedia" <%- status %>>
+                                                                <input class="form-check-input" name="arr_tidak_bersedia"  type="checkbox" value="<%- idDosen + '-' + day.id + '-' + wkt.id %>" id="fcustomCheck1" <%- status %>>
                                                                 <label class="custom-control-label" for="customCheck1">Tidak Bersedia</label>
                                                               </div>
                                                         </td>

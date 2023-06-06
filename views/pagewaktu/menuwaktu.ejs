@@ -35,7 +35,7 @@
                                                 <td><%= no++ %> </td>
                                                 <td><%- tbl.range_waktu %> </td>
                                                 <td width="12%">
-                                                    <button data-bs-toggle="modal" data-bs-target="#editWaktuModal" class="btn bg-gradient-warning btn-icon">
+                                                    <button type="button" data-bs-toggle="modal" id="<%= tbl.id %>" data-bs-target="#editWaktuModal" class="btn bg-gradient-warning btn-icon editbutton">
                                                         <i class="fas fa-edit" title="edit"></i>
                                                     </button>
                                                     <form action="/deletewaktu/<%= tbl.id%>?_method=DELETE" method="post"  style="display: inline;">
@@ -96,10 +96,10 @@
                 <p class="mb-0">Pastikan terisi dengan benar</p>
             </div>
             <div class="card-body pb-3">
-              <form action="/updatewaktu/<%- //id %>" method="post" role="form text-left">
+              <form action="" method="post" id="editForm" role="form text-left">
                 <div class="mb-3">
                     <label for="range_waktu" class="form-label">Range Waktu Belajar</label>  
-                    <input value="<%- waktu.range_waktu %>" type="text" class="form-control" id="range_waktu" name="range_waktu" aria-describedby="range_waktuHelp" placeholder="cth. 00.00-00.00" autofocus>
+                    <input value="" type="text" class="form-control" name="range_waktu" aria-describedby="range_waktuHelp" placeholder="cth. 00.00-00.00" autofocus>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
@@ -113,3 +113,25 @@
     </div>
   </div>
 <!-- close edit modal -->
+
+<script>
+  $(document).ready(function () {
+    $('.editbutton').click(function () {
+
+      iid = $(this).attr('id')
+      $.ajax({
+        url: 'http://localhost:5000/editwaktu/' + iid,
+        method: 'get',
+        data: '',
+        dataType: 'json',
+        success: function (response) {
+          $('#editWaktuModal').find('[name=range_waktu]').val(response.waktu.range_waktu).end()
+          $('#editForm').attr("action", '/updatewaktu/' + response.id)
+        },
+        error: function(xhr, status, error) {
+          console.error('Error fetching data:', error);
+        }
+      })
+    })
+  })
+</script>

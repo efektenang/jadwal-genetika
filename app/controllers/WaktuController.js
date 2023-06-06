@@ -68,9 +68,14 @@ export const getUpdateWaktu = async (req, res) => {
                 id: req.params.id
             }
         })
-        res.render('pagewaktu/formedit', {
-            title: 'Menu Edit Data Waktu Belajar',
-            layout: 'layouts/templates',
+        // res.render('pagewaktu/formedit', {
+        //     title: 'Menu Edit Data Waktu Belajar',
+        //     layout: 'layouts/templates',
+        //     id: req.params.id,
+        //     waktu,
+        //     user
+        // })
+        res.json({
             id: req.params.id,
             waktu,
             user

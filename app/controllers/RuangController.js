@@ -73,13 +73,19 @@ export const getEditRuang = async (req, res) => {
             }
         })
 
-        res.render('pageruang/formedit', {
-            title: 'Menu Edit Data Ruangan',
-            layout: 'layouts/templates',
+        // res.render('pageruang/formedit', {
+        //     title: 'Menu Edit Data Ruangan',
+        //     layout: 'layouts/templates',
+        //     id: req.params.id,
+        //     ruang,
+        //     user
+        // })
+        res.json({
             id: req.params.id,
             ruang,
             user
         })
+
         res.status(200)
     } catch (error) {
         res.status(400).json({msg: error.message})
