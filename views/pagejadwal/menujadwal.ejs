@@ -1,63 +1,67 @@
 <div class="container-fluid py-4">
-    <div class="row">
-    <div class="col-12">
-      <div class="card mb-4">
-        <div class="card-header pb-0">
-          <h6>Daftar Jadwal Kuliah</h6>
-        </div>
-        <button data-bs-toggle="modal" data-bs-target="#processJadwal" class="btn btn-icon btn-3 btn-primary" type="button" style="width: 200px; margin: 20px 0 0 20px;">
-            <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
-            <span class="btn-inner--text">Proses Jadwal</span>
-        </button>
-        <div class="card-body px-0 pt-0 pb-2">
-          <div class="table-responsive p-0">
-            <table class="table align-items-center mb-0" id="datatable-basic">
-              <thead>
-                <tr>
-                    <th>No.</th>
-                    <th>Hari</th>
-                    <th>Sesi</th>
-                    <th>Jam Kuliah</th>
-                    <th>Mata Kuliah</th>
-                    <th>Sks</th>
-                    <th>Semester</th>
-                    <th>Kelas</th>
-                    <th>Dosen</th>
-                    <th>Ruangan</th>
-                </tr>
-            </thead>
-            <tfoot>
-                <tr>
-                    <th>No.</th>
-                    <th>Hari</th>
-                    <th>Sesi</th>
-                    <th>Jam Kuliah</th>
-                    <th>Mata Kuliah</th>
-                    <th>Sks</th>
-                    <th>Semester</th>
-                    <th>Kelas</th>
-                    <th>Dosen</th>
-                    <th>Ruangan</th>
-                </tr>
-            </tfoot>
-            <tbody>
-                <% let no = 1; %> 
-                <% result.forEach(res => { %>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header pb-0">
+              <h6>Daftar Jadwal Kuliah</h6>
+            </div>
+            <button data-bs-toggle="modal" data-bs-target="#processJadwal" class="btn btn-icon btn-3 btn-primary" type="button" style="width: 200px; margin: 20px 0 0 20px;">
+                <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+                <span class="btn-inner--text">Proses Jadwal</span>
+            </button>
+            <div class="card-body px-0 pt-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0" id="datatable-basic">
+                  <thead>
                     <tr>
-                        <td><%= no++ %> </td>
-                        <td><%- res.hari %> </td>
-                        <td><%- res.sesi %></td>
-                        <td><%- res.jam_kuliah %></td>
-                        <td><%- res.nama_mk %></td>
-                        <td><%- res.sks %></td>
-                        <td><%- res.semester %></td>
-                        <td><%- res.kelas %></td>
-                        <td><%- res.dosen %></td>
-                        <td><%- res.ruang %></td>
-                    </tr>                             
-                <% }) %>
-            </tbody>
-            </table>
+                        <th>No.</th>
+                        <th>Hari</th>
+                        <th>Sesi</th>
+                        <th>Jam Kuliah</th>
+                        <th>Mata Kuliah</th>
+                        <th>Sks</th>
+                        <th>Semester</th>
+                        <th>Kelas</th>
+                        <th>Dosen</th>
+                        <th>Ruangan</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>No.</th>
+                        <th>Hari</th>
+                        <th>Sesi</th>
+                        <th>Jam Kuliah</th>
+                        <th>Mata Kuliah</th>
+                        <th>Sks</th>
+                        <th>Semester</th>
+                        <th>Kelas</th>
+                        <th>Dosen</th>
+                        <th>Ruangan</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <% let no = 1; %> 
+                    <% result.forEach(res => { %>
+                        <tr>
+                            <td><%= no++ %> </td>
+                            <td><%- res.hari %> </td>
+                            <td><%- res.sesi %></td>
+                            <td><%- res.jam_kuliah %></td>
+                            <td><%- res.nama_mk %></td>
+                            <td><%- res.sks %></td>
+                            <td><%- res.semester %></td>
+                            <td><%- res.kelas %></td>
+                            <td><%- res.dosen %></td>
+                            <td><%- res.ruang %></td>
+                        </tr>                             
+                    <% }) %>
+                </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
       </div>

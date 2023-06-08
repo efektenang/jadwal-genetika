@@ -17,7 +17,7 @@ router.get('/dashboard', verifyUser, getDashboard)
 
 // Manage Dosen Data
 router.get('/formdosen', verifyUser, adminOnly, getCreateDosen)
-router.get('/editdosen/:id', verifyUser, adminOnly, getEditDosen)
+router.get('/editdosen/:id', verifyUser, getEditDosen)
 
 router.get('/dosen', verifyUser, getDosen)
 router.get('/dosen/:id', verifyUser, adminOnly, getDosenById)
@@ -39,7 +39,7 @@ router.post('/deletewaktu/:id', verifyUser, adminOnly, deleteWaktu)
 
 // Manage Matkul Data
 router.get('/formmatkul', verifyUser, adminOnly, getCreateMatkul)
-router.get('/editmatkul/:id', verifyUser, adminOnly, getEditMatkul)
+router.get('/editmatkul/:id', verifyUser, getEditMatkul)
 
 router.get('/matkul', verifyUser, getMatkul)
 router.get('/matkul/:semester', verifyUser, getMatkul)
@@ -49,7 +49,7 @@ router.post('/deletematkul/:id', verifyUser, adminOnly, deleteMatkul)
 
 // Manage Data Ruang
 router.get('/formruang', verifyUser, adminOnly, getCreateRuang)
-router.get('/editruang/:id', verifyUser, adminOnly, getEditRuang)
+router.get('/editruang/:id', verifyUser, getEditRuang)
 
 router.get('/ruang', verifyUser, getRuang)
 router.post('/insertruang', verifyUser, adminOnly, createRuang)
