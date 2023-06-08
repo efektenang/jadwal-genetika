@@ -20,7 +20,6 @@ export const getError = async (req, res) => {
             title: 'Error',
             layout: 'layouts/auth'
         });
-        res.status(200);
     } catch (error) {
         res.status(500).json({msg: error.message});
     }
@@ -29,7 +28,7 @@ export const getError = async (req, res) => {
 
 export const getRegister = async (req, res) => {
     try {
-        res.render('register', {
+        res.render('sign-up', {
             title: 'Register Account',
             layout: 'layouts/auth',
             message: req.flash('msg')
