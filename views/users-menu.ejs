@@ -1,56 +1,111 @@
-<h1 class="h3 mb-4 text-gray-800"><%- title; %> </h1>
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Daftar User</h6>
-            </div>
-            <a href="/register" class="btn btn-primary btn-icon-split" style="width: 200px; margin: 20px 0 0 20px;">                
-                <span class="text">Tambah User Baru</span>
-            </a>
-
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Role</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tfoot>
-                            <tr>
-                                <th>No.</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Role</th>
-                                <th>Action</th>
-                            </tr>
-                        </tfoot>
-                        <tbody>
-                            <% let no = 1; %> 
-                            <% response.forEach(tabel => { %>
-                                <tr>
-                                    <td><%= no++ %> </td>
-                                    <td style="text-transform: capitalize;"><%- tabel.name %> </td>
-                                    <td><%- tabel.email %></td>
-                                    <td><%- tabel.role %></td>
-                                    <td width="12%">
-                                        <a href="/user/<%= tabel.uuid %> " class="btn btn-info btn-circle btn-sm">
-                                            <i class="fas fa-info-circle" title="DETAIL"></i>
-                                        </a>
-                                        <form action="/user/reset/<%= tabel.uuid%>" method="post"  style="display: inline;">
-                                            <button type="submit" class="btn btn-warning btn-circle btn-sm"><i class="fas fa-undo"></i></button>
-                                        </form>
-                                        <form action="/contact/delete/<%= tabel.id%>?_method=DELETE " method="post"  style="display: inline;">
-                                            <button type="submit" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></button>
-                                        </form>
-                                    </td>
-                                </tr>                             
-                            <% }) %>
-                        </tbody>
-                    </table>
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row-12">
+                <div class="card mb-4">
+                    <div class="card-header pb-0">
+                        <h5><%- title; %></h5>
+                    </div>
+                    <a href="/register" target="_blank" class="btn btn-icon btn-3 btn-primary" type="button" style="width: 200px; margin: 20px 0 0 20px;">
+                        <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+                        <span class="btn-inner--text">Tambah User</span>
+                    </a>
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0" id="datatable-basic">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+                                    <% let no = 1; %> 
+                                    <% response.forEach(tabel => { %>
+                                        <tr>
+                                            <td><%= no++ %> </td>
+                                            <td style="text-transform: capitalize;"><%- tabel.name %> </td>
+                                            <td><%- tabel.email %></td>
+                                            <td><%- tabel.role %></td>
+                                            <td width="12%">
+                                                <button type="button" id="<%- tabel.uuid %>" data-bs-toggle="modal" data-bs-target="#detailUserModal" class="btn bg-gradient-info btn-icon editbutton">
+                                                    <i class="fas fa-info-circle" title="detail"></i>
+                                                </button>
+                                                <form action="/user/reset/<%= tabel.uuid%>" method="post"  style="display: inline;">
+                                                    <button type="submit" class="btn bg-gradient-warning btn-icon"><i class="fas fa-undo"></i></button>
+                                                </form>
+                                                <form action="/contact/delete/<%= tabel.id%>?_method=DELETE " method="post"  style="display: inline;">
+                                                    <button type="submit" class="btn bg-gradient-danger btn-icon"><i class="fas fa-trash"></i></button>
+                                                </form>
+                                            </td>
+                                        </tr>                             
+                                    <% }) %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="modal fade" id="detailUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalSignTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-body p-0">
+                <div class="card card-plain">
+                    <div class="card-header pb-0 text-left">
+                        <h3 class="font-weight-bolder text-primary text-gradient">Detail User</h3>
+                    </div>
+                    <div class="card-body pb-3">
+                        <label>User Name</label>
+                        <input class="form-control" name="name" type="text" value="" disabled/>
+                        <label class="mt-4">Email </label>
+                        <input class="form-control" name="email" type="text" value="" disabled/>
+                        <label class="mt-4">Role</label>
+                        <input class="form-control" name="role" type="text" value="role" disabled/>
+                    </div>
+                    <div class="modal-footer">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+      $('.editbutton').click(function () {
+  
+        iid = $(this).attr('id')
+        $.ajax({
+          url: 'http://localhost:5000/user/' + iid,
+          method: 'get',
+          data: '',
+          dataType: 'json',
+          success: function (response) {
+            $('#detailUserModal').find('[name=name]').val(response.name).end()
+            $('#detailUserModal').find('[name=email]').val(response.email).end()
+            $('#detailUserModal').find('[name=role]').val(response.role).end()
+          },
+          error: function(xhr, status, error) {
+            console.error('Error fetching data:', error);
+          }
+        })
+      })
+    })
+  </script>
