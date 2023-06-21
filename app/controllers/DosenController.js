@@ -20,7 +20,7 @@ export const getDosen = async (req, res) => {
         res.render('pagedosen/menudosen', {
             title: 'Menu Dosen',
             layout: 'layouts/templates',
-            msg: req.flash('msg'),
+            msg: req.flash('dosenmsg'),
             dosen,
             user
         })
