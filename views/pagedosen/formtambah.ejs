@@ -1,31 +1,40 @@
-<div class="row">
-    <div class="col">
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary"><%- title %> </h6>
-            </div>
-            <div class="card-body">
-                <form action="/insertdosen" method="post">
-                    <div class="mb-3">
-                        <label for="nidn" class="form-label">NIDN</label>  
-                        <input type="text" class="form-control" id="nidn" name="nidn" aria-describedby="nidnHelp" autofocus>
-                        <!-- <div class="invalid-feedback">
-                            
-                        </div> -->
-                    </div>
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Nama Lengkap</label>
-                        <input type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp" required>
-                        <div id="validationServer03Feedback" class="invalid-feedback">
-                            Please provide a valid city.
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary"><%- title %> </h6>
+                </div>
+                <div class="card-body">
+                    <% if (dosenmsg.length !== 0) { %>
+                        <div class="card bg-danger text-white shadow mb-2">
+                            <div class="card-body font-weight-bold py-2">
+                                <%= dosenmsg %>
+                            </div>
                         </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="phone" class="form-label">Phone Number</label>
-                        <input type="text" class="form-control" id="phone" name="phone" aria-describedby="phoneHelp">
-                    </div>
-                    <button class="btn btn-success" type="submit"> Tambahkan </button>
-                </form>
+                      <% } %>
+                    <form action="/insertdosen" method="post">
+                        <div class="mb-3">
+                            <label for="nidn" class="form-label">NIDN</label>  
+                            <input type="text" class="form-control" id="nidn" name="nidn" aria-describedby="nidnHelp" autofocus>
+                            <!-- <div class="invalid-feedback">
+                                
+                            </div> -->
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nama Lengkap</label>
+                            <input type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp" required>
+                            <div id="validationServer03Feedback" class="invalid-feedback">
+                                Please provide a valid city.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Phone Number</label>
+                            <input type="text" class="form-control" id="phone" name="phone" aria-describedby="phoneHelp">
+                        </div>
+                        <button class="btn bg-gradient-success" type="submit"> Tambahkan </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

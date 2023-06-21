@@ -20,6 +20,7 @@ export const getDosen = async (req, res) => {
         res.render('pagedosen/menudosen', {
             title: 'Menu Dosen',
             layout: 'layouts/templates',
+            msg: req.flash('msg'),
             dosen,
             user
         })
@@ -53,6 +54,7 @@ export const getCreateDosen = async (req, res) => {
          res.render('pagedosen/formtambah', {
             title: 'Menu Tambah Dosen',
             layout: 'layouts/templates',
+            dosenmsg: req.flash('dosenmsg'),
             user
          })
          res.status(200)
@@ -64,11 +66,24 @@ export const getCreateDosen = async (req, res) => {
 export const createDosen = async (req, res) => {
     try {
         const { nidn, name, phone } = req.body
-        
+        const dsn = await Dosen.findOne({
+            where: {
+                nidn
+            }
+        })
+
+        if (dsn) {
+            req.flash('dosenmsg', 'NIDN sudah digunakan!')
+            res.redirect('/formdosen')
+            return res.status(400)
+        }
+
         // Create Data
-        const insertDosen = await Dosen.create({
+        await Dosen.create({
             nidn, name, phone
         })
+
+        req.flash('msg', 'Data Dosen berhasil ditambahkan!')
         res.redirect('/dosen')
         res.status(201)
     } catch (error) {
@@ -126,9 +141,9 @@ export const updateDosen = async (req, res) => {
             where: { id: dosen.id}
         })
 
+        req.flash('msg', 'Data Dosen berhasil diubah!')
         res.redirect('/dosen')
         res.status(200)
-
     } catch (error) {
         res.status(400).json({msg: error.message})
     }
@@ -149,6 +164,7 @@ export const deleteDosen = async (req, res) => {
                 id: dosen.id
             }
         })
+        req.flash('msg', 'Data Dosen berhasil dihapus!')
         res.redirect('/dosen')
         res.status(200)
     } catch (error) {

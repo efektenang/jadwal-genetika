@@ -100,7 +100,9 @@
   <script>
     const dataTableBasic = new simpleDatatables.DataTable("#datatable-basic", {
       searchable: true,
-      fixedHeight: true
+      fixedHeight: true,
+      perPage: 100,
+      perPageSelect: [10, 25, 50, 100]
     });
   </script>
   <script>
