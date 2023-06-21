@@ -2,7 +2,7 @@ import Users from "../models/UserModel.js";
 
 export const verifyUser = async (req, res, next) => {
     if (!req.session.userId) {
-        res.redirect('/login');
+        res.redirect('/login')
         return res.status(401)
     }
 
