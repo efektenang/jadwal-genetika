@@ -5,7 +5,7 @@ import { getHari } from '../controllers/HariController.js'
 import { getJadwal, getJadwalReport, processPenjadwalan } from '../controllers/JadwalController.js'
 import { createMatkul, deleteMatkul, getCreateMatkul, getEditMatkul, getMatkul, updateMatkul } from '../controllers/MatkulController.js'
 import { createPengampu, deletePengampu, getCreatePengampu, getPengampu, getUpdatePengampu, updatePengampu } from '../controllers/PengampuController.js'
-import { createRuang, deleteRuang, getCreateRuang, getEditRuang, getRuang, updateRuang } from '../controllers/RuangController.js'
+import { createRuang, deleteRuang, getCreateRuang, getEditRuang, getRuang, getRuangById, updateRuang } from '../controllers/RuangController.js'
 import { createWaktu, deleteWaktu, getCreateWaktu, getUpdateWaktu, getWaktu, updateWaktu } from '../controllers/WaktuController.js'
 import { getJadwalKhusus, inputWaktuKhusus } from '../controllers/WaktuKhususController.js'
 import { adminOnly, verifyUser } from '../../auth/middleware/AuthUser.js'
@@ -52,6 +52,7 @@ router.get('/formruang', verifyUser, getCreateRuang)
 router.get('/editruang/:id', verifyUser, getEditRuang)
 
 router.get('/ruang', verifyUser, getRuang)
+router.get('/ruang/:id', verifyUser, getRuangById)
 router.post('/insertruang', verifyUser, createRuang)
 router.post('/updateruang/:id', verifyUser, updateRuang)
 router.post('/deleteruang/:id', verifyUser, deleteRuang)

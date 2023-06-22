@@ -121,18 +121,19 @@
             </div>
             <div class="card-body pb-3">
               <form action="" id="editForm" method="post" role="form text-left">
-                    <div class="mb-3">
-                        <label for="nidn" class="form-label">NIDN</label>  
-                        <input type="text" class="form-control" id="nidn" name="nidn" aria-describedby="nidnHelp" value="" autofocus>
-                    </div>
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Nama Lengkap</label>
-                        <input type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp" value="" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="phone" class="form-label">Phone Number</label>
-                        <input type="text" class="form-control" id="phone" name="phone" aria-describedby="phoneHelp" value="">
-                    </div>
+                <input type="hidden" name="oldNidn" value="">
+                <div class="mb-3">
+                  <label for="nidn" class="form-label">NIDN</label>
+                  <input type="text" class="form-control" id="nidn" name="nidn" aria-describedby="nidnHelp" value="" autofocus>
+                </div>
+                <div class="mb-3">
+                  <label for="name" class="form-label">Nama Lengkap</label>
+                  <input type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp" value="" required>
+                </div>
+                <div class="mb-3">
+                  <label for="phone" class="form-label">Phone Number</label>
+                  <input type="text" class="form-control" id="phone" name="phone" aria-describedby="phoneHelp" value="">
+                </div>
                 <div class="modal-footer">
                   <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
                   <button type="submit" class="btn bg-gradient-primary">Simpan Perubahan</button>
@@ -152,7 +153,7 @@
 
       iid = $(this).attr('id')
       $.ajax({
-        url: 'http://localhost:5000/editdosen/' + iid,
+        url: 'http://localhost:5000/dosen/' + iid,
         method: 'get',
         data: '',
         dataType: 'json',
@@ -160,6 +161,7 @@
           $('#editDosenModal').find('[name=nidn]').val(response.dosen.nidn).end()
           $('#editDosenModal').find('[name=name]').val(response.dosen.name).end()
           $('#editDosenModal').find('[name=phone]').val(response.dosen.phone).end()
+          $('#editDosenModal').find('[name=oldNidn]').val(response.oldNidn || response.dosen.nidn).end()
           $('#editForm').attr("action", '/updatedosen/' + response.id)
         },
         error: function(xhr, status, error) {

@@ -6,6 +6,14 @@
                     <div class="card mb-4">
                         <div class="card-header">
                             <h5>Tabel Ruangan Kelas</h5>
+                            <% if (msg.length !== 0) { %>
+                              <div class="alert alert-success alert-dismissible text-white" role="alert">
+                                <strong>Good!</strong> <%- msg %>
+                                <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                            <% } %>
                         </div>
                         <button data-bs-toggle="modal" data-bs-target="#tambahRuanganModal" class="btn btn-icon btn-3 btn-primary" type="button" style="width: 200px; margin: 20px 0 0 20px;">
                             <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
@@ -45,7 +53,7 @@
                                                         <i class="fas fa-edit" title="edit"></i>
                                                     </button>
                                                     <form action="/deleteruang/<%= room.id%>?_method=DELETE" method="post"  style="display: inline;">
-                                                        <button class="btn bg-gradient-danger btn-icon" onclick="argon.showSwal('warning-message-and-cancel')"><i class="fas fa-trash"></i></button>
+                                                        <button class="btn bg-gradient-danger btn-icon" onclick="return confirm('Apakah anda yakin ingin menghapus?');"><i class="fas fa-trash"></i></button>
                                                     </form>
                                                 </td>
                                             </tr>                             
@@ -113,6 +121,7 @@
             </div>
             <div class="card-body pb-3">
               <form action="" method="post" id="editForm" role="form text-left">
+                <input type="hidden" name="oldRuang" value="">
                 <div class="mb-3">
                     <label for="no_ruang" class="form-label">Nomor Ruangan</label>  
                     <input type="text" class="form-control" value="" name="no_ruang" aria-describedby="no_ruangHelp" autofocus>
@@ -147,11 +156,12 @@
 
       iid = $(this).attr('id')
       $.ajax({
-        url: 'http://localhost:5000/editruang/' + iid,
+        url: 'http://localhost:5000/ruang/' + iid,
         method: 'get',
         data: '',
         dataType: 'json',
         success: function (response) {
+          $('#editRuanganModal').find('[name=oldRuang]').val(response.oldRuang || response.ruang.no_ruang).end()
           $('#editRuanganModal').find('[name=no_ruang]').val(response.ruang.no_ruang).end()
           $('#editRuanganModal').find('[name=kapasitas]').val(response.ruang.kapasitas).end()
           $('#editRuanganModal').find('[name=jenis]').val(response.ruang.jenis).end()

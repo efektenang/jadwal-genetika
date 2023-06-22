@@ -1,28 +1,37 @@
-<div class="row">
-    <div class="col">
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary"><%- title %> </h6>
-            </div>
-            <div class="card-body">
-                <form action="/insertruang" method="post">
-                    <div class="mb-3">
-                        <label for="no_ruang" class="form-label">Nomor Ruangan</label>  
-                        <input type="text" class="form-control" id="no_ruang" name="no_ruang" aria-describedby="no_ruangHelp" autofocus>
-                    </div>
-                    <div class="mb-3">
-                        <label for="kapasitas" class="form-label">Kapasitas Ruangan</label>
-                        <input type="text" class="form-control" id="kapasitas" name="kapasitas" aria-describedby="nameHelp" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="jenis" class="form-label">Jenis Ruangan</label>
-                        <select class="form-select" id="jenis" name="jenis" aria-label="Default select example">
-                            <option value="teori">Teori</option>
-                            <option value="praktek">Praktek</option>
-                          </select>
-                    </div>
-                    <button class="btn btn-success" type="submit"> Tambahkan </button>
-                </form>
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary"><%- title %> </h6>
+                </div>
+                <div class="card-body">
+                    <% if (msg.length !== 0) { %>
+                        <div class="card bg-danger text-white shadow mb-2">
+                            <div class="card-body font-weight-bold py-2">
+                                <%= msg %>
+                            </div>
+                        </div>
+                    <% } %>
+                    <form action="/insertruang" method="post">
+                        <div class="mb-3">
+                            <label for="no_ruang" class="form-label">Nomor Ruangan</label>  
+                            <input type="text" class="form-control" id="no_ruang" name="no_ruang" aria-describedby="no_ruangHelp" autofocus>
+                        </div>
+                        <div class="mb-3">
+                            <label for="kapasitas" class="form-label">Kapasitas Ruangan</label>
+                            <input type="text" class="form-control" id="kapasitas" name="kapasitas" aria-describedby="nameHelp" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="jenis" class="form-label">Jenis Ruangan</label>
+                            <select class="form-select" id="jenis" name="jenis" aria-label="Default select example">
+                                <option value="teori">Teori</option>
+                                <option value="praktek">Praktek</option>
+                              </select>
+                        </div>
+                        <button class="btn btn-success" type="submit"> Tambahkan </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

@@ -32,12 +32,24 @@ export const getDosen = async (req, res) => {
 
 export const getDosenById = async (req, res) => {
     try {
+        const user = await Users.findOne({
+            attributes: ['uuid', 'name', 'email', 'role'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
         const dosen = await Dosen.findOne({
             where: {
                 id: req.params.id
             }
         })
-        res.status(200).send(dosen)
+        res.json({
+            id: req.params.id,
+            oldNidn: req.body.oldNidn,
+            dosen,
+            user
+        })
+        res.status(200);
     } catch (error) {
         res.status(400).json({msg: error.message})
     }
@@ -83,7 +95,7 @@ export const createDosen = async (req, res) => {
             nidn, name, phone
         })
 
-        req.flash('msg', 'Data Dosen berhasil ditambahkan!')
+        req.flash('dosenmsg', 'Data Dosen berhasil ditambahkan!')
         res.redirect('/dosen')
         res.status(201)
     } catch (error) {
@@ -106,19 +118,16 @@ export const getEditDosen = async (req, res) => {
         if (!dosen) {
             res.redirect('/dosen')
         }
-        // res.render('pagedosen/formedit', {
-        //     title: 'Edit Dosen',
-        //     layout: 'layouts/templates',
-        //     id: req.params.id,
-        //     dosen,
-        //     user
-        // });
-        res.json({
+        res.render('pagedosen/formedit', {
+            title: 'Edit Dosen',
+            layout: 'layouts/templates',
             id: req.params.id,
+            dosenmsg: req.flash('dosenmsg'),
+            oldNidn: req.body.oldNidn,
             dosen,
             user
-        })
-        res.status(200);
+        });
+        res.status(200)
     } catch (error) {
         res.status(500).json({msg: error.message});
     }
@@ -126,14 +135,26 @@ export const getEditDosen = async (req, res) => {
 
 export const updateDosen = async (req, res) => {
     try {
+
+        const { nidn, name, phone } = req.body
+
         const dosen = await Dosen.findOne({
             where: { id: req.params.id }
         })
         // checking dosen data is already
         if (!dosen) return res.status(404).json({ msg: "Data tidak tersedia" })
         
-        // initialize data
-        const { nidn, name, phone } = req.body
+
+        const nidnDosen = await Dosen.findOne({
+            where: { nidn }
+        })
+
+        // checking if kode dosen is already
+        if (nidn !== req.body.oldNidn && nidnDosen) {
+            req.flash('dosenmsg', 'NIDN sudah digunakan!')
+            res.redirect('/editdosen/' + req.params.id)
+            return res.status(400)
+        }
 
         await Dosen.update({
             nidn, name, phone
@@ -141,7 +162,7 @@ export const updateDosen = async (req, res) => {
             where: { id: dosen.id}
         })
 
-        req.flash('msg', 'Data Dosen berhasil diubah!')
+        req.flash('dosenmsg', 'Data Dosen berhasil diubah!')
         res.redirect('/dosen')
         res.status(200)
     } catch (error) {

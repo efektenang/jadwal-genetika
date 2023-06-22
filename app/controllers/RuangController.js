@@ -17,12 +17,40 @@ export const getRuang = async (req, res) => {
         res.render('pageruang/menuruang', {
             title: 'Menu Ruangan Kelas',
             layout: 'layouts/templates',
+            msg: req.flash('ruangmsg'),
             ruang,
             user
         })
         res.status(200)
     } catch (error) {
         res.status(400).send({msg: 'Data tidak ditemukan'})
+    }
+}
+
+export const getRuangById = async (req, res) => {
+    try {
+        const user = await Users.findOne({
+            attributes: ['uuid', 'name', 'email', 'role'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
+    
+        const ruang = await Ruang.findOne({
+            where: {
+                id: req.params.id
+            }
+        })
+    
+        res.json({
+            id: req.params.id,
+            oldRuang: req.body.oldRuang,
+            ruang,
+            user
+        })
+        res.status(200)
+    } catch (error) {
+        res.send({msg: error.message})
     }
 }
 
@@ -37,6 +65,7 @@ export const getCreateRuang = async (req, res) => {
         res.render('pageruang/formtambah', {
             title: 'Menu Tambah Ruangan',
             layout: 'layouts/templates',
+            msg: req.flash('ruangmsg'),
             user
         })
         res.status(200)
@@ -48,10 +77,23 @@ export const getCreateRuang = async (req, res) => {
 export const createRuang = async (req, res) => {
     try {
         const { no_ruang, kapasitas, jenis } = req.body
+
+        const room = await Ruang.findOne({
+            where: {
+                no_ruang
+            }
+        })
+
+        if (room) {
+            req.flash('ruangmsg', 'No Ruang sudah tersedia!')
+            res.redirect('/formruang')
+            return res.status(400)
+        }
         
-        const insertRuang = await Ruang.create({
+        await Ruang.create({
             no_ruang, kapasitas, jenis
         })
+        req.flash('ruangmsg', 'Ruang Baru berhasil ditambahkan!')
         res.redirect('/ruang')
         res.status(200)
     } catch (error) {
@@ -73,19 +115,15 @@ export const getEditRuang = async (req, res) => {
             }
         })
 
-        // res.render('pageruang/formedit', {
-        //     title: 'Menu Edit Data Ruangan',
-        //     layout: 'layouts/templates',
-        //     id: req.params.id,
-        //     ruang,
-        //     user
-        // })
-        res.json({
+        res.render('pageruang/formedit', {
+            title: 'Menu Edit Data Ruangan',
+            layout: 'layouts/templates',
+            msg: req.flash('ruangmsg'),
             id: req.params.id,
+            oldRuang: req.body.oldRuang,
             ruang,
             user
         })
-
         res.status(200)
     } catch (error) {
         res.status(400).json({msg: error.message})
@@ -105,6 +143,21 @@ export const updateRuang = async (req, res) => {
 
         // Update data
         const { no_ruang, kapasitas, jenis } = req.body
+
+        // checking if kode dosen is already
+
+        const noRuang = await Ruang.findOne({
+            where: {
+                id: req.params.id
+            }
+        })
+
+        if (no_ruang !== req.body.oldRuang && noRuang) {
+            req.flash('ruangmsg', 'No Ruang sudah tersedia!')
+            res.redirect('/editruang/' + req.params.id)
+            return res.status(400)
+        }
+
         await Ruang.update({
             no_ruang, kapasitas, jenis
         }, {
@@ -112,6 +165,7 @@ export const updateRuang = async (req, res) => {
                 id: ruang.id
             }
         })
+        req.flash('ruangmsg', 'Ruang berhasil disimpan!')
         res.redirect('/ruang')
         res.status(200)
     } catch (error) {
@@ -136,6 +190,7 @@ export const deleteRuang = async (req, res) => {
                 id: ruang.id
             }
         })
+        req.flash('ruangmsg', 'Ruang berhasil dihapus!')
         res.redirect('/ruang')
         res.status(200)
     } catch (error) {
