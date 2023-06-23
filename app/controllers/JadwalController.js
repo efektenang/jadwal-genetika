@@ -102,20 +102,34 @@ export const processPenjadwalan = async (req, res) => {
         const workbook = new ExcelJS.Workbook()
         const worksheet = workbook.addWorksheet('Sheet1')
 
-        const result = await getResult(res)
+        conn.query("SELECT e.hari as hari, Concat_WS('-', concat('(', g.id), concat((SELECT id FROM t_waktu WHERE id = (SELECT jm.id FROM t_waktu jm WHERE MID(jm.range_waktu,1,5) = MID(g.range_waktu,1,5)) + (c.sks - 1)),')')) as sesi, Concat_WS('-', MID(g.range_waktu,1,5), (SELECT MID(range_waktu,7,5) FROM t_waktu WHERE id = (SELECT jm.id FROM t_waktu jm WHERE MID(jm.range_waktu,1,5) = MID(g.range_waktu,1,5)) + (c.sks - 1))) as jam_kuliah, c.matkul as nama_mk, c.sks as sks, c.semester as semester, b.kelas as kelas, d.name as dosen, f.no_ruang as ruang FROM t_jadwal a LEFT JOIN t_pengampu b ON a.id_pengampu = b.id LEFT JOIN t_matkul c ON b.id_mk = c.id LEFT JOIN t_dosen d ON b.id_dosen = d.id LEFT JOIN t_hari e ON a.id_hari = e.id LEFT JOIN t_ruang f ON a.id_ruang = f.id LEFT JOIN t_waktu g ON a.id_jam = g.id order by e.id asc,Jam_Kuliah ASC", function (error, rows, field) {
+            if (error) throw error
 
-        result.forEach((row, index) => {
-            const rowIndex = index + 1
+            worksheet.addRow(['Hari', 'Sesi', 'Jam Kuliah', 'Mata Kuliah', 'SKS', 'Semester', 'Kelas', 'Dosen', 'Ruangan'])
 
-            Object.keys(row).forEach((key, colIndex) => {
-                worksheet.getCell(`${String.fromCharCode(65 + colIndex)}${rowIndex}`).value = row[key]
+            rows.forEach((row, index) => {
+                const rowIndex = index + 2 // Start from row 2 to leave room for the column headers
+            
+                Object.keys(row).forEach((key, colIndex) => {
+                  worksheet.getCell(`${String.fromCharCode(65 + colIndex)}${rowIndex}`).value = row[key]
+                })
             })
-        })
 
-        workbook.xlsx.writeFile('report/jadwal-report.xlsx')
+            workbook.xlsx.writeFile('report/jadwal-report.xlsx')
             .then(function () {
             console.log('File tersimpan')
             })
+        })
+
+        // const result = await getResult(res)
+
+        // result.forEach((row, index) => {
+        //     const rowIndex = index + 1
+
+        //     Object.keys(row).forEach((key, colIndex) => {
+        //         worksheet.getCell(`${String.fromCharCode(65 + colIndex)}${rowIndex}`).value = row[key]
+        //     })
+        // })
         // end report
 
         req.flash('msg', `Jadwal telah ditentukan dalam waktu ${timeInSeconds} detik`)
