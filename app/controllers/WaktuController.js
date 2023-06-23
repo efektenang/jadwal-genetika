@@ -14,12 +14,37 @@ export const getWaktu = async (req, res) => {
         res.render('pagewaktu/menuwaktu', {
             title: 'Menu Waktu Belajar',
             layout: 'layouts/templates',
+            msg: req.flash('waktumsg'),
             waktu,
             user
         })
         res.status(200)
     } catch (error) {
         res.status(400).send({msg: error.message})
+    }
+}
+
+export const getWaktuById = async (req, res) => {
+    try {
+        const user = await Users.findOne({
+            attributes: ['uuid', 'name', 'email', 'role'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
+        const waktu = await Waktu.findOne({
+            where: {
+                id: req.params.id
+            }
+        })
+        res.json({
+            id: req.params.id,
+            waktu,
+            user
+        })
+        res.status(200)
+    } catch (error) {
+        res.status(400).json({msg: error.message})
     }
 }
 
@@ -34,6 +59,7 @@ export const getCreateWaktu = async (req, res) => {
         res.render('pagewaktu/formtambah', {
             title: 'Menu Tambah Data Waktu', 
             layout: 'layouts/templates',
+            msg: req.flash('waktumsg'),
             user
         })
         res.status(200)
@@ -45,9 +71,24 @@ export const getCreateWaktu = async (req, res) => {
 export const createWaktu = async (req, res) => {
     try {
         const { range_waktu } = req.body
-        const response = await Waktu.create({
+
+        const waktu = await Waktu.findOne({
+            where: {
+                range_waktu
+            }
+        })
+
+        // checking if range waktu is already
+        if (waktu) {
+            req.flash('waktumsg', 'Range waktu sudah tersedia!')
+            res.redirect('/formwaktu')
+            return res.status(400)
+        }
+
+        await Waktu.create({
             range_waktu
         })
+        req.flash('waktumsg', 'Range Waktu berhasil ditambahkan!')
         res.redirect('/waktu')
         res.status(201)
     } catch (error) {
@@ -68,20 +109,18 @@ export const getUpdateWaktu = async (req, res) => {
                 id: req.params.id
             }
         })
-        // res.render('pagewaktu/formedit', {
-        //     title: 'Menu Edit Data Waktu Belajar',
-        //     layout: 'layouts/templates',
-        //     id: req.params.id,
-        //     waktu,
-        //     user
-        // })
-        res.json({
+
+        res.render('pagewaktu/formedit', {
+            title: 'Menu Edit Data Waktu Belajar',
+            layout: 'layouts/templates',
+            msg: req.flash('waktumsg'),
             id: req.params.id,
             waktu,
             user
         })
+        res.status(200)
     } catch (error) {
-        res.status(400).json({msg: 'data gagal dikirim!'})
+        res.status(500).json({msg: error.message})
     }
 }
 
@@ -95,12 +134,27 @@ export const updateWaktu = async (req, res) => {
         if (!waktu) return res.status(400).send({ msg: 'Data tidak ditemukan' })
         
         const { range_waktu } = req.body
+        
+        const isReady = await Waktu.findOne({
+            where: {
+                range_waktu
+            }
+        })
+
+        // checking if range waktu is already
+        if (isReady) {
+            req.flash('waktumsg', 'Range waktu sudah tersedia!')
+            res.redirect('/editwaktu/' + req.params.id)
+            return res.status(400)
+        }
+
         await Waktu.update({
             range_waktu
         }, { where: {
                 id: waktu.id
             }
         })
+        req.flash('waktumsg', 'Range waktu berhasil tersimpan!')
         res.redirect('/waktu')
         res.status(200)
     } catch (error) {
@@ -121,6 +175,7 @@ export const deleteWaktu = async (req, res) => {
                 id: waktu.id
             }
         })
+        req.flash('waktumsg', 'Range waktu berhasil terhapus!')
         res.redirect('/waktu')
         res.status(200)
     } catch (error) {

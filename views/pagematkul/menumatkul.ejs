@@ -6,6 +6,14 @@
                     <div class="card mb-4">
                         <div class="card-header">
                             <h5>Tabel Mata Kuliah Terdaftar</h5>
+                            <% if (msg.length !== 0) { %>
+                              <div class="alert alert-success alert-dismissible text-white" role="alert">
+                                <strong>Good!</strong> <%- msg %>
+                                <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                            <% } %>
                         </div>
                         <button data-bs-toggle="modal" data-bs-target="#tambahMatkulModal" class="btn btn-icon btn-3 btn-primary" type="button" style="width: 200px; margin: 20px 0 0 20px;">
                             <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
@@ -61,8 +69,7 @@
                                                         <i class="fas fa-edit" title="edit"></i>
                                                     </button>
                                                     <form action="/deletematkul/<%= mk.id%>?_method=DELETE" method="post"  style="display: inline;">
-                                                        <!-- <button type="submit" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></button> -->
-                                                        <button class="btn bg-gradient-danger btn-icon" onclick="argon.showSwal('warning-message-and-cancel')"><i class="fas fa-trash"></i></button>
+                                                        <button class="btn bg-gradient-danger btn-icon" onclick="return confirm('Apakah anda yakin ingin menghapus?');"><i class="fas fa-trash"></i></button>
                                                     </form>
                                                 </td>
                                             </tr>                             
@@ -151,7 +158,8 @@
                 <p class="mb-0">Pastikan terisi dengan benar</p>
             </div>
             <div class="card-body pb-3">
-              <form action="" id="editForm" method="post" role="form text-left">
+              <form action="" method="post" id="editForm" role="form text-left">
+                  <input type="hidden" name="oldMatkul" value="">
                     <div class="mb-3">
                         <label for="kode_mk" class="form-label">Kode Mata Kuliah</label>  
                         <input type="text" class="form-control" id="kode_mk" name="kode_mk" aria-describedby="kode_mkHelp" value="" autofocus>
@@ -194,7 +202,7 @@
                     </div>
                 <div class="modal-footer">
                   <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="submit" class="btn bg-gradient-primary">Tambahkan</button>
+                  <button type="submit" class="btn bg-gradient-primary">Simpan Perubahan</button>
                 </div>
               </form>
             </div>
@@ -211,7 +219,7 @@
 
       iid = $(this).attr('id')
       $.ajax({
-        url: 'http://localhost:5000/editmatkul/' + iid,
+        url: 'http://localhost:5000/getmatkul/' + iid,
         method: 'get',
         data: '',
         dataType: 'json',
@@ -221,6 +229,7 @@
           $('#editMatkulModal').find('[name=sks]').val(response.mk.sks).end()
           $('#editMatkulModal').find('[name=semester]').val(response.mk.semester).end()
           $('#editMatkulModal').find('[name=jenis]').val(response.mk.jenis).end()
+          $('#editMatkulModal').find('[name=oldMatkul]').val(response.oldMatkul || response.mk.kode_mk).end()
           $('#editForm').attr("action", '/updatematkul/' + response.id)
         },
         error: function(xhr, status, error) {

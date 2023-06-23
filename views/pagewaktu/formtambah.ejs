@@ -1,17 +1,26 @@
-<div class="row">
-    <div class="col">
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary"><%- title %> </h6>
-            </div>
-            <div class="card-body">
-                <form action="/insertwaktu" method="post">
-                    <div class="mb-3">
-                        <label for="range_waktu" class="form-label">Range Waktu Belajar</label>  
-                        <input type="text" class="form-control" id="range_waktu" name="range_waktu" aria-describedby="range_waktuHelp" placeholder="cth. 00.00-00.00" autofocus>
-                    </div>
-                    <button class="btn btn-success" type="submit"> Tambahkan </button>
-                </form>
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary"><%- title %> </h6>
+                </div>
+                <div class="card-body">
+                    <% if (msg.length !== 0) { %>
+                        <div class="card bg-danger text-white shadow mb-2">
+                            <div class="card-body font-weight-bold py-2">
+                                <%= msg %>
+                            </div>
+                        </div>
+                    <% } %>
+                    <form action="/insertwaktu" method="post">
+                        <div class="mb-3">
+                            <label for="range_waktu" class="form-label">Range Waktu Belajar</label>  
+                            <input type="text" class="form-control" id="range_waktu" name="range_waktu" aria-describedby="range_waktuHelp" placeholder="cth. 00.00-00.00" autofocus>
+                        </div>
+                        <button class="btn btn-success" type="submit"> Tambahkan </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

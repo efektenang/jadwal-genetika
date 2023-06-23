@@ -1,42 +1,52 @@
-<div class="row">
-    <div class="col">
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary"><%- title %> </h6>
-            </div>
-            <div class="card-body">
-                <form action="/insertpengampu" method="post">
-                    <div class="mb-3">
-                        <label for="id_mk" class="form-label">Mata Kuliah</label>
-                        <select class="form-select" id="id_mk" name="id_mk" aria-label="Default select example">
-                            <% matkul.forEach(mk => { %>
-                                <option value="<%- mk.id %>"><%- mk.matkul %></option>
-                            <% }) %> 
-                          </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="id_dosen" class="form-label">Nama Dosen</label>
-                        <select class="form-select" id="id_dosen" name="id_dosen" aria-label="Default select example">
-                            <% dosen.forEach(dsn => { %>
-                                <option value="<%- dsn.id %>"><%- dsn.name %></option>
-                            <% }) %> 
-                          </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="kelas" class="form-label">Kelas</label>  
-                        <input type="text" class="form-control" id="kelas" name="kelas" aria-describedby="no_ruangHelp"  placeholder="cth. A1">
-                    </div>
-                    <div class="mb-3">
-                        <label for="tahun_akademik" class="form-label">Tahun Akademik</label>  
-                        <select class="form-select" id="tahun_akademik" name="tahun_akademik" aria-label="Default select example">
-                            <option value="2020-2021">2020-2021</option>
-                            <option value="2021-2022">2021-2022</option>
-                            <option value="2022-2023">2022-2023</option>
-                            <option value="2023-2024">2023-2024</option>
-                          </select>
-                    </div>
-                    <button class="btn btn-success" type="submit"> Tambahkan </button>
-                </form>
+<div class="container-fluid py-4">
+
+    <div class="row">
+        <div class="col">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary"><%- title %> </h6>
+                </div>
+                <div class="card-body">
+                    <% if (msg.length !== 0) { %>
+                        <div class="card bg-danger text-white shadow mb-2">
+                            <div class="card-body font-weight-bold py-2">
+                                <%= msg %>
+                            </div>
+                        </div>
+                    <% } %>
+                    <form action="/insertpengampu" method="post">
+                        <div class="mb-3">
+                            <label for="id_mk" class="form-label">Mata Kuliah</label>
+                            <select class="form-select" id="id_mk" name="id_mk" aria-label="Default select example">
+                                <% matkul.forEach(mk => { %>
+                                    <option value="<%- mk.id %>"><%- mk.matkul %></option>
+                                <% }) %> 
+                              </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_dosen" class="form-label">Nama Dosen</label>
+                            <select class="form-select" id="id_dosen" name="id_dosen" aria-label="Default select example">
+                                <% dosen.forEach(dsn => { %>
+                                    <option value="<%- dsn.id %>"><%- dsn.name %></option>
+                                <% }) %> 
+                              </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="kelas" class="form-label">Kelas</label>  
+                            <input type="text" class="form-control" id="kelas" name="kelas" aria-describedby="no_ruangHelp"  placeholder="cth. A1">
+                        </div>
+                        <div class="mb-3">
+                            <label for="tahun_akademik" class="form-label">Tahun Akademik</label>  
+                            <select class="form-select" id="tahun_akademik" name="tahun_akademik" aria-label="Default select example">
+                                <option value="2020-2021">2020-2021</option>
+                                <option value="2021-2022">2021-2022</option>
+                                <option value="2022-2023">2022-2023</option>
+                                <option value="2023-2024">2023-2024</option>
+                              </select>
+                        </div>
+                        <button class="btn btn-success" type="submit"> Tambahkan </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

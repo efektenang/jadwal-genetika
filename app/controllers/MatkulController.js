@@ -30,6 +30,7 @@ export const getMatkul = async (req, res) => {
         res.render('pagematkul/menumatkul', {
             title: 'Menu Mata Kuliah',
             layout: 'layouts/templates',
+            msg: req.flash('matkulmsg'),
             arr_smstr,
             smstr,
             matkul,
@@ -38,6 +39,33 @@ export const getMatkul = async (req, res) => {
         res.status(200)
     } catch (error) {
         res.status(500).json({msg: error.message, data: null})
+    }
+}
+
+export const getMatkulById = async (req, res) => {
+    try {
+        const user = await Users.findOne({
+            attributes: ['uuid', 'name', 'email', 'role'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
+        const mk = await Matkul.findOne({
+            where: { id: req.params.id }
+        })
+        if (!mk) {
+            res.status(400).json({msg: 'Mata kuliah tidak tersedia!'})
+        }
+
+        res.json({
+            id: req.params.id,
+            oldMatkul: req.body.oldMatkul,
+            mk,
+            user
+        })
+        res.status(200)
+    } catch (error) {
+        res.status(400).json({msg: error.message})
     }
 }
 
@@ -50,9 +78,10 @@ export const getCreateMatkul = async (req, res) => {
             }
         })
         res.render('pagematkul/formtambah', {
-           title: 'Menu Tambah Mata Kuliah',
+            title: 'Menu Tambah Mata Kuliah',
             layout: 'layouts/templates',
-           user
+            msg: req.flash('matkulmsg'),
+            user
         })
         res.status(200)
     } catch (error) {
@@ -66,11 +95,22 @@ export const createMatkul = async (req, res) => {
         
         // Checking all fields is already
         if (!kode_mk || !matkul || !sks || !semester || !jenis) return res.status(400).send({ msg: 'Data harus terisi semua!' })
-        
-        const response = await Matkul.create({
-            kode_mk, matkul, sks, semester, jenis
+
+        // checking if kode_mk is ready
+        const isReady = await Matkul.findOne({
+            where: { kode_mk }
         })
 
+        if (isReady) {
+            req.flash('matkulmsg', 'Mata Kuliah sudah terdaftar!')
+            res.redirect('/formmatkul')
+            return res.status(400)
+        }
+        
+        await Matkul.create({
+            kode_mk, matkul, sks, semester, jenis
+        })
+        req.flash('matkulmsg', 'Mata Kuliah Baru berhasil ditambahkan!')
         res.redirect('/matkul/'+ semester)
         res.status(200)
     } catch (error) {
@@ -90,22 +130,18 @@ export const getEditMatkul = async (req, res) => {
             where: { id: req.params.id }
         })
         if (!mk) {
-            // res.redirect('/matkul')
+            res.redirect('/matkul')
             res.status(400)
         }
-        // res.render('pagematkul/formedit', {
-        //     title: 'Edit Mata Kuliah',
-        //     layout: 'layouts/templates',
-        //     id: req.params.id,
-        //     mk,
-        //     user
-        // });
-
-        res.json({
+        res.render('pagematkul/formedit', {
+            title: 'Edit Mata Kuliah',
+            layout: 'layouts/templates',
+            msg: req.flash('matkulmsg'),
+            oldMatkul: req.body.oldMatkul,
             id: req.params.id,
             mk,
             user
-        })
+        });
         res.status(200)
     } catch (error) {
         res.status(500).json({msg: error.message});
@@ -125,6 +161,17 @@ export const updateMatkul = async (req, res) => {
         
         // Initialize Data
         const { kode_mk, matkul, sks, semester, jenis } = req.body
+
+        const isReady = await Matkul.findOne({
+            where: { kode_mk }
+        })
+
+        if (kode_mk !== req.body.oldMatkul && isReady) {
+            req.flash('matkulmsg', 'Kode Mata Kuliah sudah terdaftar!')
+            res.redirect('/editmatkul/' + req.params.id)
+            return res.status(400)
+        }
+
         await Matkul.update({
             kode_mk, matkul, sks, semester, jenis
         }, {
@@ -132,8 +179,8 @@ export const updateMatkul = async (req, res) => {
                 id: response.id
             }
         })
-
-        res.redirect('/matkul' + semester)
+        req.flash('matkulmsg', 'Mata Kuliah Berhasil disimpan!')
+        res.redirect('/matkul/' + semester)
         res.status(200)
     } catch (error) {
         res.status(400).send(error.message)
@@ -148,7 +195,7 @@ export const deleteMatkul = async (req, res) => {
             }
         })
 
-        // Checking Data is already in database
+        // Checking Data is not ready in database
         if (!response) return res.status(400).send({ msg: 'Data tidak ditemukan' })
 
         // Deleting Data
@@ -157,7 +204,7 @@ export const deleteMatkul = async (req, res) => {
                 id: response.id
             }
         })
-
+        req.flash('matkulmsg', 'Mata Kuliah berhasil dihapus!')
         res.redirect('/matkul')
         res.status(200)
     } catch (error) {

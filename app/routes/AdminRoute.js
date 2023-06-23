@@ -3,10 +3,10 @@ import { getDashboard } from '../controllers/Dashboard.js'
 import { createDosen, deleteDosen, getCreateDosen, getDosen, getDosenById, getEditDosen, updateDosen } from '../controllers/DosenController.js'
 import { getHari } from '../controllers/HariController.js'
 import { getJadwal, getJadwalReport, processPenjadwalan } from '../controllers/JadwalController.js'
-import { createMatkul, deleteMatkul, getCreateMatkul, getEditMatkul, getMatkul, updateMatkul } from '../controllers/MatkulController.js'
-import { createPengampu, deletePengampu, getCreatePengampu, getPengampu, getUpdatePengampu, updatePengampu } from '../controllers/PengampuController.js'
+import { createMatkul, deleteMatkul, getCreateMatkul, getEditMatkul, getMatkul, getMatkulById, updateMatkul } from '../controllers/MatkulController.js'
+import { createPengampu, deletePengampu, getCreatePengampu, getPengampu, getPengampuById, getUpdatePengampu, updatePengampu } from '../controllers/PengampuController.js'
 import { createRuang, deleteRuang, getCreateRuang, getEditRuang, getRuang, getRuangById, updateRuang } from '../controllers/RuangController.js'
-import { createWaktu, deleteWaktu, getCreateWaktu, getUpdateWaktu, getWaktu, updateWaktu } from '../controllers/WaktuController.js'
+import { createWaktu, deleteWaktu, getCreateWaktu, getUpdateWaktu, getWaktu, getWaktuById, updateWaktu } from '../controllers/WaktuController.js'
 import { getJadwalKhusus, inputWaktuKhusus } from '../controllers/WaktuKhususController.js'
 import { adminOnly, verifyUser } from '../../auth/middleware/AuthUser.js'
 
@@ -33,6 +33,7 @@ router.get('/formwaktu', verifyUser, getCreateWaktu)
 router.get('/editwaktu/:id', verifyUser, getUpdateWaktu)
 
 router.get('/waktu', verifyUser, getWaktu)
+router.get('/waktu/:id', verifyUser, getWaktuById)
 router.post('/insertwaktu', verifyUser, createWaktu)
 router.post('/updatewaktu/:id', verifyUser, updateWaktu)
 router.post('/deletewaktu/:id', verifyUser, deleteWaktu)
@@ -42,6 +43,7 @@ router.get('/formmatkul', verifyUser, getCreateMatkul)
 router.get('/editmatkul/:id', verifyUser, getEditMatkul)
 
 router.get('/matkul', verifyUser, getMatkul)
+router.get('/getmatkul/:id', verifyUser, getMatkulById)
 router.get('/matkul/:semester', verifyUser, getMatkul)
 router.post('/insertmatkul', verifyUser, createMatkul)
 router.post('/updatematkul/:id', verifyUser, updateMatkul)
@@ -61,6 +63,7 @@ router.post('/deleteruang/:id', verifyUser, deleteRuang)
 router.get('/pengampu', verifyUser, getPengampu)
 router.get('/pengampu/:tahun_akademik', verifyUser, getPengampu)
 router.get('/formpengampu', verifyUser, getCreatePengampu)
+router.get('/getpengampu/:id', verifyUser, getPengampuById)
 router.get('/editpengampu/:id', verifyUser, getUpdatePengampu)
 
 router.post('/insertpengampu', verifyUser, createPengampu)

@@ -1,53 +1,63 @@
-<div class="row">
-    <div class="col">
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary"><%- title %> </h6>
-            </div>
-            <div class="card-body">
-                <form action="/updatematkul/<%- id %>" method="post">
-                    <div class="mb-3">
-                        <label for="kode_mk" class="form-label">Kode Mata Kuliah</label>  
-                        <input type="text" class="form-control" id="kode_mk" name="kode_mk" aria-describedby="kode_mkHelp" value="<%- mk.kode_mk%>" autofocus>
-                    </div>
-                    <div class="mb-3">
-                        <label for="matkul" class="form-label">Mata Kuliah</label>
-                        <input type="text" class="form-control" id="matkul" name="matkul" aria-describedby="nameHelp" value="<%- mk.matkul%>" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="sks" class="form-label">SKS</label>
-                        <select class="form-select" id="sks" name="sks" aria-label="Default select example">
-                            <option selected value="<%- mk.sks%>"><%- mk.sks%> sks</option>
-                            <option value="1">1 sks</option>
-                            <option value="2">2 sks</option>
-                            <option value="3">3 sks</option>
-                            <option value="4">4 sks</option>
-                          </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="semester" class="form-label">Semester</label>
-                        <select class="form-select" id="semester" name="semester" aria-label="Default select example">
-                            <option selected value="<%- mk.semester%>"><%- mk.semester%></option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                          </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="jenis" class="form-label">Jenis Mata Kuliah</label>
-                        <select class="form-select" id="jenis" name="jenis" aria-label="Default select example">
-                            <option selected value="<%- mk.jenis%>"><%- mk.jenis%></option>
-                            <option value="teori">Teori</option>
-                            <option value="praktek">Praktek</option>
-                          </select>
-                    </div>
-                    <button class="btn btn-success" type="submit"> Simpan Perubahan </button>
-                </form>
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary"><%- title %> </h6>
+                </div>
+                <div class="card-body">
+                    <% if (msg.length !== 0) { %>
+                        <div class="card bg-danger text-white shadow mb-2">
+                            <div class="card-body font-weight-bold py-2">
+                                <%= msg %>
+                            </div>
+                        </div>
+                    <% } %>
+                    <form action="/updatematkul/<%- id %>" method="post">
+                        <input type="hidden" name="oldMatkul" value="<%- oldMatkul || mk.kode_mk %>">
+                        <div class="mb-3">
+                            <label for="kode_mk" class="form-label">Kode Mata Kuliah</label>  
+                            <input type="text" class="form-control" id="kode_mk" name="kode_mk" aria-describedby="kode_mkHelp" value="<%- mk.kode_mk%>" autofocus>
+                        </div>
+                        <div class="mb-3">
+                            <label for="matkul" class="form-label">Mata Kuliah</label>
+                            <input type="text" class="form-control" id="matkul" name="matkul" aria-describedby="nameHelp" value="<%- mk.matkul%>" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="sks" class="form-label">SKS</label>
+                            <select class="form-select" id="sks" name="sks" aria-label="Default select example">
+                                <option selected value="<%- mk.sks%>"><%- mk.sks%> sks</option>
+                                <option value="1">1 sks</option>
+                                <option value="2">2 sks</option>
+                                <option value="3">3 sks</option>
+                                <option value="4">4 sks</option>
+                              </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="semester" class="form-label">Semester</label>
+                            <select class="form-select" id="semester" name="semester" aria-label="Default select example">
+                                <option selected value="<%- mk.semester%>"><%- mk.semester%></option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                              </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="jenis" class="form-label">Jenis Mata Kuliah</label>
+                            <select class="form-select" id="jenis" name="jenis" aria-label="Default select example">
+                                <option selected value="<%- mk.jenis%>"><%- mk.jenis%></option>
+                                <option value="teori">Teori</option>
+                                <option value="praktek">Praktek</option>
+                              </select>
+                        </div>
+                        <button class="btn btn-success" type="submit"> Simpan Perubahan </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

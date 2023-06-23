@@ -40,6 +40,7 @@ export const getJadwalKhusus = async (req, res) => {
             res.render('pagejadwalkhusus/menujadwalkhusus', {
                 title: 'Waktu Tidak Bersedia',
                 layout: 'layouts/templates',
+                msg: req.flash('message'),
                 idDosen,
                 dosen,
                 t_hari,
@@ -77,6 +78,7 @@ export const inputWaktuKhusus = async (req, res) => {
             })
         }
 
+        req.flash('message', 'Waktu Pilihan berhasil disimpan!')
         res.redirect(`/waktu-tidak-bersedia/${kode_dosen}`)
         res.status(200)
     } catch (error) {
