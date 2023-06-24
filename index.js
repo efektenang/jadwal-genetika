@@ -11,8 +11,6 @@ import SequelizeStore from 'connect-session-sequelize'
 import flash from 'connect-flash'
 import conn from './app/config/ConnectDB.js'
 import db from './app/config/Database.js'
-// import Ruang from './app/models/RuangModel.js'
-// import Users from './auth/models/UserModel.js'
 
 const app = express()
 
@@ -43,7 +41,7 @@ app.use(flash())
 //     await db.authenticate()
 //     console.log('Database is connected...')
 //     // if we need to create table automatically, delete comment below
-//     await Users.sync()
+//     await db.sync({force: true})
 // } catch (error) {
 //     console.log('Database is not connected!', error.message)
 // }
