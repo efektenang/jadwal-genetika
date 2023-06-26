@@ -8,16 +8,19 @@ import Waktu from "../models/WaktuModel.js"
 export const getJadwalKhusus = async (req, res) => {
     try {
         const user = await Users.findOne({
-            attributes: ['uuid', 'name', 'email', 'role'],
+            attributes: ['id', 'uuid', 'name', 'email', 'role'],
             where: {
                 uuid: req.session.userId
             }
         })
         const dosen = await Dosen.findAll({
+            where: { userId: user.id },
             order: ['name']
         })
         const t_hari = await Hari.findAll()
-        const waktu = await Waktu.findAll()
+        const waktu = await Waktu.findAll({
+            where: { userId: user.id }
+        })
 
         let idDosen = req.params.id
 
@@ -25,14 +28,15 @@ export const getJadwalKhusus = async (req, res) => {
             idDosen = await Dosen.findAll({
                 attributes: ['id'],
                 order: ['name'],
-                limit: 1
+                limit: 1,
+                where: { userId: user.id }
             })
             idDosen = JSON.stringify(idDosen[0].id)
         }
 
         const response = await WaktuKhusus.findAll({
             where: {
-                kode_dosen: idDosen
+                kode_dosen: idDosen, userId: user.id
             },
             attributes: ['kode_hari', 'kode_waktu']
         })
@@ -57,8 +61,15 @@ export const getJadwalKhusus = async (req, res) => {
 
 export const inputWaktuKhusus = async (req, res) => {
     try {
+        const user = await Users.findOne({
+            attributes: ['id', 'uuid'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
 
         const { kode_dosen, kode_hari, kode_waktu, arr_tidak_bersedia, hide_me } = req.body
+        const userId = user.id
 
         if (arr_tidak_bersedia !== undefined) {
             conn.query("DELETE FROM t_waktu_khusus WHERE kode_dosen = ?", [kode_dosen], function (error, row, fields) {
@@ -68,7 +79,7 @@ export const inputWaktuKhusus = async (req, res) => {
             arr_tidak_bersedia.forEach(arr => {
                 let tidak_bersedia = arr.split('-')
     
-                conn.query("INSERT INTO t_waktu_khusus(kode_dosen, kode_hari, kode_waktu) VALUES(?, ?, ?)", [tidak_bersedia[0], tidak_bersedia[1], tidak_bersedia[2]], function (error, rows, fields) {
+                conn.query("INSERT INTO t_waktu_khusus(kode_dosen, kode_hari, kode_waktu, userId) VALUES(?, ?, ?, ?)", [tidak_bersedia[0], tidak_bersedia[1], tidak_bersedia[2], userId], function (error, rows, fields) {
                     if (error) throw error
                 })
             })

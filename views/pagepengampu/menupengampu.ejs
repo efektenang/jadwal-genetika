@@ -65,8 +65,7 @@
                                                         <i class="fas fa-edit" title="edit"></i>
                                                     </button>
                                                     <form action="/deletepengampu/<%= pgp.id%>?_method=DELETE" method="post"  style="display: inline;">
-                                                        <!-- <button type="submit" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></button> -->
-                                                        <button class="btn bg-gradient-danger btn-icon" onclick="argon.showSwal('warning-message-and-cancel')"><i class="fas fa-trash"></i></button>
+                                                        <button class="btn bg-gradient-danger btn-icon" onclick="return confirm('Apakah anda yakin ingin menghapus?');"><i class="fas fa-trash"></i></button>
                                                     </form>
                                                 </td>
                                             </tr>                             
@@ -199,7 +198,7 @@
 
       iid = $(this).attr('id')
       $.ajax({
-        url: 'http://localhost:5000/getpengampu/' + iid,
+        url: '/getpengampu/' + iid,
         method: 'get',
         data: '',
         dataType: 'json',
@@ -222,6 +221,6 @@
           function change_filter_pengampu() {
             // var jenis_semester = document.getElementById('semester_tipe')
             var thn_akademik = document.getElementById('tahun_akademik')
-            window.location.href = "http://localhost:5000/pengampu/" + tahun_akademik.options[tahun_akademik.selectedIndex].value
+            window.location.href = "/pengampu/" + tahun_akademik.options[tahun_akademik.selectedIndex].value
         }
 </script>

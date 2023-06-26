@@ -7,20 +7,22 @@ import ExcelJS from "exceljs"
 export const getJadwal = async (req, res) => {
     try {
         const user = await Users.findOne({
-            attributes: ['uuid', 'name', 'email', 'role'],
+            attributes: ['id', 'uuid', 'name', 'email', 'role'],
             where: {
                 uuid: req.session.userId
             }
         })
+        const userId = user.id
 
-        const result = await getResult(res)
+        const result = await getResult(userId)
 
         res.render('pagejadwal/menujadwal', {
             title: 'Menu Proses Jadwal Kuliah',
             layout: 'layouts/templates',
             result,
             user,
-            msg: req.flash('msg')
+            msg: req.flash('msg'),
+            danger: req.flash('dangermsg')
         })
         res.status(200)
     } catch (error) {
@@ -30,7 +32,14 @@ export const getJadwal = async (req, res) => {
 
 export const processPenjadwalan = async (req, res) => {
     try {
-        const start = performance.now()
+        const user = await Users.findOne({
+            attributes: ['id', 'uuid'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
+        
+        const userId = user.id
         const {
             jmlh_populasi,
             probabilitas_crossover,
@@ -39,14 +48,16 @@ export const processPenjadwalan = async (req, res) => {
             semester_tipe,
             tahun_akademik
         } = req.body
-        const jadwal = await resData(semester_tipe, tahun_akademik)
-        
 
-        if (jadwal === undefined) {
-            
-            res.send({msg: 'Tidak ada data Semester dan Tahun akademik! Data ini adalah data Sebelumnya'})
+        const jadwal = await resData(semester_tipe, tahun_akademik, userId)
+        
+        const start = performance.now()
+        if (jadwal.length < 40) {
+            req.flash('dangermsg', `Data pada Semester dan Tahun akademik ini Tidak sesuai! Harap isi data terlebih dahulu sesuai dengan syarat`)
+            res.redirect('/jadwalkuliah')
+            return res.status(400)
         } else {
-            const myClass = new GeneticAlgorithm(semester_tipe, tahun_akademik, jmlh_populasi, probabilitas_crossover, probabilitas_mutasi, 5, '4-5-6', 6)
+            const myClass = new GeneticAlgorithm(semester_tipe, tahun_akademik, jmlh_populasi, probabilitas_crossover, probabilitas_mutasi, 5, '4-5-6', 6, userId)
 
             myClass.getData()
             myClass.initialize()
@@ -64,7 +75,7 @@ export const processPenjadwalan = async (req, res) => {
                 for (let j = 0; j < fitnessAfterMutation.length; j++) {
                     if (fitnessAfterMutation[j] == 1) {
                         // make empty t_jadwal Table
-                        conn.query("TRUNCATE TABLE t_jadwal", function (error, rows, fields) {
+                        conn.query("DELETE FROM t_jadwal WHERE userId = ?", [userId], function (error, rows, fields) {
                             if (error) throw error
                         }) 
 
@@ -78,7 +89,7 @@ export const processPenjadwalan = async (req, res) => {
                             let id_ruang = jadwal_kuliah[k][3]
 
                             // insert data result to t_jadwal table
-                            conn.query("INSERT INTO t_jadwal(id_pengampu, id_jam, id_hari, id_ruang) VALUES (?, ?, ?, ?)", [id_pengampu, id_jam, id_hari, id_ruang], function (error, rows, fields) {
+                            conn.query("INSERT INTO t_jadwal(id_pengampu, id_jam, id_hari, id_ruang, userId) VALUES (?, ?, ?, ?, ?)", [id_pengampu, id_jam, id_hari, id_ruang, userId], function (error, rows, fields) {
                                 if (error) {
                                     console.log(error.message)
                                 }
@@ -102,7 +113,7 @@ export const processPenjadwalan = async (req, res) => {
         const workbook = new ExcelJS.Workbook()
         const worksheet = workbook.addWorksheet('Sheet1')
 
-        const result = await getResult(res)
+        const result = await getResult(userId)
 
         if (result) {
             worksheet.addRow(['Hari', 'Sesi', 'Jam Kuliah', 'Mata Kuliah', 'SKS', 'Semester', 'Kelas', 'Dosen', 'Ruangan'])

@@ -219,7 +219,7 @@
 
       iid = $(this).attr('id')
       $.ajax({
-        url: 'http://localhost:5000/getmatkul/' + iid,
+        url: '/getmatkul/' + iid,
         method: 'get',
         data: '',
         dataType: 'json',
@@ -238,6 +238,13 @@
       })
     })
   })
+</script>
+
+<script type="text/javascript">
+          function change_filter_matkul() {
+            var smstr = document.getElementById('smstr')
+            window.location.href = "/matkul/" + smstr.options[smstr.selectedIndex].value
+        }
 </script>
 
 

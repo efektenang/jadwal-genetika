@@ -14,6 +14,13 @@ const Dosen = db.define('t_dosen', {
     phone: {
         type: DataTypes.STRING
     },
+    userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+        }
+    }
 }, { freezeTableName: true })
 
 export default Dosen

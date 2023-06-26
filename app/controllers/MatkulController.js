@@ -6,7 +6,7 @@ import Matkul from '../models/MatkulModel.js'
 export const getMatkul = async (req, res) => {
     try {
         const user = await Users.findOne({
-            attributes: ['uuid', 'name', 'email', 'role'],
+            attributes: ['id', 'uuid', 'name', 'email', 'role'],
             where: {
                 uuid: req.session.userId
             }
@@ -21,7 +21,8 @@ export const getMatkul = async (req, res) => {
         
         const matkul = await Matkul.findAll({
             where: {
-                semester: smstr
+                semester: smstr,
+                userId: user.id
             },
             order: [
                 ['matkul', 'ASC']
@@ -45,13 +46,16 @@ export const getMatkul = async (req, res) => {
 export const getMatkulById = async (req, res) => {
     try {
         const user = await Users.findOne({
-            attributes: ['uuid', 'name', 'email', 'role'],
+            attributes: ['id', 'uuid', 'name', 'email', 'role'],
             where: {
                 uuid: req.session.userId
             }
         })
         const mk = await Matkul.findOne({
-            where: { id: req.params.id }
+            where: {
+                id: req.params.id,
+                userId: user.id
+            }
         })
         if (!mk) {
             res.status(400).json({msg: 'Mata kuliah tidak tersedia!'})
@@ -91,6 +95,12 @@ export const getCreateMatkul = async (req, res) => {
 
 export const createMatkul = async (req, res) => {
     try {
+        const user = await Users.findOne({
+            attributes: ['id', 'uuid'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
         const { kode_mk, matkul, sks, semester, jenis } = req.body
         
         // Checking all fields is already
@@ -108,7 +118,7 @@ export const createMatkul = async (req, res) => {
         }
         
         await Matkul.create({
-            kode_mk, matkul, sks, semester, jenis
+            kode_mk, matkul, sks, semester, jenis, userId: user.id
         })
         req.flash('matkulmsg', 'Mata Kuliah Baru berhasil ditambahkan!')
         res.redirect('/matkul/'+ semester)
@@ -121,13 +131,16 @@ export const createMatkul = async (req, res) => {
 export const getEditMatkul = async (req, res) => {
     try {
         const user = await Users.findOne({
-            attributes: ['uuid', 'name', 'email', 'role'],
+            attributes: ['id', 'uuid', 'name', 'email', 'role'],
             where: {
                 uuid: req.session.userId
             }
         })
         const mk = await Matkul.findOne({
-            where: { id: req.params.id }
+            where: {
+                id: req.params.id,
+                userId: user.id
+            }
         })
         if (!mk) {
             res.redirect('/matkul')
@@ -150,9 +163,17 @@ export const getEditMatkul = async (req, res) => {
 
 export const updateMatkul = async (req, res) => {
     try {
+        const user = await Users.findOne({
+            attributes: ['id', 'uuid'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
+
         const response = await Matkul.findOne({
             where: {
-                id: req.params.id
+                id: req.params.id,
+                userId: user.id
             }
         })
 
@@ -163,7 +184,7 @@ export const updateMatkul = async (req, res) => {
         const { kode_mk, matkul, sks, semester, jenis } = req.body
 
         const isReady = await Matkul.findOne({
-            where: { kode_mk }
+            where: { kode_mk, userId: user.id }
         })
 
         if (kode_mk !== req.body.oldMatkul && isReady) {
@@ -176,7 +197,7 @@ export const updateMatkul = async (req, res) => {
             kode_mk, matkul, sks, semester, jenis
         }, {
             where: {
-                id: response.id
+                id: response.id, userId: user.id
             }
         })
         req.flash('matkulmsg', 'Mata Kuliah Berhasil disimpan!')
@@ -189,6 +210,12 @@ export const updateMatkul = async (req, res) => {
 
 export const deleteMatkul = async (req, res) => {
     try {
+        const user = await Users.findOne({
+            attributes: ['id', 'uuid'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
         const response = await Matkul.findOne({
             where: {
                 id: req.params.id
@@ -201,7 +228,8 @@ export const deleteMatkul = async (req, res) => {
         // Deleting Data
         await Matkul.destroy({
             where: {
-                id: response.id
+                id: response.id,
+                userId: user.id
             }
         })
         req.flash('matkulmsg', 'Mata Kuliah berhasil dihapus!')

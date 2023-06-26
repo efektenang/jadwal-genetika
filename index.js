@@ -11,6 +11,8 @@ import SequelizeStore from 'connect-session-sequelize'
 import flash from 'connect-flash'
 import conn from './app/config/ConnectDB.js'
 import db from './app/config/Database.js'
+import dotenv from "dotenv"
+dotenv.config()
 
 const app = express()
 
@@ -22,14 +24,14 @@ const store = new sessionStore({
 // store.sync();
 
 // Connect to Database using mysql module
-try {
-    conn.connect((err) => {
-        if (err) return console.log(err.message)
-        console.log('penjadwalan-app is connected...')
-    })
-} catch (error) {
-    console.log(error.message)
-}
+// try {
+//     conn.connect((err) => {
+//         if (err) return console.log(err.message)
+//         console.log('penjadwalan-app is connected...')
+//     })
+// } catch (error) {
+//     console.log(error.message)
+// }
 
 // Config Flash Session 
 app.use(cookieParser('secret'))
@@ -37,14 +39,14 @@ app.use(flash())
 // end-flash
 
 // Connect to Database using Sequelize Module
-// try {
-//     await db.authenticate()
-//     console.log('Database is connected...')
-//     // if we need to create table automatically, delete comment below
-//     await db.sync({force: true})
-// } catch (error) {
-//     console.log('Database is not connected!', error.message)
-// }
+try {
+    await db.authenticate()
+    console.log('Database is connected...')
+    // if we need to create table automatically, delete comment below
+    // await db.sync({force: true})
+} catch (error) {
+    console.log('Database is not connected!', error.message)
+}
 
 // set view engine use EJS
 app.set('view engine', 'ejs')
@@ -71,4 +73,4 @@ app.use(AuthRoute)
 app.use(errorHandler)
 
 // Connecting to server...
-app.listen(5000, '0.0.0.0', () => console.log('Server berjalan pada port 5000'))
+app.listen(process.env.PORTS, '0.0.0.0', () => console.log(`Server berjalan pada port ${process.env.PORTS}`))

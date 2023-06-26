@@ -20,6 +20,13 @@ const Matkul = db.define('t_matkul', {
     jenis: {
         type: DataTypes.STRING
     },
+    userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+        }
+    }
 }, { freezeTableName: true })
 
 export default Matkul

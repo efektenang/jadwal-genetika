@@ -13,8 +13,14 @@ const WaktuKhusus = db.define('t_waktu_khusus', {
     },
     kode_waktu: {
         type: DataTypes.STRING,
+    },
+    userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+        }
     }
-
 })
 
 export default WaktuKhusus

@@ -93,7 +93,7 @@
   
         iid = $(this).attr('id')
         $.ajax({
-          url: 'http://localhost:5000/user/' + iid,
+          url: '/user/' + iid,
           method: 'get',
           data: '',
           dataType: 'json',

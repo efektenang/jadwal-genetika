@@ -5,12 +5,14 @@ import Waktu from '../models/WaktuModel.js'
 export const getWaktu = async (req, res) => {
     try {
         const user = await Users.findOne({
-            attributes: ['uuid', 'name', 'email', 'role'],
+            attributes: ['id', 'uuid', 'name', 'email', 'role'],
             where: {
                 uuid: req.session.userId
             }
         })
-        const waktu = await Waktu.findAll()
+        const waktu = await Waktu.findAll({
+            where: { userId: user.id }
+        })
         res.render('pagewaktu/menuwaktu', {
             title: 'Menu Waktu Belajar',
             layout: 'layouts/templates',
@@ -27,14 +29,15 @@ export const getWaktu = async (req, res) => {
 export const getWaktuById = async (req, res) => {
     try {
         const user = await Users.findOne({
-            attributes: ['uuid', 'name', 'email', 'role'],
+            attributes: ['id', 'uuid', 'name', 'email', 'role'],
             where: {
                 uuid: req.session.userId
             }
         })
         const waktu = await Waktu.findOne({
             where: {
-                id: req.params.id
+                id: req.params.id,
+                userId: user.id
             }
         })
         res.json({
@@ -70,11 +73,18 @@ export const getCreateWaktu = async (req, res) => {
 
 export const createWaktu = async (req, res) => {
     try {
+        const user = await Users.findOne({
+            attributes: ['id', 'uuid'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
+
         const { range_waktu } = req.body
 
         const waktu = await Waktu.findOne({
             where: {
-                range_waktu
+                range_waktu, userId: user.id
             }
         })
 
@@ -86,7 +96,7 @@ export const createWaktu = async (req, res) => {
         }
 
         await Waktu.create({
-            range_waktu
+            range_waktu, userId: user.id
         })
         req.flash('waktumsg', 'Range Waktu berhasil ditambahkan!')
         res.redirect('/waktu')
@@ -99,14 +109,15 @@ export const createWaktu = async (req, res) => {
 export const getUpdateWaktu = async (req, res) => {
     try {
         const user = await Users.findOne({
-            attributes: ['uuid', 'name', 'email', 'role'],
+            attributes: ['id', 'uuid', 'name', 'email', 'role'],
             where: {
                 uuid: req.session.userId
             }
         })
         const waktu = await Waktu.findOne({
             where: {
-                id: req.params.id
+                id: req.params.id,
+                userId: user.id
             }
         })
 
@@ -126,18 +137,26 @@ export const getUpdateWaktu = async (req, res) => {
 
 export const updateWaktu = async (req, res) => {
     try {
-        const waktu = await Waktu.findOne({
+        const user = await Users.findOne({
+            attributes: ['id', 'uuid'],
             where: {
-                id: req.params.id
+                uuid: req.session.userId
             }
         })
+
+        const waktu = await Waktu.findOne({
+            where: {
+                id: req.params.id,
+                userId: user.id
+            }
+        })
+
         if (!waktu) return res.status(400).send({ msg: 'Data tidak ditemukan' })
         
         const { range_waktu } = req.body
-        
         const isReady = await Waktu.findOne({
             where: {
-                range_waktu
+                range_waktu, userId: user.id
             }
         })
 
@@ -150,8 +169,9 @@ export const updateWaktu = async (req, res) => {
 
         await Waktu.update({
             range_waktu
-        }, { where: {
-                id: waktu.id
+        }, {
+            where: {
+                id: waktu.id, userId: user.id
             }
         })
         req.flash('waktumsg', 'Range waktu berhasil tersimpan!')
@@ -164,15 +184,24 @@ export const updateWaktu = async (req, res) => {
 
 export const deleteWaktu = async (req, res) => {
     try {
+        const user = await Users.findOne({
+            attributes: ['id', 'uuid'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
+
         const waktu = await Waktu.findOne({
             where: {
-                id: req.params.id
+                id: req.params.id,
+                userId: user.id
             }
         })
         if (!waktu) return res.status(400).send({ msg: 'Data tidak ditemukan' })
         await Waktu.destroy({
             where: {
-                id: waktu.id
+                id: waktu.id,
+                userId: user.id
             }
         })
         req.flash('waktumsg', 'Range waktu berhasil terhapus!')

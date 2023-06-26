@@ -105,7 +105,7 @@ export const updateUser = async (req, res) => {
 
         await User.update({
             name: name,
-            email: req.body.oldEmail,
+            email
         }, {
             where: {
                 uuid: req.session.userId

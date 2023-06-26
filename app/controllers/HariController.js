@@ -29,7 +29,8 @@ export const createHari = async (req, res) => {
         const response = await Hari.create({
             hari
         })
-        res.status(201).send(response)
+        res.redirect('/hari')
+        res.status(201)
     } catch (error) {
         res.status(400).json({msg: 'data gagal dikirim!'})
     }

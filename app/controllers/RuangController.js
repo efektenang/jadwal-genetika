@@ -4,12 +4,13 @@ import Ruang from '../models/RuangModel.js'
 export const getRuang = async (req, res) => {
     try {
         const user = await Users.findOne({
-            attributes: ['uuid', 'name', 'email', 'role'],
+            attributes: ['id', 'uuid', 'name', 'email', 'role'],
             where: {
                 uuid: req.session.userId
             }
         })
         const ruang = await Ruang.findAll({
+            where: { userId: user.id },
             order: [
                 ['no_ruang', 'ASC']
             ]
@@ -30,7 +31,7 @@ export const getRuang = async (req, res) => {
 export const getRuangById = async (req, res) => {
     try {
         const user = await Users.findOne({
-            attributes: ['uuid', 'name', 'email', 'role'],
+            attributes: ['id', 'uuid', 'name', 'email', 'role'],
             where: {
                 uuid: req.session.userId
             }
@@ -38,7 +39,8 @@ export const getRuangById = async (req, res) => {
     
         const ruang = await Ruang.findOne({
             where: {
-                id: req.params.id
+                id: req.params.id,
+                userId: user.id
             }
         })
     
@@ -76,11 +78,18 @@ export const getCreateRuang = async (req, res) => {
 
 export const createRuang = async (req, res) => {
     try {
+        const user = await Users.findOne({
+            attributes: ['id', 'uuid'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
+
         const { no_ruang, kapasitas, jenis } = req.body
 
         const room = await Ruang.findOne({
             where: {
-                no_ruang
+                no_ruang, userId: user.id
             }
         })
 
@@ -91,7 +100,7 @@ export const createRuang = async (req, res) => {
         }
         
         await Ruang.create({
-            no_ruang, kapasitas, jenis
+            no_ruang, kapasitas, jenis, userId: user.id
         })
         req.flash('ruangmsg', 'Ruang Baru berhasil ditambahkan!')
         res.redirect('/ruang')
@@ -104,14 +113,15 @@ export const createRuang = async (req, res) => {
 export const getEditRuang = async (req, res) => {
     try {
         const user = await Users.findOne({
-            attributes: ['uuid', 'name', 'email', 'role'],
+            attributes: ['id', 'uuid', 'name', 'email', 'role'],
             where: {
                 uuid: req.session.userId
             }
         })
         const ruang = await Ruang.findOne({
             where: {
-                id: req.params.id
+                id: req.params.id,
+                userId: user.id
             }
         })
 
@@ -132,9 +142,17 @@ export const getEditRuang = async (req, res) => {
 
 export const updateRuang = async (req, res) => {
     try {
+        const user = await Users.findOne({
+            attributes: ['id', 'uuid'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
+
         const ruang = await Ruang.findOne({
             where: {
-                id: req.params.id
+                id: req.params.id,
+                userId: user.id
             }
         })
 
@@ -148,7 +166,8 @@ export const updateRuang = async (req, res) => {
 
         const noRuang = await Ruang.findOne({
             where: {
-                id: req.params.id
+                id: req.params.id,
+                userId: user.id
             }
         })
 
@@ -162,7 +181,8 @@ export const updateRuang = async (req, res) => {
             no_ruang, kapasitas, jenis
         }, {
             where: {
-                id: ruang.id
+                id: ruang.id,
+                userId: user.id
             }
         })
         req.flash('ruangmsg', 'Ruang berhasil disimpan!')
@@ -175,9 +195,17 @@ export const updateRuang = async (req, res) => {
 
 export const deleteRuang = async (req, res) => {
     try {
+        const user = await Users.findOne({
+            attributes: ['id', 'uuid'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
+
         const ruang = await Ruang.findOne({
             where: {
-                id: req.params.id
+                id: req.params.id,
+                userId: user.id
             }
         })
     
@@ -187,7 +215,8 @@ export const deleteRuang = async (req, res) => {
         // Deleting data  ruang
         await Ruang.destroy({
             where: {
-                id: ruang.id
+                id: ruang.id,
+                userId: user.id
             }
         })
         req.flash('ruangmsg', 'Ruang berhasil dihapus!')

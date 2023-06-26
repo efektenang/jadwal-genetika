@@ -2,7 +2,8 @@ import { getHari, getRuangLab, getRuangReg, getWaktu, getWaktuDosen, resData } f
 
 class GeneticAlgorithm {
 
-    constructor(semester_tipe, tahun_akademik, jmlh_populasi, probabilitas_crossover, probabilitas_mutasi, id_jumat, range_jumat, id_dhuhur) {
+    constructor(semester_tipe, tahun_akademik, jmlh_populasi, probabilitas_crossover, probabilitas_mutasi, id_jumat, range_jumat, id_dhuhur, userId) {
+        this.userId = parseInt(userId)
         this.semester_tipe = parseInt(semester_tipe)
         this.tahun_akademik = parseInt(tahun_akademik)
         this.jmlh_populasi = parseInt(jmlh_populasi)
@@ -27,17 +28,17 @@ class GeneticAlgorithm {
     }
     
     async getAllData() {
-        await resData(this.semester_tipe, this.tahun_akademik)
-        await getWaktu()
+        await resData(this.semester_tipe, this.tahun_akademik, this.userId)
+        await getWaktu(this.userId)
         await getHari()
-        await getRuangLab()
-        await getRuangReg()
-        await getWaktuDosen()
+        await getRuangLab(this.userId)
+        await getRuangReg(this.userId)
+        await getWaktuDosen(this.userId)
     }
 
     async getData() {
         // create array of data pengampu
-        const rsData = await resData(this.semester_tipe, this.tahun_akademik)
+        const rsData = await resData(this.semester_tipe, this.tahun_akademik, this.userId)
         for ( let i = 0; i < rsData.length; i++) {
             this.pengampu[i] = parseInt(rsData[i].id)
             this.sks[i] = parseInt(rsData[i].sks)
@@ -46,7 +47,7 @@ class GeneticAlgorithm {
         }
 
         // create array range_waktu
-        const waktu = await getWaktu()
+        const waktu = await getWaktu(this.userId)
         for (let i = 0; i < waktu.length; i++) {
             this.jam[i] = parseInt(waktu[i].id)
         }
@@ -58,18 +59,18 @@ class GeneticAlgorithm {
         }
 
         // create array of ruangan regular and laboratory
-        const resRuangReg = await getRuangReg()
+        const resRuangReg = await getRuangReg(this.userId)
         for (let i = 0; i < resRuangReg.length; i++) {
             this.ruangReg[i] = parseInt(resRuangReg[i].id)
         }
 
-        const resRuangLab = await getRuangLab()
+        const resRuangLab = await getRuangLab(this.userId)
         for (let i = 0; i < resRuangLab.length; i++) {
             this.ruangLab[i] = parseInt(resRuangLab[i].id)
         }
 
         // create array of waktu dosen
-        const resWaktuDosen = await getWaktuDosen()
+        const resWaktuDosen = await getWaktuDosen(this.userId)
         for (let i = 0; i < resWaktuDosen.length; i++) {
             this.waktu_dosen[i] = []
             this.idDosen[i] = parseInt(resWaktuDosen[i].kode_dosen)

@@ -1,14 +1,14 @@
 import express from 'express'
 import { getDashboard } from '../controllers/Dashboard.js'
 import { createDosen, deleteDosen, getCreateDosen, getDosen, getDosenById, getEditDosen, updateDosen } from '../controllers/DosenController.js'
-import { getHari } from '../controllers/HariController.js'
+import { createHari, getHari } from '../controllers/HariController.js'
 import { getJadwal, getJadwalReport, processPenjadwalan } from '../controllers/JadwalController.js'
 import { createMatkul, deleteMatkul, getCreateMatkul, getEditMatkul, getMatkul, getMatkulById, updateMatkul } from '../controllers/MatkulController.js'
 import { createPengampu, deletePengampu, getCreatePengampu, getPengampu, getPengampuById, getUpdatePengampu, updatePengampu } from '../controllers/PengampuController.js'
 import { createRuang, deleteRuang, getCreateRuang, getEditRuang, getRuang, getRuangById, updateRuang } from '../controllers/RuangController.js'
 import { createWaktu, deleteWaktu, getCreateWaktu, getUpdateWaktu, getWaktu, getWaktuById, updateWaktu } from '../controllers/WaktuController.js'
 import { getJadwalKhusus, inputWaktuKhusus } from '../controllers/WaktuKhususController.js'
-import { adminOnly, verifyUser } from '../../auth/middleware/AuthUser.js'
+import { verifyUser } from '../../auth/middleware/AuthUser.js'
 
 const router = express.Router()
 
@@ -26,7 +26,8 @@ router.post('/updatedosen/:id', verifyUser, updateDosen)
 router.post('/deletedosen/:id', verifyUser, deleteDosen)
 
 // Manage Hari Data
-router.get('/hari', verifyUser,  getHari)
+router.get('/hari', verifyUser, getHari)
+router.post('/inserthari', verifyUser, createHari)
 
 // Manage range waktu Data
 router.get('/formwaktu', verifyUser, getCreateWaktu)

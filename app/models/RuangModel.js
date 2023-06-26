@@ -13,6 +13,13 @@ const Ruang = db.define('t_ruang', {
     jenis: {
         type: DataTypes.STRING
     },
+    userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+        }
+    }
 }, {
     freezeTableName: true
 })

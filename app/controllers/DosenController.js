@@ -4,17 +4,18 @@ import Dosen from '../models/DosenModel.js'
 // Dosen Controller 
 export const getDosen = async (req, res) => {
     try {
-        const dosen = await Dosen.findAll({
-            order: [
-                ['name', 'ASC']
-            ]
-        })
-
         const user = await Users.findOne({
-            attributes: ['uuid', 'name', 'email', 'role'],
+            attributes: ['id', 'uuid', 'name', 'email', 'role'],
             where: {
                 uuid: req.session.userId
             }
+        })
+
+        const dosen = await Dosen.findAll({
+            where: { userId: user.id },
+            order: [
+                ['name', 'ASC']
+            ]
         })
 
         res.render('pagedosen/menudosen', {
@@ -33,14 +34,15 @@ export const getDosen = async (req, res) => {
 export const getDosenById = async (req, res) => {
     try {
         const user = await Users.findOne({
-            attributes: ['uuid', 'name', 'email', 'role'],
+            attributes: ['id', 'uuid', 'name', 'email', 'role'],
             where: {
                 uuid: req.session.userId
             }
         })
         const dosen = await Dosen.findOne({
             where: {
-                id: req.params.id
+                id: req.params.id,
+                userId: user.id
             }
         })
         res.json({
@@ -77,6 +79,12 @@ export const getCreateDosen = async (req, res) => {
 
 export const createDosen = async (req, res) => {
     try {
+        const user = await Users.findOne({
+            attributes: ['id', 'uuid'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
         const { nidn, name, phone } = req.body
         const dsn = await Dosen.findOne({
             where: {
@@ -92,7 +100,7 @@ export const createDosen = async (req, res) => {
 
         // Create Data
         await Dosen.create({
-            nidn, name, phone
+            nidn, name, phone, userId: user.id
         })
 
         req.flash('dosenmsg', 'Data Dosen berhasil ditambahkan!')
@@ -107,13 +115,16 @@ export const createDosen = async (req, res) => {
 export const getEditDosen = async (req, res) => {
     try {
         const user = await Users.findOne({
-            attributes: ['uuid', 'name', 'email', 'role'],
+            attributes: ['id', 'uuid', 'name', 'email', 'role'],
             where: {
                 uuid: req.session.userId
             }
         })
         const dosen = await Dosen.findOne({
-            where: { id: req.params.id }
+            where: {
+                id: req.params.id,
+                userId: user.id
+            }
         })
         if (!dosen) {
             res.redirect('/dosen')
@@ -135,18 +146,27 @@ export const getEditDosen = async (req, res) => {
 
 export const updateDosen = async (req, res) => {
     try {
+        const user = await Users.findOne({
+            attributes: ['id', 'uuid'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
 
         const { nidn, name, phone } = req.body
 
         const dosen = await Dosen.findOne({
-            where: { id: req.params.id }
+            where: {
+                id: req.params.id,
+                userId: user.id
+            }
         })
         // checking dosen data is already
         if (!dosen) return res.status(404).json({ msg: "Data tidak tersedia" })
         
 
         const nidnDosen = await Dosen.findOne({
-            where: { nidn }
+            where: { nidn, userId: user.id }
         })
 
         // checking if kode dosen is already
@@ -159,7 +179,7 @@ export const updateDosen = async (req, res) => {
         await Dosen.update({
             nidn, name, phone
         }, {
-            where: { id: dosen.id}
+            where: { id: dosen.id, userId: user.id }
         })
 
         req.flash('dosenmsg', 'Data Dosen berhasil diubah!')
@@ -172,9 +192,17 @@ export const updateDosen = async (req, res) => {
 
 export const deleteDosen = async (req, res) => {
     try {
+        const user = await Users.findOne({
+            attributes: ['id', 'uuid'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
+
         const dosen = await Dosen.findOne({
             where: {
-                id: req.params.id
+                id: req.params.id,
+                userId: user.id
             }
         })
     
@@ -182,7 +210,8 @@ export const deleteDosen = async (req, res) => {
 
         await Dosen.destroy({
             where: {
-                id: dosen.id
+                id: dosen.id,
+                userId: user.id
             }
         })
         req.flash('msg', 'Data Dosen berhasil dihapus!')

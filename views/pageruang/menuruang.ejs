@@ -153,10 +153,10 @@
 <script>
   $(document).ready(function () {
     $('.editbutton').click(function () {
-
+      
       iid = $(this).attr('id')
       $.ajax({
-        url: 'http://localhost:5000/ruang/' + iid,
+        url: '/ruang/' + iid,
         method: 'get',
         data: '',
         dataType: 'json',
