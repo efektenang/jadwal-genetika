@@ -19,7 +19,7 @@
                             <form  action="/insert-waktu" method="post">
                                 <div class="mb-3" style="width: 500px; margin: 20px 0 0 20px;">
                                     <label for="kode_dosen" class="form-label">Nama Dosen</label>
-                                    <select class="form-select" id="kode_dosen" name="kode_dosen" onchange="change_dosen_tidak_bersedia()">
+                                    <select class="form-select" id="choices-sample" name="kode_dosen" onchange="change_dosen_tidak_bersedia()">
                                         <% dosen.forEach(dsn => { %>
                                             <option value="<%- dsn.id %>" <%- idDosen == dsn.id ? 'selected' : '' %>><%- dsn.name %></option>
                                         <% }) %> 
@@ -86,7 +86,7 @@
 
 <script type="text/javascript">
     function change_dosen_tidak_bersedia() {
-        var idDosen = document.getElementById('kode_dosen')
+        var idDosen = document.getElementById('choices-sample')
         window.location.href = "/waktu-tidak-bersedia/" + idDosen.options[idDosen.selectedIndex].value
     }
 </script>

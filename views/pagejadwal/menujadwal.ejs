@@ -136,9 +136,27 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn bg-gradient-primary">Generate Jadwal</button>
+                    <button type="submit" class="btn bg-gradient-primary" data-bs-toggle="modal" data-bs-target="#progress">Generate Jadwal</button>
                   </div>
               </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="progress" tabindex="-1" role="dialog" aria-labelledby="exampleModalSignTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card card-plain">
+            <div class="card-header pb-0 text-center">
+                <h3 class="font-weight-bolder text-primary text-gradient">Jadwal Sedang Diproses!</h3>
+                <p class="mb-0">Mohon Tunggu Sebentar...</p>
+            </div>
+            <div class="card-body pb-3 text-center">
+              <img src="img/please_wait.gif" alt="Loading...">
             </div>
           </div>
         </div>
