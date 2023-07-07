@@ -58,7 +58,18 @@ export const Login = async (req, res) => {
         res.redirect('/login')
         return res.status(400)
     }
-    req.session.userId = user.uuid;
+
+    const sessionTimeout = 3600000
+    setTimeout(() => {
+        req.session.destroy()
+    }, sessionTimeout)
+
+    req.session.userId = user.uuid
+
+    if (user.role === 'admin') {
+        res.redirect('/usersmenu')
+        return res.status(200)
+    }
 
     res.redirect('/')
     res.status(200)
@@ -67,7 +78,7 @@ export const Login = async (req, res) => {
 export const Me = async (req, res) => {
     try {
         if (!req.session.userId) {
-            res.redirect('/login');
+            res.redirect('/login')
             res.status(401)
         }
     
