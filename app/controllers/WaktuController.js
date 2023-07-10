@@ -17,6 +17,7 @@ export const getWaktu = async (req, res) => {
             title: 'Menu Waktu Belajar',
             layout: 'layouts/templates',
             msg: req.flash('waktumsg'),
+            danger: req.flash('danger'),
             waktu,
             user
         })

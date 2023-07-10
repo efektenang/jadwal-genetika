@@ -55,7 +55,9 @@ export const getJadwalKhusus = async (req, res) => {
 
         res.status(200)
     } catch (error) {
-        res.status(500).json({msg: error.message})
+        req.flash('danger', 'Data waktu masih kosong! Isi terlebih dahulu')
+        res.redirect('/waktu')
+        return res.status(500)
     }
 }
 
