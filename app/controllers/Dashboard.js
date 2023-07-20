@@ -37,6 +37,7 @@ export const getDashboard = async (req, res) => {
             pengampu: getPengampu.length,
             matkul: getMatkul.length,
             ruang: getRuang.length,
+            msg: req.flash('loginmsg'),
             user,
             result
         })

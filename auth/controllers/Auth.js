@@ -71,6 +71,7 @@ export const Login = async (req, res) => {
         return res.status(200)
     }
 
+    req.flash('loginmsg', 'Login Berhasil! Selamat Datang ')
     res.redirect('/')
     res.status(200)
 }
