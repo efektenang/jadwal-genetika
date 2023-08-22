@@ -74,4 +74,4 @@ app.use(AuthRoute)
 app.use(errorHandler)
 
 // Connecting to server...
-app.listen(process.env.PORTS, '0.0.0.0', () => console.log(`Server berjalan pada port ${process.env.PORTS}`))
+app.listen(process.env.PORTS, '0.0.0.0', () => console.log(`Server is running on port ${process.env.PORTS}`))

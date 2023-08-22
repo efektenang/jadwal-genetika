@@ -13,9 +13,7 @@ export const getDashboard = async (req, res) => {
                 uuid: req.session.userId
             }
         })
-
         const userId = user.id
-
         const tahun_akademik = '2023-2024'
         const getDosen = await Dosen.findAll({
             where: { userId: user.id }
@@ -28,7 +26,6 @@ export const getDashboard = async (req, res) => {
             where: { userId: user.id }
         })
         const result = await getResult(userId)
-
 
         res.render('index', {
             title: 'Dashboard',

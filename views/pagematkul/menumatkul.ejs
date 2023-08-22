@@ -23,7 +23,6 @@
                           <div class="mb-3" style="width: 500px; margin: 20px 0 0 20px;">
                             <label for="smstr" class="form-label">Filter semester:</label>
                             <select class="form-select" id="smstr" name="smstr" onchange="change_filter_matkul()">
-                                 
                                 <% arr_smstr.forEach(row => { %>
                                     <option value="<%- row %>" <%- smstr == row ? 'selected' : '' %>><%- row %></option>
                                 <% }) %> 
@@ -68,7 +67,7 @@
                                                     <button id="<%- mk.id %>" type="button" data-bs-toggle="modal" data-bs-target="#editMatkulModal" class="btn bg-gradient-warning btn-icon editbutton">
                                                         <i class="fas fa-edit" title="edit"></i>
                                                     </button>
-                                                    <form action="/deletematkul/<%= mk.id%>?_method=DELETE" method="post"  style="display: inline;">
+                                                    <form action="/deletematkul/<%= mk.id%>?_method=DELETE" method="post" style="display: inline;">
                                                         <button class="btn bg-gradient-danger btn-icon" onclick="return confirm('Apakah anda yakin ingin menghapus?');"><i class="fas fa-trash"></i></button>
                                                     </form>
                                                 </td>
