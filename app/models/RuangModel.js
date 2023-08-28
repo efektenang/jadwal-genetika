@@ -1,5 +1,5 @@
-import { Sequelize } from "sequelize"
-import db from "../config/Database.js"
+const { Sequelize } = require('sequelize')
+const db = require('../config/Database.js')
 
 const { DataTypes } = Sequelize
 
@@ -17,4 +17,4 @@ const Ruang = db.define('t_ruang', {
     freezeTableName: true
 })
 
-export default Ruang
+module.exports = Ruang

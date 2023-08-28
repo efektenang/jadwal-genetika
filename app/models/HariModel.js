@@ -1,5 +1,5 @@
-import { Sequelize } from "sequelize"
-import db from "../config/Database.js"
+const { Sequelize } = require('sequelize')
+const db = require('../config/Database.js')
 
 const { DataTypes } = Sequelize
 
@@ -9,4 +9,4 @@ const Hari = db.define('t_hari', {
     }
 }, { freezeTableName: true })
 
-export default Hari
+module.exports = Hari

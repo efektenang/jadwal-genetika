@@ -1,11 +1,12 @@
-import Dosen from '../models/DosenModel.js'
-import Matkul from '../models/MatkulModel.js'
-import Ruang from '../models/RuangModel.js'
-import Users from '../../auth/models/UserModel.js' 
-import { getResult } from '../models/JadwalModel.js'
-import { dataPengampu } from '../models/PengampuModel.js'
+const Dosen = require('../models/DosenModel.js')
+const Matkul = require('../models/MatkulModel.js')
+const Ruang = require('../models/RuangModel.js')
+const Users = require('../../auth/models/UserModel.js')
+const { getResult } = require('../models/JadwalModel.js')
+const { dataPengampu } = require('../models/PengampuModel.js')
+const Dashboard = {}
 
-export const getDashboard = async (req, res) => {
+Dashboard.getDashboard = async (req, res) => {
     try {
         const tahun_akademik = '2023-2024'
         const getDosen = await Dosen.findAll()
@@ -36,3 +37,5 @@ export const getDashboard = async (req, res) => {
         res.status(500).json({msg: error.message})
     }
 }
+
+module.exports = Dashboard

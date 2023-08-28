@@ -1,4 +1,4 @@
-import conn from "../config/ConnectDB.js"
+const conn = require('../config/ConnectDB.js')
 
 function getResult(req, res) {
     return new Promise((resolve, reject) => {
@@ -71,4 +71,4 @@ function getWaktuDosen(req, res) {
 }
 
 
-export { getResult, resData, getWaktu, getHari, getRuangReg, getRuangLab, getWaktuDosen}
+module.exports = { getResult, resData, getWaktu, getHari, getRuangReg, getRuangLab, getWaktuDosen}

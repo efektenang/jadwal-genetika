@@ -1,7 +1,8 @@
-import Users from '../../auth/models/UserModel.js'
-import Ruang from '../models/RuangModel.js'
+const Users = require('../../auth/models/UserModel.js')
+const Ruang = require('../models/RuangModel.js')
+const RuangController = {}
 
-export const getRuang = async (req, res) => {
+RuangController.getRuang = async (req, res) => {
     try {
         const user = await Users.findOne({
             attributes: ['uuid', 'name', 'email', 'role'],
@@ -26,7 +27,7 @@ export const getRuang = async (req, res) => {
     }
 }
 
-export const getCreateRuang = async (req, res) => {
+RuangController.getCreateRuang = async (req, res) => {
     try {
         const user = await Users.findOne({
             attributes: ['uuid', 'name', 'email', 'role'],
@@ -45,7 +46,7 @@ export const getCreateRuang = async (req, res) => {
     }
 }
 
-export const createRuang = async (req, res) => {
+RuangController.createRuang = async (req, res) => {
     try {
         const { no_ruang, kapasitas, jenis } = req.body
         
@@ -59,7 +60,7 @@ export const createRuang = async (req, res) => {
     }
 }
 
-export const getEditRuang = async (req, res) => {
+RuangController.getEditRuang = async (req, res) => {
     try {
         const user = await Users.findOne({
             attributes: ['uuid', 'name', 'email', 'role'],
@@ -86,7 +87,7 @@ export const getEditRuang = async (req, res) => {
     }
 }
 
-export const updateRuang = async (req, res) => {
+RuangController.updateRuang = async (req, res) => {
     try {
         const ruang = await Ruang.findOne({
             where: {
@@ -113,7 +114,7 @@ export const updateRuang = async (req, res) => {
     }
 }
 
-export const deleteRuang = async (req, res) => {
+RuangController.deleteRuang = async (req, res) => {
     try {
         const ruang = await Ruang.findOne({
             where: {
@@ -136,3 +137,5 @@ export const deleteRuang = async (req, res) => {
         res.status(400).send({msg: 'Data gagal dihapus'})
     }
 }
+
+module.exports = RuangController

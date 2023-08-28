@@ -1,11 +1,12 @@
-import Dosen from '../models/DosenModel.js'
-import Matkul from '../models/MatkulModel.js'
-import conn from "../config/ConnectDB.js"
-import { Pengampu, dataPengampu } from '../models/PengampuModel.js'
-import Users from '../../auth/models/UserModel.js'
+const Dosen = require('../models/DosenModel.js')
+const Matkul = require('../models/MatkulModel.js')
+const conn = require('../config/ConnectDB.js')
+const { Pengampu, dataPengampu } = require('../models/PengampuModel.js')
+const Users = require('../../auth/models/UserModel.js')
+const PengampuController = {}
 
 //Pengampu Controller 
-export const getPengampu = async (req, res) => {
+PengampuController.getPengampu = async (req, res) => {
     try {
         const user = await Users.findOne({
             attributes: ['uuid', 'name', 'email', 'role'],
@@ -33,7 +34,7 @@ export const getPengampu = async (req, res) => {
 }
 
 // Create Data Pengampu
-export const getCreatePengampu = async (req, res) => {
+PengampuController.getCreatePengampu = async (req, res) => {
     try {
         const user = await Users.findOne({
             attributes: ['uuid', 'name', 'email', 'role'],
@@ -64,7 +65,7 @@ export const getCreatePengampu = async (req, res) => {
     }
 }
 
-export const createPengampu = async (req, res) => {
+PengampuController.createPengampu = async (req, res) => {
     try {
         const { id_mk, id_dosen, kelas, tahun_akademik } = req.body
         const savePengampu = await Pengampu.create({
@@ -78,7 +79,7 @@ export const createPengampu = async (req, res) => {
 }
 
 // Update data Pengampu
-export const getUpdatePengampu = async (req, res) => {
+PengampuController.getUpdatePengampu = async (req, res) => {
     try {
         const user = await Users.findOne({
             attributes: ['uuid', 'name', 'email', 'role'],
@@ -119,7 +120,7 @@ export const getUpdatePengampu = async (req, res) => {
     }
 }
 
-export const updatePengampu = async (req, res) => {
+PengampuController.updatePengampu = async (req, res) => {
     try {
         const pengampu = await Pengampu.findOne({
             where: {id: req.params.id}
@@ -143,7 +144,7 @@ export const updatePengampu = async (req, res) => {
 }
 
 // Delete Data Pengampu
-export const deletePengampu = async (req, res) => {
+PengampuController.deletePengampu = async (req, res) => {
     try {
         const pengampu = await Pengampu.findOne({
             where: {
@@ -166,3 +167,5 @@ export const deletePengampu = async (req, res) => {
         res.status(400).send({msg: 'Data gagal dihapus'})
     }
 }
+
+module.exports = PengampuController

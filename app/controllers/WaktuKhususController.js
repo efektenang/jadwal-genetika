@@ -1,11 +1,12 @@
-import Users from "../../auth/models/UserModel.js"
-import conn from "../config/ConnectDB.js"
-import Dosen from "../models/DosenModel.js"
-import Hari from "../models/HariModel.js"
-import WaktuKhusus from "../models/WaktuKhususModel.js"
-import Waktu from "../models/WaktuModel.js"
+const Users = require('../../auth/models/UserModel.js')
+const conn = require('../config/ConnectDB.js')
+const Dosen = require('../models/DosenModel.js')
+const Hari = require('../models/HariModel.js')
+const WaktuKhusus = require('../models/WaktuKhususModel.js')
+const Waktu = require('../models/WaktuModel.js')
+const WaktuKhususController = {}
 
-export const getJadwalKhusus = async (req, res) => {
+WaktuKhususController.getJadwalKhusus = async (req, res) => {
     try {
         const user = await Users.findOne({
             attributes: ['uuid', 'name', 'email', 'role'],
@@ -54,7 +55,7 @@ export const getJadwalKhusus = async (req, res) => {
     }
 }
 
-export const inputWaktuKhusus = async (req, res) => {
+WaktuKhususController.inputWaktuKhusus = async (req, res) => {
     try {
 
         const { kode_dosen, kode_hari, kode_waktu, arr_tidak_bersedia, hide_me } = req.body
@@ -83,3 +84,5 @@ export const inputWaktuKhusus = async (req, res) => {
         res.status(500).json({msg: error.message})
     }
 }
+
+module.exports = WaktuKhususController

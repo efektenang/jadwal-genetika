@@ -1,7 +1,9 @@
-import { Sequelize } from "sequelize";
-import db from "../../app/config/Database.js";
+// import { Sequelize } from "sequelize";
+// import db from "../../app/config/Database.js";
+const { Sequelize } = require('sequelize')
+const db = require('../../app/config/Database.js')
 
-const {DataTypes} = Sequelize
+const { DataTypes } = Sequelize
 
 const Users = db.define('users', {
     uuid: {
@@ -46,4 +48,4 @@ const Users = db.define('users', {
     freezeTableName: true
 });
 
-export default Users;
+module.exports = Users

@@ -1,10 +1,12 @@
-import Users from "../../auth/models/UserModel.js"
-import conn from "../config/ConnectDB.js"
-import GeneticAlgorithm from "../config/GeneticAlgorithm.js"
-import { getResult, resData } from "../models/JadwalModel.js"
-import ExcelJS from "exceljs"
+const Users = require('../../auth/models/UserModel.js')
+const conn = require('../config/ConnectDB.js')
+const GeneticAlgorithm = require('../config/GeneticAlgorithm.js')
+const { getResult, resData } = require('../models/JadwalModel.js')
+const ExcelJS = require('exceljs')
 
-export const getJadwal = async (req, res) => {
+const JadwalController = {}
+
+JadwalController.getJadwal = async (req, res) => {
     try {
         const user = await Users.findOne({
             attributes: ['uuid', 'name', 'email', 'role'],
@@ -28,7 +30,7 @@ export const getJadwal = async (req, res) => {
     }
 }
 
-export const processPenjadwalan = async (req, res) => {
+JadwalController.processPenjadwalan = async (req, res) => {
     try {
         const start = performance.now()
         const {
@@ -106,7 +108,7 @@ export const processPenjadwalan = async (req, res) => {
 
 }
 
-export const getJadwalReport = async (req, res) => {
+JadwalController.getJadwalReport = async (req, res) => {
     try {
         const workbook = new ExcelJS.Workbook()
         const worksheet = workbook.addWorksheet('Sheet1')
@@ -130,3 +132,5 @@ export const getJadwalReport = async (req, res) => {
         console.log(error.message)
     }
 }
+
+module.exports = JadwalController

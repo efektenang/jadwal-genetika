@@ -1,78 +1,79 @@
-import express from 'express'
-import { getDashboard } from '../controllers/Dashboard.js'
-import { createDosen, deleteDosen, getCreateDosen, getDosen, getDosenById, getEditDosen, updateDosen } from '../controllers/DosenController.js'
-import { getHari } from '../controllers/HariController.js'
-import { getJadwal, getJadwalReport, processPenjadwalan } from '../controllers/JadwalController.js'
-import { createMatkul, deleteMatkul, getCreateMatkul, getEditMatkul, getMatkul, updateMatkul } from '../controllers/MatkulController.js'
-import { createPengampu, deletePengampu, getCreatePengampu, getPengampu, getUpdatePengampu, updatePengampu } from '../controllers/PengampuController.js'
-import { createRuang, deleteRuang, getCreateRuang, getEditRuang, getRuang, updateRuang } from '../controllers/RuangController.js'
-import { createWaktu, deleteWaktu, getCreateWaktu, getUpdateWaktu, getWaktu, updateWaktu } from '../controllers/WaktuController.js'
-import { getJadwalKhusus, inputWaktuKhusus } from '../controllers/WaktuKhususController.js'
-import { adminOnly, verifyUser } from '../../auth/middleware/AuthUser.js'
+const express = require('express')
+const Dashboard = require('../controllers/Dashboard.js')
+const DosenController = require('../controllers/DosenController.js')
+const HariController = require('../controllers/HariController.js')
+const JadwalController = require('../controllers/JadwalController.js')
+const MatkulController = require('../controllers/MatkulController.js')
+const PengampuController = require('../controllers/PengampuController.js')
+const RuangController = require('../controllers/RuangController.js')
+const WaktuController = require('../controllers/WaktuController.js')
+const WaktuKhususController = require('../controllers/WaktuKhususController.js')
+const { verifyUser, adminOnly } = require('../../auth/middleware/AuthUser.js')
+
 
 const router = express.Router()
 
-router.get('/', verifyUser, getDashboard)
+router.get('/', verifyUser, Dashboard.getDashboard)
 
 // Manage Dosen Data
-router.get('/formdosen', verifyUser, adminOnly, getCreateDosen)
-router.get('/editdosen/:id', verifyUser, adminOnly, getEditDosen)
+router.get('/formdosen', verifyUser, adminOnly, DosenController.getCreateDosen)
+router.get('/editdosen/:id', verifyUser, adminOnly, DosenController.getEditDosen)
 
-router.get('/dosen', verifyUser, getDosen)
-router.get('/dosen/:id', verifyUser, adminOnly, getDosenById)
-router.post('/insertdosen', verifyUser, adminOnly, createDosen)
-router.post('/updatedosen/:id', verifyUser, adminOnly, updateDosen)
-router.post('/deletedosen/:id', verifyUser, adminOnly, deleteDosen)
+router.get('/dosen', verifyUser, DosenController.getDosen)
+router.get('/dosen/:id', verifyUser, adminOnly, DosenController.getDosenById)
+router.post('/insertdosen', verifyUser, adminOnly, DosenController.createDosen)
+router.post('/updatedosen/:id', verifyUser, adminOnly, DosenController.updateDosen)
+router.post('/deletedosen/:id', verifyUser, adminOnly, DosenController.deleteDosen)
 
 // Manage Hari Data
-router.get('/hari', verifyUser,  getHari)
+router.get('/hari', verifyUser, HariController.getHari)
 
 // Manage range waktu Data
-router.get('/formwaktu', verifyUser, adminOnly, getCreateWaktu)
-router.get('/editwaktu/:id', verifyUser, adminOnly, getUpdateWaktu)
+router.get('/formwaktu', verifyUser, adminOnly, WaktuController.getCreateWaktu)
+router.get('/editwaktu/:id', verifyUser, adminOnly, WaktuController.getUpdateWaktu)
 
-router.get('/waktu', verifyUser, getWaktu)
-router.post('/insertwaktu', verifyUser, adminOnly, createWaktu)
-router.post('/updatewaktu/:id', verifyUser, adminOnly, updateWaktu)
-router.post('/deletewaktu/:id', verifyUser, adminOnly, deleteWaktu)
+router.get('/waktu', verifyUser, WaktuController.getWaktu)
+router.post('/insertwaktu', verifyUser, adminOnly, WaktuController.createWaktu)
+router.post('/updatewaktu/:id', verifyUser, adminOnly, WaktuController.updateWaktu)
+router.post('/deletewaktu/:id', verifyUser, adminOnly, WaktuController.deleteWaktu)
 
 // Manage Matkul Data
-router.get('/formmatkul', verifyUser, adminOnly, getCreateMatkul)
-router.get('/editmatkul/:id', verifyUser, adminOnly, getEditMatkul)
+router.get('/formmatkul', verifyUser, adminOnly, MatkulController.getCreateMatkul)
+router.get('/editmatkul/:id', verifyUser, adminOnly, MatkulController.getEditMatkul)
 
-router.get('/matkul', verifyUser, getMatkul)
-router.get('/matkul/:semester', verifyUser, getMatkul)
-router.post('/insertmatkul', verifyUser, adminOnly, createMatkul)
-router.post('/updatematkul/:id', verifyUser, adminOnly, updateMatkul)
-router.post('/deletematkul/:id', verifyUser, adminOnly, deleteMatkul)
+router.get('/matkul', verifyUser, MatkulController.getMatkul)
+router.get('/matkul/:semester', verifyUser, MatkulController.getMatkul)
+router.post('/insertmatkul', verifyUser, adminOnly, MatkulController.createMatkul)
+router.post('/updatematkul/:id', verifyUser, adminOnly, MatkulController.updateMatkul)
+router.post('/deletematkul/:id', verifyUser, adminOnly, MatkulController.deleteMatkul)
 
 // Manage Data Ruang
-router.get('/formruang', verifyUser, adminOnly, getCreateRuang)
-router.get('/editruang/:id', verifyUser, adminOnly, getEditRuang)
+router.get('/formruang', verifyUser, adminOnly, RuangController.getCreateRuang)
+router.get('/editruang/:id', verifyUser, adminOnly, RuangController.getEditRuang)
 
-router.get('/ruang', verifyUser, getRuang)
-router.post('/insertruang', verifyUser, adminOnly, createRuang)
-router.post('/updateruang/:id', verifyUser, adminOnly, updateRuang)
-router.post('/deleteruang/:id', verifyUser, adminOnly, deleteRuang)
+router.get('/ruang', verifyUser, RuangController.getRuang)
+router.post('/insertruang', verifyUser, adminOnly, RuangController.createRuang)
+router.post('/updateruang/:id', verifyUser, adminOnly, RuangController.updateRuang)
+router.post('/deleteruang/:id', verifyUser, adminOnly, RuangController.deleteRuang)
 
 // Manage Data Pengampu
-router.get('/pengampu', verifyUser, getPengampu)
-router.get('/pengampu/:tahun_akademik', verifyUser, getPengampu)
-router.get('/formpengampu', verifyUser, adminOnly, getCreatePengampu)
-router.get('/editpengampu/:id', verifyUser, adminOnly, getUpdatePengampu)
+router.get('/pengampu', verifyUser, PengampuController.getPengampu)
+router.get('/pengampu/:tahun_akademik', verifyUser, PengampuController.getPengampu)
+router.get('/formpengampu', verifyUser, adminOnly, PengampuController.getCreatePengampu)
+router.get('/editpengampu/:id', verifyUser, adminOnly, PengampuController.getUpdatePengampu)
 
-router.post('/insertpengampu', verifyUser, adminOnly, createPengampu)
-router.post('/updatepengampu/:id', verifyUser, adminOnly, updatePengampu)
-router.post('/deletepengampu/:id', verifyUser, adminOnly, deletePengampu)
+router.post('/insertpengampu', verifyUser, adminOnly, PengampuController.createPengampu)
+router.post('/updatepengampu/:id', verifyUser, adminOnly, PengampuController.updatePengampu)
+router.post('/deletepengampu/:id', verifyUser, adminOnly, PengampuController.deletePengampu)
 
 // Manage Waktu tidak bersedia
-router.get('/waktu-tidak-bersedia', verifyUser, getJadwalKhusus)
-router.get('/waktu-tidak-bersedia/:id', verifyUser, getJadwalKhusus)
-router.post('/insert-waktu', verifyUser, adminOnly, inputWaktuKhusus)
+router.get('/waktu-tidak-bersedia', verifyUser, WaktuKhususController.getJadwalKhusus)
+router.get('/waktu-tidak-bersedia/:id', verifyUser, WaktuKhususController.getJadwalKhusus)
+router.post('/insert-waktu', verifyUser, adminOnly, WaktuKhususController.inputWaktuKhusus)
 
 // Manage Jadwal Kuliah
-router.get('/jadwalkuliah', verifyUser, getJadwal)
-router.post('/getprocess', verifyUser, adminOnly, processPenjadwalan)
-router.post('/createreport', verifyUser, getJadwalReport)
+router.get('/jadwalkuliah', verifyUser, JadwalController.getJadwal)
+router.post('/getprocess', verifyUser, adminOnly, JadwalController.processPenjadwalan)
+router.post('/createreport', verifyUser, JadwalController.getJadwalReport)
 
-export default router
+module.exports = router

@@ -1,8 +1,10 @@
-import Users from '../../auth/models/UserModel.js'
-import Hari from '../models/HariModel.js'
+// import  from ''
+// import  from ''
+const Users = require('../../auth/models/UserModel.js')
+const Hari = require('../models/HariModel.js')
 
 // Hari Controller
-export const getHari = async (req, res) => {
+exports.getHari = async (req, res) => {
     try {
         const user = await Users.findOne({
             attributes: ['uuid', 'name', 'email', 'role'],
@@ -23,7 +25,7 @@ export const getHari = async (req, res) => {
     }
 }
 
-export const createHari = async (req, res) => {
+exports.createHari = async (req, res) => {
     try {
         const { hari } = req.body
         const response = await Hari.create({

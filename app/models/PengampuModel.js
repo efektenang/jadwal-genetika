@@ -1,6 +1,6 @@
-import { Sequelize } from "sequelize"
-import conn from "../config/ConnectDB.js"
-import db from "../config/Database.js"
+const { Sequelize } = require('sequelize')
+const db = require('../config/Database.js')
+const conn = require('../config/ConnectDB.js')
 
 const { DataTypes } = Sequelize
 
@@ -29,4 +29,4 @@ function dataPengampu(tahun_akademik) {
     })
 }
 
-export { Pengampu, dataPengampu }
+module.exports = { Pengampu, dataPengampu }

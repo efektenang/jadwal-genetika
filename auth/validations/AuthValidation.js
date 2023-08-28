@@ -1,6 +1,10 @@
-import { validationResult, check, body } from "express-validator";
+// import { validationResult, check, body } from "express-validator";
 
-export const runValidation = (req, res, next) => {
+const { validationResult, check } = require('express-validator')
+
+const AuthValidation = {}
+
+AuthValidation.runValidation = (req, res, next) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
         req.flash('msg', 'Tidak Bisa Menggunakan Email yang Sudah Terdaftar')
@@ -15,7 +19,7 @@ export const runValidation = (req, res, next) => {
     next()
 }
 
-export const runRegisterValidation = (req, res, next) => {
+AuthValidation.runRegisterValidation = (req, res, next) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
         res.render('register', {
@@ -28,11 +32,13 @@ export const runRegisterValidation = (req, res, next) => {
     next()
 }
 
-export const loginValidation = [
+AuthValidation.loginValidation = [
     check('email', 'Email Tidak boleh kosong').notEmpty(),
     check('password', 'Password tidak boleh kosong').notEmpty()
 ]
 
-export const registerValidation = [
+AuthValidation.registerValidation = [
     check('email', 'Email Tidak Valid').isEmail()
 ]
+
+module.exports = AuthValidation

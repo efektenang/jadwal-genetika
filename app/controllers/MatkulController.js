@@ -1,9 +1,10 @@
-import Users from '../../auth/models/UserModel.js'
-import Matkul from '../models/MatkulModel.js'
+const Users = require('../../auth/models/UserModel.js')
+const Matkul = require('../models/MatkulModel.js')
+const MatkulController = {}
 
 // Matkul Controller
 
-export const getMatkul = async (req, res) => {
+MatkulController.getMatkul = async (req, res) => {
     try {
         const user = await Users.findOne({
             attributes: ['uuid', 'name', 'email', 'role'],
@@ -41,7 +42,7 @@ export const getMatkul = async (req, res) => {
     }
 }
 
-export const getCreateMatkul = async (req, res) => {
+MatkulController.getCreateMatkul = async (req, res) => {
     try {
         const user = await Users.findOne({
             attributes: ['uuid', 'name', 'email', 'role'],
@@ -60,7 +61,7 @@ export const getCreateMatkul = async (req, res) => {
     }
 }
 
-export const createMatkul = async (req, res) => {
+MatkulController.createMatkul = async (req, res) => {
     try {
         const { kode_mk, matkul, sks, semester, jenis } = req.body
         
@@ -78,7 +79,7 @@ export const createMatkul = async (req, res) => {
     }
 }
 
-export const getEditMatkul = async (req, res) => {
+MatkulController.getEditMatkul = async (req, res) => {
     try {
         const user = await Users.findOne({
             attributes: ['uuid', 'name', 'email', 'role'],
@@ -105,7 +106,7 @@ export const getEditMatkul = async (req, res) => {
     }
 }
 
-export const updateMatkul = async (req, res) => {
+MatkulController.updateMatkul = async (req, res) => {
     try {
         const response = await Matkul.findOne({
             where: {
@@ -133,7 +134,7 @@ export const updateMatkul = async (req, res) => {
     }
 }
 
-export const deleteMatkul = async (req, res) => {
+MatkulController.deleteMatkul = async (req, res) => {
     try {
         const response = await Matkul.findOne({
             where: {
@@ -157,3 +158,5 @@ export const deleteMatkul = async (req, res) => {
         res.status(400).send(error.message)
     }
 }
+
+module.exports = MatkulController
