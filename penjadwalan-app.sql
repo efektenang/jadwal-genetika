@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 13, 2023 at 09:56 AM
--- Server version: 10.1.38-MariaDB
--- PHP Version: 5.6.40
+-- Generation Time: Sep 01, 2023 at 10:42 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -31,20 +30,17 @@ SET time_zone = "+00:00";
 CREATE TABLE `sessions` (
   `sid` varchar(36) NOT NULL,
   `expires` datetime DEFAULT NULL,
-  `data` text,
+  `data` text DEFAULT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `sessions`
 --
 
 INSERT INTO `sessions` (`sid`, `expires`, `data`, `createdAt`, `updatedAt`) VALUES
-('2ZMtXNN5GIrunD9Hi1a5yvqwk_V7mDPL', '2023-07-13 08:44:26', '{\"cookie\":{\"originalMaxAge\":3599999,\"expires\":\"2023-07-13T08:41:00.201Z\",\"secure\":false,\"httpOnly\":true,\"path\":\"/\"},\"flash\":{},\"userId\":\"7a752f83-bd2a-47c6-86ea-c9dc6bc55382\"}', '2023-07-13 07:37:28', '2023-07-13 07:44:26'),
-('6OlD3ihBBktfK5uYKWPkls6vJCLhGSaL', '2023-07-13 08:55:01', '{\"cookie\":{\"originalMaxAge\":3599999,\"expires\":\"2023-07-13T08:43:53.062Z\",\"secure\":false,\"httpOnly\":true,\"path\":\"/\"},\"flash\":{},\"userId\":\"7a752f83-bd2a-47c6-86ea-c9dc6bc55382\"}', '2023-07-13 07:43:20', '2023-07-13 07:55:01'),
-('F_amhPwkw4Xt8lam2gpIFzNG2jZGpDX-', '2023-07-13 08:03:35', '{\"cookie\":{\"originalMaxAge\":3600000,\"expires\":\"2023-07-13T08:03:35.705Z\",\"secure\":false,\"httpOnly\":true,\"path\":\"/\"},\"flash\":{}}', '2023-07-13 07:03:35', '2023-07-13 07:03:35'),
-('n1Uy72Mn6NLVi6UGhYxx1Ou2Hu3FK4Wn', '2023-07-13 08:00:16', '{\"cookie\":{\"originalMaxAge\":3600000,\"expires\":\"2023-07-13T08:00:16.946Z\",\"secure\":false,\"httpOnly\":true,\"path\":\"/\"}}', '2023-07-13 07:00:17', '2023-07-13 07:00:17');
+('D814kwbj_ipJjrrFasCqZ7WXHSn_niQO', '2023-09-01 09:27:17', '{\"cookie\":{\"originalMaxAge\":3599998,\"expires\":\"2023-09-01T09:26:53.765Z\",\"secure\":false,\"httpOnly\":true,\"path\":\"/\"},\"flash\":{},\"userId\":\"7a752f83-bd2a-47c6-86ea-c9dc6bc55382\"}', '2023-09-01 08:24:52', '2023-09-01 08:27:17');
 
 -- --------------------------------------------------------
 
@@ -60,7 +56,7 @@ CREATE TABLE `t_dosen` (
   `userId` int(10) NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `t_dosen`
@@ -70,7 +66,7 @@ INSERT INTO `t_dosen` (`id`, `nidn`, `name`, `phone`, `userId`, `createdAt`, `up
 (1, '1909010023', 'M. ARIZKI', '98798342342', 1, '2023-02-11 07:50:34', '2023-02-11 07:50:34'),
 (2, '1909010024', 'Aulil S.kom', '546345623', 1, '2023-02-11 07:50:43', '2023-02-11 07:50:43'),
 (3, '1909010032', 'Ahmad Fajar', '084377323423', 1, '2023-02-13 07:35:24', '2023-06-22 13:11:37'),
-(4, '1909010002', 'Fariz NT', '08783242', 1, '2023-02-13 07:35:48', '2023-02-13 07:35:48'),
+(4, '1909010002', 'Fariz ', '08783242', 1, '2023-02-13 07:35:48', '2023-07-20 09:55:34'),
 (5, '190212308', 'Mega', '082347757483', 1, '2023-03-07 09:59:39', '2023-06-27 03:44:18'),
 (6, '1201', 'Al-Khowarizmi, S.Kom, M.Kom', '123456', 1, '2023-03-08 04:42:28', '2023-03-08 04:42:28'),
 (7, '1202', 'Amrullah, S.Kom., M.Kom', '12345', 1, '2023-03-08 04:42:46', '2023-03-08 04:42:46'),
@@ -94,7 +90,14 @@ INSERT INTO `t_dosen` (`id`, `nidn`, `name`, `phone`, `userId`, `createdAt`, `up
 (26, '1220', 'Maskum, S.Pd., S.Kom', '123456', 1, '2023-03-13 10:33:52', '2023-03-13 10:33:52'),
 (27, '1221', 'Siddiq Pohan', '123123123', 1, '2023-03-13 10:40:30', '2023-03-13 10:40:30'),
 (28, '1222', 'Yoga gans', '019201920', 1, '2023-03-15 08:01:43', '2023-03-15 08:01:43'),
-(31, '1909010099', 'ini gua edit', '231313', 4, '2023-06-26 10:09:10', '2023-06-26 10:09:10');
+(32, '111222333', 'user', '231313', 3, '2023-07-13 07:59:30', '2023-07-13 07:59:30'),
+(33, '1111', 'Dosen Baru', '12432432', 1, '2023-08-23 02:26:13', '2023-08-23 02:26:13'),
+(34, '12312332', 'Muhammad Arizki', '7987928374', 1, '2023-08-23 04:28:58', '2023-08-23 04:28:58'),
+(35, '123123213', 'Yoshida Sari', '6564', 1, '2023-08-23 04:30:01', '2023-09-01 04:52:05'),
+(36, '190901078778', 'rizky', '98729423', 1, '2023-08-23 04:31:47', '2023-08-23 04:31:47'),
+(38, '32423423', 'Muhammad ', '098729423', 3, '2023-08-25 11:14:40', '2023-08-25 11:22:55'),
+(41, '34535', 'ricki', '234234', 3, '2023-08-25 11:24:36', '2023-08-25 11:41:58'),
+(42, '12888777', 'Muhammad Arizky', '1234567', 5, '2023-08-28 10:27:56', '2023-08-28 10:27:56');
 
 -- --------------------------------------------------------
 
@@ -107,7 +110,7 @@ CREATE TABLE `t_hari` (
   `hari` varchar(255) DEFAULT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `t_hari`
@@ -134,72 +137,72 @@ CREATE TABLE `t_jadwal` (
   `id_hari` int(10) DEFAULT NULL,
   `id_ruang` int(10) DEFAULT NULL,
   `userId` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `t_jadwal`
 --
 
 INSERT INTO `t_jadwal` (`id`, `id_pengampu`, `id_jam`, `id_hari`, `id_ruang`, `userId`) VALUES
-(650, 13, 8, 5, 18, 1),
-(651, 16, 3, 6, 23, 1),
-(652, 17, 3, 3, 21, 1),
-(653, 18, 11, 2, 26, 1),
-(654, 19, 10, 2, 3, 1),
-(655, 21, 5, 3, 8, 1),
-(656, 22, 3, 1, 7, 1),
-(657, 25, 3, 3, 23, 1),
-(658, 27, 8, 4, 11, 1),
-(659, 28, 5, 3, 24, 1),
-(660, 29, 2, 2, 21, 1),
-(661, 31, 1, 6, 13, 1),
-(662, 32, 2, 2, 15, 1),
-(663, 33, 7, 1, 15, 1),
-(664, 34, 4, 1, 13, 1),
-(665, 35, 10, 1, 14, 1),
-(666, 36, 8, 1, 24, 1),
-(667, 37, 1, 1, 23, 1),
-(668, 38, 3, 6, 24, 1),
-(669, 40, 6, 3, 1, 1),
-(670, 41, 8, 3, 18, 1),
-(671, 42, 1, 6, 8, 1),
-(672, 43, 3, 1, 6, 1),
-(673, 44, 10, 6, 10, 1),
-(674, 45, 7, 2, 16, 1),
-(675, 46, 6, 4, 23, 1),
-(676, 47, 3, 3, 3, 1),
-(677, 49, 9, 2, 20, 1),
-(678, 50, 4, 2, 14, 1),
-(679, 52, 8, 2, 17, 1),
-(680, 53, 1, 4, 7, 1),
-(681, 55, 9, 5, 6, 1),
-(682, 56, 9, 6, 4, 1),
-(683, 58, 1, 4, 10, 1),
-(684, 59, 7, 6, 10, 1),
-(685, 61, 2, 5, 9, 1),
-(686, 62, 10, 5, 5, 1),
-(687, 64, 7, 6, 7, 1),
-(688, 65, 5, 1, 4, 1),
-(689, 68, 3, 6, 22, 1),
-(690, 70, 9, 4, 2, 1),
-(691, 71, 3, 3, 20, 1),
-(692, 72, 6, 1, 1, 1),
-(693, 73, 6, 2, 21, 1),
-(694, 74, 5, 6, 16, 1),
-(695, 75, 1, 1, 21, 1),
-(696, 76, 4, 4, 24, 1),
-(697, 77, 1, 3, 7, 1),
-(698, 78, 10, 1, 5, 1),
-(699, 79, 6, 3, 6, 1),
-(700, 81, 1, 4, 13, 1),
-(701, 82, 1, 2, 17, 1),
-(702, 83, 9, 4, 17, 1),
-(703, 85, 2, 4, 12, 1),
-(704, 86, 4, 1, 2, 1),
-(705, 87, 3, 4, 1, 1),
-(706, 96, 8, 3, 12, 1),
-(707, 100, 3, 1, 9, 1),
-(708, 102, 6, 1, 16, 1);
+(2770, 13, 11, 6, 18, 1),
+(2771, 16, 2, 6, 11, 1),
+(2772, 17, 1, 2, 12, 1),
+(2773, 18, 11, 1, 2, 1),
+(2774, 19, 8, 6, 4, 1),
+(2775, 21, 12, 2, 6, 1),
+(2776, 22, 9, 2, 7, 1),
+(2777, 25, 1, 3, 14, 1),
+(2778, 27, 3, 4, 18, 1),
+(2779, 28, 6, 1, 19, 1),
+(2780, 29, 9, 3, 24, 1),
+(2781, 31, 2, 3, 23, 1),
+(2782, 32, 8, 4, 15, 1),
+(2783, 33, 6, 3, 12, 1),
+(2784, 34, 6, 3, 14, 1),
+(2785, 35, 5, 1, 16, 1),
+(2786, 36, 2, 1, 26, 1),
+(2787, 37, 10, 4, 25, 1),
+(2788, 38, 8, 2, 14, 1),
+(2789, 40, 2, 4, 17, 1),
+(2790, 41, 9, 2, 19, 1),
+(2791, 42, 7, 2, 21, 1),
+(2792, 43, 6, 1, 21, 1),
+(2793, 44, 10, 5, 26, 1),
+(2794, 45, 2, 2, 20, 1),
+(2795, 46, 2, 4, 3, 1),
+(2796, 47, 3, 4, 25, 1),
+(2797, 49, 4, 1, 18, 1),
+(2798, 50, 11, 6, 10, 1),
+(2799, 52, 11, 6, 20, 1),
+(2800, 53, 1, 2, 7, 1),
+(2801, 55, 6, 6, 7, 1),
+(2802, 56, 2, 4, 12, 1),
+(2803, 58, 2, 4, 22, 1),
+(2804, 59, 5, 3, 19, 1),
+(2805, 61, 5, 6, 25, 1),
+(2806, 62, 9, 3, 5, 1),
+(2807, 64, 7, 6, 5, 1),
+(2808, 65, 2, 5, 13, 1),
+(2809, 68, 3, 3, 17, 1),
+(2810, 70, 8, 4, 22, 1),
+(2811, 71, 10, 3, 10, 1),
+(2812, 72, 2, 2, 23, 1),
+(2813, 73, 2, 2, 14, 1),
+(2814, 74, 9, 6, 20, 1),
+(2815, 75, 4, 6, 3, 1),
+(2816, 76, 7, 4, 21, 1),
+(2817, 77, 8, 5, 5, 1),
+(2818, 78, 10, 1, 7, 1),
+(2819, 79, 3, 3, 5, 1),
+(2820, 81, 4, 2, 21, 1),
+(2821, 82, 8, 3, 19, 1),
+(2822, 83, 9, 4, 19, 1),
+(2823, 85, 8, 1, 10, 1),
+(2824, 86, 7, 2, 1, 1),
+(2825, 87, 3, 1, 10, 1),
+(2826, 96, 1, 2, 1, 1),
+(2827, 100, 1, 2, 17, 1),
+(2828, 102, 7, 5, 23, 1);
 
 -- --------------------------------------------------------
 
@@ -214,54 +217,61 @@ CREATE TABLE `t_matkul` (
   `sks` varchar(255) DEFAULT NULL,
   `semester` varchar(255) DEFAULT NULL,
   `jenis` varchar(255) DEFAULT NULL,
+  `prodi` varchar(100) NOT NULL,
   `userId` int(10) NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `t_matkul`
 --
 
-INSERT INTO `t_matkul` (`id`, `kode_mk`, `matkul`, `sks`, `semester`, `jenis`, `userId`, `createdAt`, `updatedAt`) VALUES
-(5, 'ISI8833', 'Manajemen Sistem Informasi', '2', '6', 'teori', 1, '2023-03-07 10:00:13', '2023-03-07 10:00:13'),
-(6, 'ISI110012', 'Agama', '2', '1', 'teori', 1, '2023-03-08 02:37:21', '2023-03-08 02:37:21'),
-(7, 'ISI110022', 'Pendidikan Pancasila', '2', '1', 'teori', 1, '2023-03-08 02:37:50', '2023-03-08 02:37:50'),
-(8, 'ISI110013', 'Pengantar Teknologi Sistem Informasi', '3', '1', 'teori', 1, '2023-03-08 02:39:07', '2023-03-08 02:39:07'),
-(9, 'ISI120012', 'Algoritma & Pemrograman', '2', '1', 'teori', 1, '2023-03-08 02:39:58', '2023-03-08 02:39:58'),
-(10, 'ISI130021', 'Prak. Algoritma & Pemrograman', '1', '1', 'praktek', 1, '2023-03-08 02:41:05', '2023-03-08 02:41:05'),
-(11, 'ISI130032', 'Sistem Basis Data', '2', '1', 'teori', 1, '2023-03-08 02:44:29', '2023-03-08 02:44:29'),
-(12, 'ISI130041', 'Prak. Sistem Basis Data', '1', '1', 'praktek', 1, '2023-03-08 02:44:58', '2023-03-08 02:46:22'),
-(15, 'ISI130042', 'Bahasa Inggris', '2', '1', 'teori', 1, '2023-03-08 02:46:43', '2023-03-08 02:46:43'),
-(16, 'ISI130033', 'Bahasa Indonesia', '2', '1', 'teori', 1, '2023-03-08 02:47:41', '2023-03-08 02:47:41'),
-(17, 'ISI310072', 'Muamalah', '2', '3', 'teori', 1, '2023-03-08 03:32:50', '2023-03-08 03:32:50'),
-(18, 'ISI330152', 'Pemrograman Berbasis Objek', '2', '3', 'teori', 1, '2023-03-08 03:36:07', '2023-03-08 03:36:07'),
-(19, 'ISI330161', 'Prak. Pemgrograman Berbasis Objek', '1', '3', 'praktek', 1, '2023-03-08 03:36:49', '2023-03-08 03:36:49'),
-(20, 'ISI330172', 'Bahasa Query', '2', '3', 'teori', 1, '2023-03-08 03:37:32', '2023-03-08 03:37:32'),
-(21, 'ISI330181', 'Prak. Bahasa Query', '1', '3', 'praktek', 1, '2023-03-08 03:37:57', '2023-03-08 03:37:57'),
-(22, '', 'Interaksi Manusia dan Komputer', '2', '3', 'teori', 1, '2023-03-08 03:38:44', '2023-03-08 03:38:44'),
-(23, 'ISI330203', 'Sistem Informasi Manajemen', '3', '3', 'teori', 1, '2023-03-08 03:39:17', '2023-03-08 03:39:17'),
-(24, 'ISI330212', 'Statistika dan Probabilitas', '2', '3', 'teori', 1, '2023-03-08 03:39:51', '2023-03-08 03:39:51'),
-(25, 'ISI330221', 'Prak. Statistika dan Probabilitas', '1', '3', 'praktek', 1, '2023-03-08 03:40:27', '2023-03-08 03:40:27'),
-(26, 'ITI330233', 'Analisis dan Perancangan Sistem Informasi', '3', '3', 'teori', 1, '2023-03-08 03:41:20', '2023-03-08 03:41:20'),
-(27, 'ISI530323', 'Sistem Internet of Things', '3', '5', 'teori', 1, '2023-03-08 03:42:49', '2023-03-08 03:42:49'),
-(28, 'ISI530332', 'Pemrograman Mobile', '2', '5', 'teori', 1, '2023-03-08 03:43:22', '2023-03-08 03:43:22'),
-(29, 'ISI530341', 'Prak. Pemrograman Mobile', '1', '5', 'praktek', 1, '2023-03-08 03:44:02', '2023-03-08 03:46:53'),
-(30, 'ISI520033', 'Metode Penelitian', '3', '5', 'teori', 1, '2023-03-08 03:44:42', '2023-03-08 03:44:42'),
-(33, 'ISI530353', 'Rekayasa Perangkat Lunak', '3', '5', 'teori', 1, '2023-03-08 03:47:18', '2023-03-08 03:47:18'),
-(34, 'ISI530363', 'Audit Sistem Informasi', '3', '5', 'teori', 1, '2023-03-08 03:48:28', '2023-03-08 03:48:28'),
-(35, 'ISI530372', 'Sistem Informasi Enterprise', '3', '5', 'teori', 1, '2023-03-08 03:48:53', '2023-03-08 03:48:53'),
-(36, 'ISI530383', 'Arsitektur Sistem dan Teknologi Informasi', '2', '5', 'teori', 1, '2023-03-08 03:49:24', '2023-03-08 03:49:24'),
-(37, 'ISI730443', 'Data Mining', '3', '7', 'teori', 1, '2023-03-08 03:53:34', '2023-03-08 03:53:34'),
-(38, 'ISI730452', 'Etika Profesi IT', '2', '7', 'teori', 1, '2023-03-08 03:54:02', '2023-03-08 03:54:02'),
-(39, 'ISI720051', 'Kuliah Kerja Nyata (KKN)', '3', '7', 'praktek', 1, '2023-03-08 03:55:28', '2023-03-08 03:55:28'),
-(40, 'ISI720062', 'Kewirausahaan', '2', '7', 'teori', 1, '2023-03-08 03:55:55', '2023-03-08 03:55:55'),
-(41, 'ISI730463', 'Forensik IT', '3', '7', 'teori', 1, '2023-03-08 03:56:38', '2023-03-08 03:56:38'),
-(42, 'ISI720073', 'Penulisan Proposal', '3', '7', 'teori', 1, '2023-03-08 03:57:20', '2023-03-08 03:57:20'),
-(43, 'ISI740043', 'Sistem Informasi Geografis', '3', '7', 'teori', 1, '2023-03-08 03:57:59', '2023-03-08 03:57:59'),
-(44, 'ISI740053', 'E-Business ', '3', '7', 'teori', 1, '2023-03-08 03:58:36', '2023-03-08 03:58:36'),
-(45, 'ISI740063', 'Enterprise Application Integration', '3', '7', 'teori', 1, '2023-03-08 03:59:04', '2023-03-08 03:59:04'),
-(48, 'ISI121232323', 'Prak. Pemrograman Web Dasar', '1', '1', 'teori', 4, '2023-06-26 10:10:03', '2023-06-26 10:10:03');
+INSERT INTO `t_matkul` (`id`, `kode_mk`, `matkul`, `sks`, `semester`, `jenis`, `prodi`, `userId`, `createdAt`, `updatedAt`) VALUES
+(0, 'ISI330181', 'Prak. Bahasa Query', '1', '3', 'praktek', 'sistem-informasi', 1, '2023-03-08 03:37:57', '2023-03-08 03:37:57'),
+(5, 'ISI8833', 'Manajemen Sistem Informasi', '2', '6', 'teori', 'sistem-informasi', 1, '2023-03-07 10:00:13', '2023-03-07 10:00:13'),
+(6, 'ISI110012', 'Agama', '2', '1', 'teori', 'sistem-informasi', 1, '2023-03-08 02:37:21', '2023-03-08 02:37:21'),
+(7, 'ISI110022', 'Pendidikan Pancasila', '2', '1', 'teori', 'sistem-informasi', 1, '2023-03-08 02:37:50', '2023-03-08 02:37:50'),
+(8, 'ISI110013', 'Pengantar Teknologi Sistem Informasi', '3', '1', 'teori', 'sistem-informasi', 1, '2023-03-08 02:39:07', '2023-03-08 02:39:07'),
+(9, 'ISI120012', 'Algoritma & Pemrograman', '2', '1', 'teori', 'sistem-informasi', 1, '2023-03-08 02:39:58', '2023-03-08 02:39:58'),
+(10, 'ISI130021', 'Prak. Algoritma & Pemrograman', '1', '1', 'praktek', 'sistem-informasi', 1, '2023-03-08 02:41:05', '2023-03-08 02:41:05'),
+(11, 'ISI130032', 'Sistem Basis Data', '2', '1', 'teori', 'sistem-informasi', 1, '2023-03-08 02:44:29', '2023-03-08 02:44:29'),
+(12, 'ISI130041', 'Prak. Sistem Basis Data', '1', '1', 'praktek', 'sistem-informasi', 1, '2023-03-08 02:44:58', '2023-03-08 02:46:22'),
+(15, 'ISI130042', 'Bahasa Inggris', '2', '1', 'teori', 'sistem-informasi', 1, '2023-03-08 02:46:43', '2023-03-08 02:46:43'),
+(16, 'ISI130033', 'Bahasa Indonesia', '2', '1', 'teori', 'sistem-informasi', 1, '2023-03-08 02:47:41', '2023-03-08 02:47:41'),
+(17, 'ISI310072', 'Muamalah', '2', '3', 'teori', 'sistem-informasi', 1, '2023-03-08 03:32:50', '2023-03-08 03:32:50'),
+(18, 'ISI330152', 'Pemrograman Berbasis Objek', '2', '3', 'teori', 'sistem-informasi', 1, '2023-03-08 03:36:07', '2023-03-08 03:36:07'),
+(19, 'ISI330161', 'Prak. Pemgrograman Berbasis Objek', '1', '3', 'praktek', 'sistem-informasi', 1, '2023-03-08 03:36:49', '2023-03-08 03:36:49'),
+(20, 'ISI330172', 'Bahasa Query', '2', '3', 'teori', 'sistem-informasi', 1, '2023-03-08 03:37:32', '2023-03-08 03:37:32'),
+(22, '', 'Interaksi Manusia dan Komputer', '2', '3', 'teori', 'sistem-informasi', 1, '2023-03-08 03:38:44', '2023-03-08 03:38:44'),
+(23, 'ISI330203', 'Sistem Informasi Manajemen', '3', '3', 'teori', 'sistem-informasi', 1, '2023-03-08 03:39:17', '2023-03-08 03:39:17'),
+(24, 'ISI330212', 'Statistika dan Probabilitas', '2', '3', 'teori', 'sistem-informasi', 1, '2023-03-08 03:39:51', '2023-03-08 03:39:51'),
+(25, 'ISI330221', 'Prak. Statistika dan Probabilitas', '1', '3', 'praktek', 'sistem-informasi', 1, '2023-03-08 03:40:27', '2023-03-08 03:40:27'),
+(26, 'ITI330233', 'Analisis dan Perancangan Sistem Informasi', '3', '3', 'teori', 'sistem-informasi', 1, '2023-03-08 03:41:20', '2023-03-08 03:41:20'),
+(27, 'ISI530323', 'Sistem Internet of Things', '3', '5', 'teori', 'sistem-informasi', 1, '2023-03-08 03:42:49', '2023-03-08 03:42:49'),
+(28, 'ISI530332', 'Pemrograman Mobile', '2', '5', 'teori', 'sistem-informasi', 1, '2023-03-08 03:43:22', '2023-03-08 03:43:22'),
+(29, 'ISI530341', 'Prak. Pemrograman Mobile', '1', '5', 'praktek', 'sistem-informasi', 1, '2023-03-08 03:44:02', '2023-03-08 03:46:53'),
+(30, 'ISI520033', 'Metode Penelitian', '3', '5', 'teori', 'sistem-informasi', 1, '2023-03-08 03:44:42', '2023-03-08 03:44:42'),
+(33, 'ISI530353', 'Rekayasa Perangkat Lunak', '3', '5', 'teori', 'sistem-informasi', 1, '2023-03-08 03:47:18', '2023-03-08 03:47:18'),
+(34, 'ISI530363', 'Audit Sistem Informasi', '3', '5', 'teori', 'sistem-informasi', 1, '2023-03-08 03:48:28', '2023-03-08 03:48:28'),
+(35, 'ISI530372', 'Sistem Informasi Enterprise', '3', '5', 'teori', 'sistem-informasi', 1, '2023-03-08 03:48:53', '2023-03-08 03:48:53'),
+(36, 'ISI530383', 'Arsitektur Sistem dan Teknologi Informasi', '2', '5', 'teori', 'sistem-informasi', 1, '2023-03-08 03:49:24', '2023-03-08 03:49:24'),
+(37, 'ISI730443', 'Data Mining', '3', '7', 'teori', 'sistem-informasi', 1, '2023-03-08 03:53:34', '2023-03-08 03:53:34'),
+(38, 'ISI730452', 'Etika Profesi IT', '2', '7', 'teori', 'sistem-informasi', 1, '2023-03-08 03:54:02', '2023-03-08 03:54:02'),
+(39, 'ISI720051', 'Kuliah Kerja Nyata (KKN)', '3', '7', 'praktek', 'sistem-informasi', 1, '2023-03-08 03:55:28', '2023-03-08 03:55:28'),
+(40, 'ISI720062', 'Kewirausahaan', '2', '7', 'teori', 'sistem-informasi', 1, '2023-03-08 03:55:55', '2023-03-08 03:55:55'),
+(41, 'ISI730463', 'Forensik IT', '3', '7', 'teori', 'sistem-informasi', 1, '2023-03-08 03:56:38', '2023-03-08 03:56:38'),
+(42, 'ISI720073', 'Penulisan Proposal', '3', '7', 'teori', 'sistem-informasi', 1, '2023-03-08 03:57:20', '2023-03-08 03:57:20'),
+(43, 'ISI740043', 'Sistem Informasi Geografis', '3', '7', 'teori', 'sistem-informasi', 1, '2023-03-08 03:57:59', '2023-03-08 03:57:59'),
+(44, 'ISI740053', 'E-Business ', '3', '7', 'teori', 'sistem-informasi', 1, '2023-03-08 03:58:36', '2023-03-08 03:58:36'),
+(45, 'ISI740063', 'Enterprise Application Integration', '3', '7', 'teori', 'sistem-informasi', 1, '2023-03-08 03:59:04', '2023-03-08 03:59:04'),
+(49, '9287342', 'Algoritma Genetika', '1', '1', 'teori', 'sistem-informasi', 1, '2023-08-23 02:26:53', '2023-08-23 02:26:53'),
+(50, '43rg', 'Bahasa Inggris', '1', '1', 'praktek', 'sistem-informasi', 3, '2023-08-25 11:47:01', '2023-08-25 11:55:33'),
+(53, 'ISI5ad', 'Bahasa Inggris', '1', '1', 'teori', 'sistem-informasi', 3, '2023-08-25 12:34:38', '2023-08-25 12:34:38'),
+(54, 'ISI5ad22', 'Bahasa Inggris u', '1', '1', 'teori', 'sains data', 3, '2023-08-25 14:28:01', '2023-08-25 14:36:21'),
+(55, 'ITI5200338', 'Bahasa Inggris', '2', '1', 'teori', 'teknologi-informasi', 5, '2023-08-28 07:12:28', '2023-08-28 07:12:28'),
+(56, 'ISI5223424', 'Rekayasa Perangkat Lunak', '2', '1', 'teori', 'teknologi-informasi', 5, '2023-08-28 07:21:48', '2023-08-28 07:21:48'),
+(57, 'ISI12123322', 'Pengantar Sistem Informasi', '3', '1', 'teori', 'teknologi-informasi', 5, '2023-08-28 07:22:46', '2023-08-28 07:22:46');
 
 -- --------------------------------------------------------
 
@@ -278,20 +288,13 @@ CREATE TABLE `t_pengampu` (
   `userId` int(10) NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `t_pengampu`
 --
 
 INSERT INTO `t_pengampu` (`id`, `id_mk`, `id_dosen`, `kelas`, `tahun_akademik`, `userId`, `createdAt`, `updatedAt`) VALUES
-(6, '1', '1', 'B4', '2020-2021', 1, '2023-02-13 07:01:53', '2023-02-13 07:02:02'),
-(7, '2', '2', 'B2', '2020-2021', 1, '2023-02-13 07:37:09', '2023-02-13 07:37:09'),
-(8, '3', '3', 'B1', '2020-2021', 1, '2023-02-13 07:37:23', '2023-02-13 07:37:23'),
-(9, '4', '4', 'B3', '2020-2021', 1, '2023-02-13 07:37:36', '2023-02-13 07:37:36'),
-(10, '4', '3', 'A3', '2020-2021', 1, '2023-03-06 08:02:56', '2023-03-06 08:02:56'),
-(11, '2', '2', 'B9', '2020-2021', 1, '2023-03-06 08:03:12', '2023-03-06 08:03:12'),
-(12, '5', '5', 'F4', '2020-2021', 1, '2023-03-07 10:00:30', '2023-03-07 10:00:30'),
 (13, '6', '8', 'A', '2023-2024', 1, '2023-03-08 05:04:38', '2023-03-14 09:34:13'),
 (16, '16', '24', 'A', '2023-2024', 1, '2023-03-08 05:18:34', '2023-03-08 05:18:34'),
 (17, '16', '24', 'B', '2023-2024', 1, '2023-03-08 05:18:50', '2023-03-08 05:18:50'),
@@ -313,8 +316,8 @@ INSERT INTO `t_pengampu` (`id`, `id_mk`, `id_dosen`, `kelas`, `tahun_akademik`, 
 (38, '26', '26', 'B', '2023-2024', 1, '2023-03-13 03:31:59', '2023-03-13 10:35:28'),
 (40, '20', '1', 'A', '2023-2024', 1, '2023-03-13 03:33:25', '2023-03-13 03:33:25'),
 (41, '20', '27', 'B', '2023-2024', 1, '2023-03-13 03:33:42', '2023-03-13 10:41:17'),
-(42, '21', '1', 'A', '2023-2024', 1, '2023-03-13 03:34:35', '2023-03-13 03:34:35'),
-(43, '21', '27', 'B', '2023-2024', 1, '2023-03-13 03:34:52', '2023-03-13 10:41:32'),
+(42, '37', '1', 'A', '2023-2024', 1, '2023-03-13 03:34:35', '2023-08-26 08:34:02'),
+(43, '49', '27', 'B', '2023-2024', 1, '2023-03-13 03:34:52', '2023-08-26 08:33:50'),
 (44, '22', '19', 'A', '2023-2024', 1, '2023-03-13 04:16:46', '2023-03-13 10:32:08'),
 (45, '22', '3', 'B', '2023-2024', 1, '2023-03-13 04:17:01', '2023-03-13 07:38:07'),
 (46, '22', '12', 'C', '2023-2024', 1, '2023-03-13 04:17:14', '2023-03-13 04:17:14'),
@@ -354,7 +357,11 @@ INSERT INTO `t_pengampu` (`id`, `id_mk`, `id_dosen`, `kelas`, `tahun_akademik`, 
 (102, '6', '22', 'B', '2023-2024', 1, '2023-03-14 09:34:46', '2023-03-14 09:34:46'),
 (104, '6', '1', 'B', '', 1, '2023-06-23 04:08:37', '2023-06-23 04:08:37'),
 (106, '6', '1', 'D', '2020-2021', 1, '2023-06-23 04:26:04', '2023-06-23 08:29:52'),
-(110, '48', '31', 'A', '2020-2021', 4, '2023-06-26 10:10:13', '2023-06-26 10:10:13');
+(110, '48', '31', 'A', '2020-2021', 4, '2023-06-26 10:10:13', '2023-06-26 10:10:13'),
+(111, '50', '38', 'A', '2020-2021', 3, '2023-08-25 14:41:44', '2023-08-25 14:41:44'),
+(112, '54', '38', 'A', '2020-2021', 3, '2023-08-25 14:46:14', '2023-08-25 14:46:14'),
+(113, '55', '42', 'A', '2020-2021', 5, '2023-08-28 10:28:05', '2023-08-28 10:28:05'),
+(114, '56', '42', 'C', '2020-2021', 5, '2023-09-01 07:56:07', '2023-09-01 07:56:07');
 
 -- --------------------------------------------------------
 
@@ -370,7 +377,7 @@ CREATE TABLE `t_ruang` (
   `userId` int(10) NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `t_ruang`
@@ -403,7 +410,8 @@ INSERT INTO `t_ruang` (`id`, `no_ruang`, `kapasitas`, `jenis`, `userId`, `create
 (24, '504', '45', 'teori', 1, '2023-03-13 09:09:17', '2023-03-13 09:09:17'),
 (25, '601', '40', 'teori', 1, '2023-06-06 09:56:26', '2023-06-06 09:56:26'),
 (26, '601', '45', 'teori', 1, '2023-06-07 10:23:52', '2023-06-07 10:23:52'),
-(29, '9999', '45', 'teori', 4, '2023-06-26 10:09:27', '2023-06-26 10:09:27');
+(29, '9999', '45', 'teori', 4, '2023-06-26 10:09:27', '2023-06-26 10:09:27'),
+(30, '501', '45', 'teori', 3, '2023-08-25 11:54:10', '2023-08-25 11:58:16');
 
 -- --------------------------------------------------------
 
@@ -417,7 +425,7 @@ CREATE TABLE `t_waktu` (
   `userId` int(10) NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `t_waktu`
@@ -436,7 +444,8 @@ INSERT INTO `t_waktu` (`id`, `range_waktu`, `userId`, `createdAt`, `updatedAt`) 
 (10, '16.40-17.30', 1, '2023-03-09 07:44:28', '2023-06-06 08:50:36'),
 (11, '17.30-18.20', 1, '2023-03-09 07:44:50', '2023-03-09 07:44:50'),
 (12, '18.30-19.20', 1, '2023-03-09 07:45:12', '2023-03-09 07:45:12'),
-(15, '99.99-99.99', 4, '2023-06-26 10:09:39', '2023-06-26 10:09:39');
+(15, '99.99-99.99', 4, '2023-06-26 10:09:39', '2023-06-26 10:09:39'),
+(17, '11.11-11.10', 3, '2023-08-25 12:10:00', '2023-08-25 12:11:44');
 
 -- --------------------------------------------------------
 
@@ -452,7 +461,7 @@ CREATE TABLE `t_waktu_khusus` (
   `userId` int(10) NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `t_waktu_khusus`
@@ -481,19 +490,21 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `role` varchar(255) NOT NULL,
+  `prodi` varchar(100) DEFAULT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `uuid`, `name`, `email`, `password`, `role`, `createdAt`, `updatedAt`) VALUES
-(1, '7a752f83-bd2a-47c6-86ea-c9dc6bc55382', 'sistem informasi', 'si@umsu.ac.id', '$argon2id$v=19$m=65536,t=3,p=4$JZWuICWv6cYC2SwV3v0GZw$lAAlioFHus8G/ma6VWYROiUfTPE8Auqa2Klil/1QV9g', 'user', '2023-05-11 02:50:31', '2023-07-07 07:47:15'),
-(2, '0c4923ad-b47a-4dd2-b56f-9ba3d124d995', 'prodi akuntansi', 'user@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$ti/jCuHhMmsaaUZwcQSqXw$b2fkHLUHsGq7RqbJqbGIHKu5qLmz/UggJHCE5gGT6ls', 'user', '2023-05-20 02:38:52', '2023-06-24 03:54:01'),
-(3, '2118901e-4eb1-4f32-82ee-bbb47e59c019', 'Admin Aji', 'aji@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$ZeMUmd9vRaa6OAawwlS0SA$fSoKbn06wVSg+PisIiH4HRaHX+jyJzkrCgDCXNG9RHg', 'user', '2023-06-12 10:35:30', '2023-07-05 08:50:17'),
-(4, '63b697c4-f5d3-4784-ba8f-862c99ca706a', 'Sistem Informasi', 'rizky@umsu.ac.id', '$argon2id$v=19$m=65536,t=3,p=4$04me1Z+MLYRq0Gro/lkyDA$jSDDzjpcum75tH1RnC0h+Jd42ccDsqCDdS55gQQu6V0', 'admin', '2023-06-26 04:33:34', '2023-06-26 08:39:41');
+INSERT INTO `users` (`id`, `uuid`, `name`, `email`, `password`, `role`, `prodi`, `createdAt`, `updatedAt`) VALUES
+(1, '7a752f83-bd2a-47c6-86ea-c9dc6bc55382', 'sistem informasi', 'si@umsu.ac.id', '$argon2id$v=19$m=65536,t=3,p=4$JZWuICWv6cYC2SwV3v0GZw$lAAlioFHus8G/ma6VWYROiUfTPE8Auqa2Klil/1QV9g', 'user', '', '2023-05-11 02:50:31', '2023-07-07 07:47:15'),
+(2, '0c4923ad-b47a-4dd2-b56f-9ba3d124d995', 'prodi akuntansi', 'user@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$ti/jCuHhMmsaaUZwcQSqXw$b2fkHLUHsGq7RqbJqbGIHKu5qLmz/UggJHCE5gGT6ls', 'user', '', '2023-05-20 02:38:52', '2023-06-24 03:54:01'),
+(3, '2118901e-4eb1-4f32-82ee-bbb47e59c019', 'Admin Aji', 'aji@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$C9nf58reIMJxQtOS0C+CsQ$7FkXjNFjY1EzBWhGy1gEGikPGRIJcrKgGX2ZJ6PnELA', 'user', '', '2023-06-12 10:35:30', '2023-08-25 10:58:35'),
+(4, '63b697c4-f5d3-4784-ba8f-862c99ca706a', 'Rizky Boy', 'rizky@umsu.ac.id', '$argon2id$v=19$m=65536,t=3,p=4$04me1Z+MLYRq0Gro/lkyDA$jSDDzjpcum75tH1RnC0h+Jd42ccDsqCDdS55gQQu6V0', 'admin', '', '2023-06-26 04:33:34', '2023-07-20 10:00:05'),
+(5, 'e3f2b335-9f73-4e1d-9413-87816e20af5c', 'Teknologi Informasi', 'ti@umsu.ac.id', '$argon2id$v=19$m=65536,t=3,p=4$u8A2wYibchdJgHeCSPiNZA$Ce+OSjs3aIB7GZF4udsgDadXKAFRF5l+mLl855cReyU', 'prodi', 'teknologi-informasi', '2023-08-26 08:57:52', '2023-08-26 08:57:52');
 
 --
 -- Indexes for dumped tables
@@ -569,7 +580,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `t_dosen`
 --
 ALTER TABLE `t_dosen`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `t_hari`
@@ -581,31 +592,31 @@ ALTER TABLE `t_hari`
 -- AUTO_INCREMENT for table `t_jadwal`
 --
 ALTER TABLE `t_jadwal`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=709;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2829;
 
 --
 -- AUTO_INCREMENT for table `t_matkul`
 --
 ALTER TABLE `t_matkul`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `t_pengampu`
 --
 ALTER TABLE `t_pengampu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
 
 --
 -- AUTO_INCREMENT for table `t_ruang`
 --
 ALTER TABLE `t_ruang`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `t_waktu`
 --
 ALTER TABLE `t_waktu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `t_waktu_khusus`
@@ -617,7 +628,7 @@ ALTER TABLE `t_waktu_khusus`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
