@@ -1,5 +1,5 @@
-import { Sequelize } from "sequelize"
-import db from "../config/Database.js"
+const { Sequelize } = require('sequelize')
+const db = require('../config/Database.js')
 
 const { DataTypes } = Sequelize
 
@@ -16,4 +16,4 @@ const Waktu = db.define('t_waktu', {
     }
 }, { freezeTableName: true })
 
-export default Waktu
+module.exports = Waktu

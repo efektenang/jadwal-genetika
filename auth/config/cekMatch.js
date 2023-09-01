@@ -1,6 +1,8 @@
-import Users from "../models/UserModel.js"
+// import Users from "../models/UserModel.js"
 
-export const cekMatch = async (email) => {
+const Users = require('../models/UserModel.js')
+
+const cekMatch = async (email) => {
     const loadEmail = await Users.findAll({
         attributes: ['name', 'email']
     })
@@ -8,3 +10,5 @@ export const cekMatch = async (email) => {
         return email
     }
 }
+
+module.exports = cekMatch

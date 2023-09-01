@@ -1,4 +1,5 @@
-import mysql from 'mysql'
+// import mysql from 'mysql'
+const mysql = require('mysql')
 
 const conn = mysql.createConnection({
     host: 'localhost',
@@ -7,4 +8,4 @@ const conn = mysql.createConnection({
     database: 'penjadwalan-app'
 })
 
-export default conn
+module.exports = conn

@@ -1,7 +1,12 @@
-import User from "../models/UserModel.js"
-import argon2 from "argon2"
+// import User from ""
+// import argon2 from "argon2"
 
-export const getLogin = async (req, res) => {
+const User = require('../models/UserModel.js')
+const argon2 = require('argon2')
+
+const Auth = {}
+
+Auth.getLogin = async (req, res) => {
     try {
         res.render('sign-in', {
             title: 'Login',
@@ -14,6 +19,7 @@ export const getLogin = async (req, res) => {
     }
 }
 
+<<<<<<< HEAD
 export const getError = async (req, res) => {
     try {
         res.render('404', {
@@ -28,6 +34,9 @@ export const getError = async (req, res) => {
 
 
 export const getRegister = async (req, res) => {
+=======
+Auth.getRegister = async (req, res) => {
+>>>>>>> 005fad5ea06d417488d6c82a79e6d31664eecc00
     try {
         res.render('sign-up', {
             title: 'Register Account',
@@ -40,7 +49,7 @@ export const getRegister = async (req, res) => {
     }
 }
 
-export const Login = async (req, res) => {
+Auth.Login = async (req, res) => {
 
     const user = await User.findOne({
         where: {
@@ -77,7 +86,7 @@ export const Login = async (req, res) => {
     res.status(200)
 }
 
-export const Me = async (req, res) => {
+Auth.Me = async (req, res) => {
     try {
         if (!req.session.userId) {
             res.redirect('/login')
@@ -112,10 +121,12 @@ export const Me = async (req, res) => {
     }
 }
 
-export const Logout = (req, res) => {
+Auth.Logout = (req, res) => {
     req.session.destroy((err) => {
         if(err) return res.status(400).json({msg: "tidak dapat logout"})
         res.redirect('/login')
         res.status(200)
     })
 }
+
+module.exports = Auth

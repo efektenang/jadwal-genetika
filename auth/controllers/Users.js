@@ -1,7 +1,9 @@
-import User from "../models/UserModel.js";
-import argon2 from 'argon2';
+const User = require('../models/UserModel.js')
+const argon2 = require('argon2')
 
-export const getUsers = async (req, res) => {
+const Users = {}
+
+Users.getUsers = async (req, res) => {
     try {
         const user = await User.findOne({
             attributes: ['uuid', 'name', 'email', 'role'],
@@ -24,7 +26,7 @@ export const getUsers = async (req, res) => {
     }
 }
 
-export const getUserById = async (req, res) => {
+Users.getUserById = async (req, res) => {
     try {
         const response = await User.findOne({
             attributes: ['uuid', 'name', 'email', 'role'],
@@ -38,8 +40,13 @@ export const getUserById = async (req, res) => {
     }
 }
 
+<<<<<<< HEAD
 export const createUser = async (req, res) => {
     const {name, email, password, confPassword, role, prodi} = req.body;
+=======
+Users.createUser = async (req, res) => {
+    const {name, email, password, confPassword, role} = req.body;
+>>>>>>> 005fad5ea06d417488d6c82a79e6d31664eecc00
 
     const user = await User.findOne({
         where: {
@@ -76,7 +83,7 @@ export const createUser = async (req, res) => {
     }
 }
 
-export const updateUser = async (req, res) => {
+Users.updateUser = async (req, res) => {
     try {
         const user = await User.findOne({
             where: {
@@ -121,7 +128,7 @@ export const updateUser = async (req, res) => {
     }
 }
 
-export const resetPassword = async (req, res) => {
+Users.resetPassword = async (req, res) => {
     try {
         const user = await User.findOne({
             where: {
@@ -147,7 +154,7 @@ export const resetPassword = async (req, res) => {
     }
 }
 
-export const changePassword = async (req, res) => {
+Users.changePassword = async (req, res) => {
     try {
         const user = await User.findOne({
             where: {
@@ -195,7 +202,7 @@ export const changePassword = async (req, res) => {
     }
 }
 
-export const deleteUser = async (req, res) => {
+Users.deleteUser = async (req, res) => {
     const user = await User.findOne({
         where: {
             uuid: req.params.id
@@ -214,3 +221,5 @@ export const deleteUser = async (req, res) => {
         res.status(400).json({msg: error.message})
     }
 }
+
+module.exports = Users

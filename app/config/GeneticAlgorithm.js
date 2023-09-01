@@ -1,4 +1,5 @@
-import { getHari, getRuangLab, getRuangReg, getWaktu, getWaktuDosen, resData } from "../models/JadwalModel.js"
+// import { getHari, getRuangLab, getRuangReg, getWaktu, getWaktuDosen, resData } from "../models/JadwalModel.js"
+const { getHari, getRuangLab, getRuangReg, getWaktu, getWaktuDosen, resData } = require('../models/JadwalModel.js')
 
 class GeneticAlgorithm {
 
@@ -456,4 +457,4 @@ class GeneticAlgorithm {
     } // end getIndividu()
 }
 
-export default GeneticAlgorithm
+module.exports = GeneticAlgorithm

@@ -1,5 +1,5 @@
-import { Sequelize } from "sequelize"
-import db from "../config/Database.js"
+const { Sequelize } = require('sequelize')
+const db = require('../config/Database.js')
 
 const { DataTypes } = Sequelize
 
@@ -32,4 +32,4 @@ const Matkul = db.define('t_matkul', {
     }
 }, { freezeTableName: true })
 
-export default Matkul
+module.exports = Matkul

@@ -1,8 +1,9 @@
-import Users from '../../auth/models/UserModel.js'
-import Waktu from '../models/WaktuModel.js'
+const Users = require('../../auth/models/UserModel.js')
+const Waktu = require('../models/WaktuModel.js')
+const WaktuController = {}
 
 // Waktu Controller
-export const getWaktu = async (req, res) => {
+WaktuController.getWaktu = async (req, res) => {
     try {
         const user = await Users.findOne({
             attributes: ['id', 'uuid', 'name', 'email', 'role'],
@@ -27,6 +28,7 @@ export const getWaktu = async (req, res) => {
     }
 }
 
+<<<<<<< HEAD
 export const getWaktuById = async (req, res) => {
     try {
         const user = await Users.findOne({
@@ -53,6 +55,9 @@ export const getWaktuById = async (req, res) => {
 }
 
 export const getCreateWaktu = async (req, res) => {
+=======
+WaktuController.getCreateWaktu = async (req, res) => {
+>>>>>>> 005fad5ea06d417488d6c82a79e6d31664eecc00
     try {
         const user = await Users.findOne({
             attributes: ['uuid', 'name', 'email', 'role'],
@@ -72,7 +77,7 @@ export const getCreateWaktu = async (req, res) => {
     }
 }
 
-export const createWaktu = async (req, res) => {
+WaktuController.createWaktu = async (req, res) => {
     try {
         const user = await Users.findOne({
             attributes: ['id', 'uuid'],
@@ -107,7 +112,7 @@ export const createWaktu = async (req, res) => {
     }
 }
 
-export const getUpdateWaktu = async (req, res) => {
+WaktuController.getUpdateWaktu = async (req, res) => {
     try {
         const user = await Users.findOne({
             attributes: ['id', 'uuid', 'name', 'email', 'role'],
@@ -136,7 +141,7 @@ export const getUpdateWaktu = async (req, res) => {
     }
 }
 
-export const updateWaktu = async (req, res) => {
+WaktuController.updateWaktu = async (req, res) => {
     try {
         const user = await Users.findOne({
             attributes: ['id', 'uuid'],
@@ -183,7 +188,7 @@ export const updateWaktu = async (req, res) => {
     }
 }
 
-export const deleteWaktu = async (req, res) => {
+WaktuController.deleteWaktu = async (req, res) => {
     try {
         const user = await Users.findOne({
             attributes: ['id', 'uuid'],
@@ -212,3 +217,5 @@ export const deleteWaktu = async (req, res) => {
         res.status(400).json({msg: 'data gagal dihapus!!'})
     }
 }
+
+module.exports = WaktuController

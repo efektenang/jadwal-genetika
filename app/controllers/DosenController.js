@@ -1,8 +1,11 @@
-import Users from '../../auth/models/UserModel.js'
-import Dosen from '../models/DosenModel.js'
+// import Users from ''
+// import Dosen from ''
+const Users = require('../../auth/models/UserModel.js')
+const Dosen = require('../models/DosenModel.js')
 
+const DosenController = {}
 // Dosen Controller 
-export const getDosen = async (req, res) => {
+DosenController.getDosen = async (req, res) => {
     try {
         const user = await Users.findOne({
             attributes: ['id', 'uuid', 'name', 'email', 'role', 'prodi'],
@@ -31,7 +34,7 @@ export const getDosen = async (req, res) => {
     }
 }
 
-export const getDosenById = async (req, res) => {
+DosenController.getDosenById = async (req, res) => {
     try {
         const user = await Users.findOne({
             attributes: ['id', 'uuid', 'name', 'email', 'role'],
@@ -57,7 +60,7 @@ export const getDosenById = async (req, res) => {
     }
 }
 
-export const getCreateDosen = async (req, res) => {
+DosenController.getCreateDosen = async (req, res) => {
     try {
         const user = await Users.findOne({
             attributes: ['uuid', 'name', 'email', 'role'],
@@ -78,7 +81,7 @@ export const getCreateDosen = async (req, res) => {
      }
 }
 
-export const createDosen = async (req, res) => {
+DosenController.createDosen = async (req, res) => {
     try {
         const user = await Users.findOne({
             attributes: ['id', 'uuid'],
@@ -113,7 +116,7 @@ export const createDosen = async (req, res) => {
 
 }
 
-export const getEditDosen = async (req, res) => {
+DosenController.getEditDosen = async (req, res) => {
     try {
         const user = await Users.findOne({
             attributes: ['id', 'uuid', 'name', 'email', 'role'],
@@ -145,7 +148,7 @@ export const getEditDosen = async (req, res) => {
     }
 }
 
-export const updateDosen = async (req, res) => {
+DosenController.updateDosen = async (req, res) => {
     try {
         const user = await Users.findOne({
             attributes: ['id', 'uuid'],
@@ -191,7 +194,7 @@ export const updateDosen = async (req, res) => {
     }
 }
 
-export const deleteDosen = async (req, res) => {
+DosenController.deleteDosen = async (req, res) => {
     try {
         const user = await Users.findOne({
             attributes: ['id', 'uuid'],
@@ -222,3 +225,5 @@ export const deleteDosen = async (req, res) => {
         res.status(400).json({msg: error.message})
     }
 }
+
+module.exports = DosenController

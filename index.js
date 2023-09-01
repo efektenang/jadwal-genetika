@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import express from 'express'
 import AdminRoute from './app/routes/AdminRoute.js'
 import AuthRoute from './auth/routes/AuthRoute.js'
@@ -12,6 +13,24 @@ import flash from 'connect-flash'
 import conn from './app/config/ConnectDB.js'
 import db from './app/config/Database.js'
 import dotenv from "dotenv"
+=======
+const express = require('express')
+const AdminRoute = require('./app/routes/AdminRoute.js')
+const AuthRoute = require('./auth/routes/AuthRoute.js')
+const UserRoute = require('./auth/routes/UserRoute.js')
+const errorHandler = require('./app/middlewares/errorMiddleware.js')
+const expressEjsLayouts = require('express-ejs-layouts')
+const path = require('path')
+const cookieParser = require('cookie-parser')
+const session = require('express-session')
+const SequelizeStore = require('connect-session-sequelize')
+const flash = require('connect-flash')
+const conn = require('./app/config/ConnectDB.js')
+const db = require('./app/config/Database.js')
+const dotenv = require('dotenv')
+// import Ruang from './app/models/RuangModel.js'
+// import Users from './auth/models/UserModel.js'
+>>>>>>> 005fad5ea06d417488d6c82a79e6d31664eecc00
 dotenv.config()
 
 const app = express()

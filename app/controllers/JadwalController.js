@@ -1,10 +1,12 @@
-import Users from "../../auth/models/UserModel.js"
-import conn from "../config/ConnectDB.js"
-import GeneticAlgorithm from "../config/GeneticAlgorithm.js"
-import { getResult, resData } from "../models/JadwalModel.js"
-import ExcelJS from "exceljs"
+const Users = require('../../auth/models/UserModel.js')
+const conn = require('../config/ConnectDB.js')
+const GeneticAlgorithm = require('../config/GeneticAlgorithm.js')
+const { getResult, resData } = require('../models/JadwalModel.js')
+const ExcelJS = require('exceljs')
 
-export const getJadwal = async (req, res) => {
+const JadwalController = {}
+
+JadwalController.getJadwal = async (req, res) => {
     try {
         const user = await Users.findOne({
             attributes: ['id', 'uuid', 'name', 'email', 'role'],
@@ -30,7 +32,7 @@ export const getJadwal = async (req, res) => {
     }
 }
 
-export const processPenjadwalan = async (req, res) => {
+JadwalController.processPenjadwalan = async (req, res) => {
     try {
         const user = await Users.findOne({
             attributes: ['id', 'uuid'],
@@ -141,8 +143,12 @@ export const processPenjadwalan = async (req, res) => {
 
 }
 
+<<<<<<< HEAD
 // downloading the excel report
 export const getJadwalReport = async (req, res) => {
+=======
+JadwalController.getJadwalReport = async (req, res) => {
+>>>>>>> 005fad5ea06d417488d6c82a79e6d31664eecc00
     try {
         const filePath = 'report/jadwal-report.xlsx'
   
@@ -154,3 +160,5 @@ export const getJadwalReport = async (req, res) => {
         console.log(error.message)
     }
 }
+
+module.exports = JadwalController

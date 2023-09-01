@@ -1,5 +1,5 @@
-import { Sequelize } from "sequelize"
-import db from "../config/Database.js"
+const { Sequelize } = require('sequelize')
+const db = require('../config/Database.js')
 
 const { DataTypes } = Sequelize
 
@@ -23,4 +23,4 @@ const Dosen = db.define('t_dosen', {
     }
 }, { freezeTableName: true })
 
-export default Dosen
+module.exports = Dosen
