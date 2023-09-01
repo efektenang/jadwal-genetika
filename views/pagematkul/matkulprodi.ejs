@@ -20,18 +20,7 @@
                             <span class="btn-inner--text">Tambah Matkul</span>
                         </button>
                         <div class="card-body px-0 pt-0 pb-2">
-                          <% if (user.role === 'prodi') { %>
-                            <div></div>
-                          <% } else { %>
-                            <div class="mb-3" style="width: 500px; margin: 20px 0 0 20px;">
-                              <label for="prodi" class="form-label">Filter Program Studi:</label>
-                                <select class="form-select" id="prodi" name="prodi" onchange="change_filter_matkul()">
-                                  <option value="sistem-informasi" <%- prodi == arr_prodi[0] ? 'selected' : '' %>>Sistem Informasi</option>
-                                  <option value="teknologi-informasi" <%- prodi == arr_prodi[1] ? 'selected' : '' %>>Teknologi Informasi</option>
-                                  <option value="sains-data" <%- prodi == arr_prodi[2] ? 'selected' : '' %>>Sains Data</option>
-                                </select>
-                            </div>
-                          <% } %>
+                          <input type="hidden" id="prdi" value="<%= user.prodi %>">
                           <div class="mb-3" style="width: 500px; margin: 20px 0 0 20px;">
                             <label for="smstr" class="form-label">Filter semester:</label>
                             <select class="form-select" id="smstr" name="smstr" onchange="change_filter_matkul()">
@@ -274,9 +263,9 @@
 
 <script type="text/javascript">
           function change_filter_matkul() {
-            var prodi = document.getElementById('prodi')
+            var prodi = document.getElementById('prdi').value
             var smstr = document.getElementById('smstr')
-            window.location.href = "/matkul/" + prodi.options[prodi.selectedIndex].value + '/' + smstr.options[smstr.selectedIndex].value
+            window.location.href = "/matkul/" + prodi + '/' + smstr.options[smstr.selectedIndex].value
         }
 </script>
 

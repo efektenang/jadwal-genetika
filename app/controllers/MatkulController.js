@@ -2,11 +2,10 @@ import Users from '../../auth/models/UserModel.js'
 import Matkul from '../models/MatkulModel.js'
 
 // Matkul Controller
-
 export const getMatkul = async (req, res) => {
     try {
         const user = await Users.findOne({
-            attributes: ['id', 'uuid', 'name', 'email', 'role'],
+            attributes: ['id', 'uuid', 'name', 'email', 'role', 'prodi'],
             where: {
                 uuid: req.session.userId
             }
@@ -19,8 +18,67 @@ export const getMatkul = async (req, res) => {
             smstr = arr_smstr[0]
         }
         
+        let prodi = req.params.prodi
+        let arr_prodi = ['sistem-informasi', 'teknologi-informasi', 'sains-data']
+        if (prodi === undefined) {
+            prodi = arr_prodi[0]
+        }
+
+        if (user.prodi !== req.params.prodi && user.role === 'prodi') {
+            res.redirect('/matkul/' + user.prodi + '/' + smstr)
+            return res.status(400)
+        }
+
         const matkul = await Matkul.findAll({
             where: {
+                prodi,
+                semester: smstr,
+            },
+            order: [
+                ['matkul', 'ASC']
+            ]
+        })
+        res.render('pagematkul/menumatkul', {
+            title: 'Menu Mata Kuliah',
+            layout: 'layouts/templates',
+            msg: req.flash('matkulmsg'),
+            arr_smstr,
+            smstr,
+            prodi,
+            arr_prodi,
+            matkul,
+            user
+        })
+        res.status(200)
+    } catch (error) {
+        res.status(500).json({msg: error.message, data: null})
+    }
+}
+
+export const getMatkulByProdi = async (req, res) => {
+    try {
+        const user = await Users.findOne({
+            attributes: ['id', 'uuid', 'name', 'email', 'role', 'prodi'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
+
+        let smstr = req.params.semester
+        let arr_smstr = [1,2,3,4,5,6,7,8]
+
+        if ( smstr === undefined) {
+            smstr = arr_smstr[0]
+        }
+
+        if (user.prodi !== req.params.prodi) {
+            res.redirect('/')
+            return res.status(400)
+        }
+
+        const matkul = await Matkul.findAll({
+            where: {
+                prodi: req.params.prodi,
                 semester: smstr,
                 userId: user.id
             },
@@ -28,7 +86,7 @@ export const getMatkul = async (req, res) => {
                 ['matkul', 'ASC']
             ]
         })
-        res.render('pagematkul/menumatkul', {
+        res.render('pagematkul/matkulprodi', {
             title: 'Menu Mata Kuliah',
             layout: 'layouts/templates',
             msg: req.flash('matkulmsg'),
@@ -85,6 +143,7 @@ export const getCreateMatkul = async (req, res) => {
             title: 'Menu Tambah Mata Kuliah',
             layout: 'layouts/templates',
             msg: req.flash('matkulmsg'),
+            oldMatkul: req.flash('oldMk'),
             user
         })
         res.status(200)
@@ -96,15 +155,15 @@ export const getCreateMatkul = async (req, res) => {
 export const createMatkul = async (req, res) => {
     try {
         const user = await Users.findOne({
-            attributes: ['id', 'uuid'],
+            attributes: ['id', 'uuid', 'prodi'],
             where: {
                 uuid: req.session.userId
             }
         })
-        const { kode_mk, matkul, sks, semester, jenis } = req.body
+        const { kode_mk, matkul, sks, semester, jenis, prodi } = req.body
         
-        // Checking all fields is already
-        if (!kode_mk || !matkul || !sks || !semester || !jenis) return res.status(400).send({ msg: 'Data harus terisi semua!' })
+        // Checking all fields must be fill
+        if (!kode_mk || !matkul || !sks || !semester || !jenis || !prodi) return res.status(400).send({ msg: 'Data harus terisi semua!' })
 
         // checking if kode_mk is ready
         const isReady = await Matkul.findOne({
@@ -112,16 +171,18 @@ export const createMatkul = async (req, res) => {
         })
 
         if (isReady) {
-            req.flash('matkulmsg', 'Mata Kuliah sudah terdaftar!')
+            req.flash('matkulmsg', kode_mk + ' sudah terdaftar!')
+            req.flash('oldMk', [kode_mk, matkul, sks, semester, jenis, prodi])
             res.redirect('/formmatkul')
             return res.status(400)
         }
         
-        await Matkul.create({
-            kode_mk, matkul, sks, semester, jenis, userId: user.id
+        const newMatkul = await Matkul.create({
+            kode_mk, matkul, sks, semester, jenis, prodi, userId: user.id
         })
-        req.flash('matkulmsg', 'Mata Kuliah Baru berhasil ditambahkan!')
-        res.redirect('/matkul/'+ semester)
+
+        req.flash('matkulmsg', newMatkul.matkul + ' berhasil ditambahkan!')
+        res.redirect('/matkul/'+ prodi + '/' + semester)
         res.status(200)
     } catch (error) {
         res.status(400).send(error.message)
@@ -181,7 +242,7 @@ export const updateMatkul = async (req, res) => {
         if (!response) return res.status(400).send({ msg: 'Data tidak ditemukan' })
         
         // Initialize Data
-        const { kode_mk, matkul, sks, semester, jenis } = req.body
+        const { kode_mk, matkul, sks, semester, jenis, prodi } = req.body
 
         const isReady = await Matkul.findOne({
             where: { kode_mk, userId: user.id }
@@ -194,13 +255,13 @@ export const updateMatkul = async (req, res) => {
         }
 
         await Matkul.update({
-            kode_mk, matkul, sks, semester, jenis
+            kode_mk, matkul, sks, semester, jenis, prodi
         }, {
             where: {
                 id: response.id, userId: user.id
             }
         })
-        req.flash('matkulmsg', 'Mata Kuliah Berhasil disimpan!')
+        req.flash('matkulmsg', response.matkul + ' Berhasil diubah!')
         res.redirect('/matkul/' + semester)
         res.status(200)
     } catch (error) {

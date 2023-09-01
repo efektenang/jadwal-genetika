@@ -37,6 +37,7 @@
                                             <th>Mata Kuliah</th>
                                             <th>Nama Dosen Pengampu</th>
                                             <th>Kelas</th>
+                                            <th>Program Studi</th>
                                             <th>Tahun Akademik</th>
                                             <th>Action</th>
                                         </tr>
@@ -47,6 +48,7 @@
                                             <th>Mata Kuliah</th>
                                             <th>Nama Dosen Pengampu</th>
                                             <th>Kelas</th>
+                                            <th>Program Studi</th>
                                             <th>Tahun Akademik</th>
                                             <th>Action</th>
                                         </tr>
@@ -54,11 +56,16 @@
                                     <tbody>
                                         <% let no = 1; %> 
                                         <% pengampu.forEach(pgp => { %>
+                                          <% 
+                                            let a = pgp.prodi
+                                            let prdi = a.split('-')
+                                          %>
                                             <tr>
                                                 <td class="text-sm font-weight-normal"><%= no++ %> </td>
                                                 <td class="text-sm font-weight-normal"><%- pgp.nama_mk %> </td>
                                                 <td class="text-sm font-weight-normal"><%- pgp.nama_dosen %> </td>
                                                 <td class="text-sm font-weight-normal"><%- pgp.kelas %></td>
+                                                <td class="text-sm font-weight-normal" style="text-transform: capitalize;"><%- prdi[0].concat(' ', prdi[1]) %></td>
                                                 <td class="text-sm font-weight-normal"><%- pgp.tahun_akademik %></td>
                                                 <td width="12%" class="text-sm font-weight-normal">
                                                     <button data-bs-toggle="modal" id="<%= pgp.id%>" data-bs-target="#editPengampuModal" class="btn bg-gradient-warning btn-icon editbutton">

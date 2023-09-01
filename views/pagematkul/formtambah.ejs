@@ -16,15 +16,16 @@
                     <form action="/insertmatkul" method="post">
                         <div class="mb-3">
                             <label for="kode_mk" class="form-label">Kode Mata Kuliah</label>  
-                            <input type="text" class="form-control" id="kode_mk" name="kode_mk" aria-describedby="kode_mkHelp" autofocus>
+                            <input type="text" class="form-control" id="kode_mk" name="kode_mk" value="<%- oldMatkul !== 0 ? oldMatkul[0] : '' %>" aria-describedby="kode_mkHelp" autofocus>
                         </div>
                         <div class="mb-3">
                             <label for="matkul" class="form-label">Mata Kuliah</label>
-                            <input type="text" class="form-control" id="matkul" name="matkul" aria-describedby="nameHelp" required>
+                            <input type="text" class="form-control" id="matkul" name="matkul" value="<%- oldMatkul !== 0 ? oldMatkul[1] : '' %>" aria-describedby="nameHelp" required>
                         </div>
                         <div class="mb-3">
                             <label for="sks" class="form-label">SKS</label>
                             <select class="form-select" id="sks" name="sks" aria-label="Default select example">
+                                <option selected value="<%- oldMatkul !== 0 ? oldMatkul[2] : '' %>"><%= oldMatkul[2] %> sks</option>
                                 <option value="1">1 sks</option>
                                 <option value="2">2 sks</option>
                                 <option value="3">3 sks</option>
@@ -34,6 +35,7 @@
                         <div class="mb-3">
                             <label for="semester" class="form-label">Semester</label>
                             <select class="form-select" id="semester" name="semester" aria-label="Default select example">
+                                <option selected value="<%- oldMatkul !== 0 ? oldMatkul[3] : '' %>"><%= oldMatkul[3] %></option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -47,8 +49,18 @@
                         <div class="mb-3">
                             <label for="jenis" class="form-label">Jenis Mata Kuliah</label>
                             <select class="form-select" id="jenis" name="jenis" aria-label="Default select example">
+                                <option selected value="<%- oldMatkul !== 0 ? oldMatkul[4] : '' %>"><%= oldMatkul[4] %></option>
                                 <option value="teori">Teori</option>
                                 <option value="praktek">Praktek</option>
+                              </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="prodi" class="form-label">Program Studi</label>
+                            <select class="form-select" name="prodi" aria-label="Default select example">
+                                <option selected value="<%- oldMatkul !== 0 ? oldMatkul[5] : '' %>"><%= oldMatkul[5] %></option>
+                                <option value="sistem-informasi">Sistem Informasi</option>
+                                <option value="teknologi-informasi">Teknologi Informasi</option>
+                                <option value="sains-data">Sains Data</option>
                               </select>
                         </div>
                         <button class="btn btn-success" type="submit"> Tambahkan </button>

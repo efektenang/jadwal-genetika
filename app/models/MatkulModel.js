@@ -20,6 +20,9 @@ const Matkul = db.define('t_matkul', {
     jenis: {
         type: DataTypes.STRING
     },
+    prodi: {
+        type: DataTypes.STRING
+    },
     userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
