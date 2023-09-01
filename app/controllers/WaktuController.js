@@ -96,10 +96,10 @@ export const createWaktu = async (req, res) => {
             return res.status(400)
         }
 
-        await Waktu.create({
+        const newWaktu = await Waktu.create({
             range_waktu, userId: user.id
         })
-        req.flash('waktumsg', 'Range Waktu berhasil ditambahkan!')
+        req.flash('waktumsg', newWaktu.range_waktu + ' berhasil ditambahkan!')
         res.redirect('/waktu')
         res.status(201)
     } catch (error) {
@@ -175,7 +175,7 @@ export const updateWaktu = async (req, res) => {
                 id: waktu.id, userId: user.id
             }
         })
-        req.flash('waktumsg', 'Range waktu berhasil tersimpan!')
+        req.flash('waktumsg', waktu.range_waktu + ' berhasil diubah!')
         res.redirect('/waktu')
         res.status(200)
     } catch (error) {

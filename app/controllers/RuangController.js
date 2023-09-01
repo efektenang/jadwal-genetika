@@ -99,10 +99,10 @@ export const createRuang = async (req, res) => {
             return res.status(400)
         }
         
-        await Ruang.create({
+        const newRuang = await Ruang.create({
             no_ruang, kapasitas, jenis, userId: user.id
         })
-        req.flash('ruangmsg', 'Ruang Baru berhasil ditambahkan!')
+        req.flash('ruangmsg', newRuang.no_ruang + ' berhasil ditambahkan!')
         res.redirect('/ruang')
         res.status(200)
     } catch (error) {
@@ -185,7 +185,7 @@ export const updateRuang = async (req, res) => {
                 userId: user.id
             }
         })
-        req.flash('ruangmsg', 'Ruang berhasil disimpan!')
+        req.flash('ruangmsg', ruang.no_ruang + ' berhasil diubah!')
         res.redirect('/ruang')
         res.status(200)
     } catch (error) {

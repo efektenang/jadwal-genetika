@@ -5,7 +5,7 @@ import Dosen from '../models/DosenModel.js'
 export const getDosen = async (req, res) => {
     try {
         const user = await Users.findOne({
-            attributes: ['id', 'uuid', 'name', 'email', 'role'],
+            attributes: ['id', 'uuid', 'name', 'email', 'role', 'prodi'],
             where: {
                 uuid: req.session.userId
             }
@@ -69,6 +69,7 @@ export const getCreateDosen = async (req, res) => {
             title: 'Menu Tambah Dosen',
             layout: 'layouts/templates',
             dosenmsg: req.flash('dosenmsg'),
+            oldDosen: req.flash('oldDsn'),
             user
          })
          res.status(200)
@@ -94,16 +95,16 @@ export const createDosen = async (req, res) => {
 
         if (dsn) {
             req.flash('dosenmsg', 'NIDN sudah digunakan!')
+            req.flash('oldDsn', [nidn, name, phone])
             res.redirect('/formdosen')
             return res.status(400)
         }
 
-        // Create Data
-        await Dosen.create({
+        const addDosen = await Dosen.create({
             nidn, name, phone, userId: user.id
         })
 
-        req.flash('dosenmsg', 'Data Dosen berhasil ditambahkan!')
+        req.flash('dosenmsg', addDosen.name + ' berhasil ditambahkan!')
         res.redirect('/dosen')
         res.status(201)
     } catch (error) {
@@ -182,7 +183,7 @@ export const updateDosen = async (req, res) => {
             where: { id: dosen.id, userId: user.id }
         })
 
-        req.flash('dosenmsg', 'Data Dosen berhasil diubah!')
+        req.flash('dosenmsg', dosen.name + ' berhasil diubah!')
         res.redirect('/dosen')
         res.status(200)
     } catch (error) {
@@ -214,7 +215,7 @@ export const deleteDosen = async (req, res) => {
                 userId: user.id
             }
         })
-        req.flash('msg', 'Data Dosen berhasil dihapus!')
+        req.flash('dosenmsg', dosen.name + ' berhasil dihapus!')
         res.redirect('/dosen')
         res.status(200)
     } catch (error) {

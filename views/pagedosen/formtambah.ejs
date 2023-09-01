@@ -16,15 +16,15 @@
                     <form action="/insertdosen" method="post">
                         <div class="mb-3">
                             <label for="nidn" class="form-label">NIDN</label>  
-                            <input type="text" class="form-control" id="nidn" name="nidn" aria-describedby="nidnHelp" autofocus>
+                            <input type="text" class="form-control" id="nidn" name="nidn" value="<%- oldDosen !== 0 ? oldDosen[0] : '' %>" aria-describedby="nidnHelp" autofocus>
                         </div>
                         <div class="mb-3">
                             <label for="name" class="form-label">Nama Lengkap</label>
-                            <input type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp" required>
+                            <input type="text" class="form-control" id="name" name="name" value="<%- oldDosen !== 0 ? oldDosen[1] : '' %>" aria-describedby="nameHelp" required>
                         </div>
                         <div class="mb-3">
                             <label for="phone" class="form-label">Phone Number</label>
-                            <input type="text" class="form-control" id="phone" name="phone" aria-describedby="phoneHelp">
+                            <input type="text" class="form-control" id="phone" name="phone" value="<%- oldDosen !== 0 ? oldDosen[2] : '' %>" aria-describedby="phoneHelp">
                         </div>
                         <button class="btn bg-gradient-success" type="submit"> Tambahkan </button>
                     </form>

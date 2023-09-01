@@ -1,72 +1,74 @@
-<div class="container-fluid py-4">
+  <div class="container-fluid py-4">
     <div class="row">
       <div class="col-lg-12">
         <div class="row">
-        <div class="col-12">
+          <div class="col-12">
             <div class="card mb-4">
-            <div class="card-header pb-0">
-                <h5>Tabel Dosen Terdaftar</h5>
-                <% if (msg.length !== 0) { %>
-                  <div class="alert alert-success alert-dismissible text-white" role="alert">
-                    <strong>Good!</strong> <%- msg %>
-                    <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                <% } %>
-            </div>
-                <button data-bs-toggle="modal" data-bs-target="#tambahDosenModal" class="btn btn-icon btn-3 btn-primary" type="button" style="width: 200px; margin: 20px 0 0 20px;">
-                    <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
-                    <span class="btn-inner--text">Tambah Dosen</span>
-                </button>
-            <div class="card-body px-0 pt-0 pb-2">
+              <div class="card-header pb-0">
+                  <h5>Tabel Dosen Terdaftar</h5>
+                  <% if (msg.length !== 0) { %>
+                    <div class="alert alert-success alert-dismissible text-white" role="alert">
+                      <strong>Good!</strong> <%- msg %>
+                      <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                  <% } %>
+              </div>
+                  <button data-bs-toggle="modal" data-bs-target="#tambahDosenModal" class="btn btn-icon btn-3 btn-primary" type="button" style="width: 200px; margin: 20px 0 0 20px;">
+                      <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+                      <span class="btn-inner--text">Tambah Dosen</span>
+                  </button>
+              <div class="card-body px-0 pt-0 pb-2">
                 <div class="table-responsive p-0">
-                <table class="table align-items-center mb-0" id="datatable-basic">
-                    <thead>
-                        <tr>
-                            <th>No.</th>
-                            <th>NIDN</th>
-                            <th>Nama</th>
-                            <th>Phone</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th>No.</th>
-                            <th>NIDN</th>
-                            <th>Nama</th>
-                            <th>Phone</th>
-                            <th>Action</th>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        <% let no = 1; %> 
-                        <% dosen.forEach(dsn => { %>
-                            <tr>
-                                <td class="text-sm font-weight-normal"><%= no++ %></td>
-                                <td class="text-sm font-weight-normal"><%- dsn.nidn %> </td>
-                                <td class="text-sm font-weight-normal"><%- dsn.name %> </td>
-                                <td class="text-sm font-weight-normal"><%- dsn.phone %> </td>
-                                <td class="text-sm font-weight-normal">
-                                    <button type="button" id="<%- dsn.id %>" data-bs-toggle="modal" data-bs-target="#editDosenModal" class="btn bg-gradient-warning btn-icon editbutton">
-                                        <i class="fas fa-edit" title="edit"></i>
-                                    </button>
-                                    <form action="/deletedosen/<%= dsn.id%>?_method=DELETE" method="post" onclick="return confirm('Apakah anda yakin ingin menghapus?');" style="display: inline;">
-                                        <!-- <button type="submit" class="btn btn-danger btn-icon"><i class="fas fa-trash"></i></button> -->
-                                        <button type="submit" class="btn bg-gradient-danger btn-icon"><i class="fas fa-trash"></i></button>
-                                    </form>
-                                </td>
-                            </tr>                             
-                        <% }) %>
-                    </tbody>
-                </table>
+                  <table class="table align-items-center mb-0" id="datatable-basic">
+                      <thead>
+                          <tr>
+                              <th>No.</th>
+                              <th>NIDN</th>
+                              <th>Nama</th>
+                              <th>Phone</th>
+                              <th>Action</th>
+                          </tr>
+                      </thead>
+                      <tfoot>
+                          <tr>
+                              <th>No.</th>
+                              <th>NIDN</th>
+                              <th>Nama</th>
+                              <th>Phone</th>
+                              <th>Action</th>
+                          </tr>
+                      </tfoot>
+                      <tbody>
+                          <% let no = 1; %> 
+                          <% dosen.forEach(dsn => { %>
+                              <tr>
+                                  <td class="text-sm font-weight-normal"><%= no++ %></td>
+                                  <td class="text-sm font-weight-normal"><%- dsn.nidn %> </td>
+                                  <td class="text-sm font-weight-normal"><%- dsn.name %> </td>
+                                  <td class="text-sm font-weight-normal"><%- dsn.phone %> </td>
+                                  <td class="text-sm font-weight-normal">
+                                      <button type="button" id="<%- dsn.id %>" data-bs-toggle="modal" data-bs-target="#editDosenModal" class="btn bg-gradient-warning btn-icon editbutton">
+                                          <i class="fas fa-edit" title="edit"></i>
+                                      </button>
+                                      <form action="/deletedosen/<%= dsn.id%>?_method=DELETE" method="post" onclick="return confirm('Apakah anda yakin ingin menghapus?');" style="display: inline;">
+                                          <!-- <button type="submit" class="btn btn-danger btn-icon"><i class="fas fa-trash"></i></button> -->
+                                          <button type="submit" class="btn bg-gradient-danger btn-icon"><i class="fas fa-trash"></i></button>
+                                      </form>
+                                  </td>
+                              </tr>                             
+                          <% }) %>
+                      </tbody>
+                  </table>
                 </div>
+              </div>
             </div>
-            </div>
+          </div>
         </div>
-        </div>
+      </div>
     </div>
+  </div>
 
 <!-- add modal -->
   <div class="modal fade" id="tambahDosenModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalSignTitle" aria-hidden="true">
