@@ -18,7 +18,8 @@ export const getError = async (req, res) => {
     try {
         res.render('404', {
             title: 'Error',
-            layout: 'layouts/auth'
+            layout: 'layouts/auth',
+            msg: req.flash('errMsg')
         });
     } catch (error) {
         res.status(500).json({msg: error.message});
@@ -84,7 +85,7 @@ export const Me = async (req, res) => {
         }
     
         const user = await User.findOne({
-            attributes: ['uuid', 'name', 'email', 'role', 'updatedAt'],
+            attributes: ['uuid', 'name', 'email', 'role', 'prodi', 'updatedAt'],
             where: {
                 uuid: req.session.userId
             }

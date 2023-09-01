@@ -3,12 +3,12 @@ import { getDashboard } from '../controllers/Dashboard.js'
 import { createDosen, deleteDosen, getCreateDosen, getDosen, getDosenById, getEditDosen, updateDosen } from '../controllers/DosenController.js'
 import { createHari, getHari } from '../controllers/HariController.js'
 import { getJadwal, getJadwalReport, processPenjadwalan } from '../controllers/JadwalController.js'
-import { createMatkul, deleteMatkul, getCreateMatkul, getEditMatkul, getMatkul, getMatkulById, updateMatkul } from '../controllers/MatkulController.js'
+import { createMatkul, deleteMatkul, getCreateMatkul, getEditMatkul, getMatkul, getMatkulById, getMatkulByProdi, updateMatkul } from '../controllers/MatkulController.js'
 import { createPengampu, deletePengampu, getCreatePengampu, getPengampu, getPengampuById, getUpdatePengampu, updatePengampu } from '../controllers/PengampuController.js'
 import { createRuang, deleteRuang, getCreateRuang, getEditRuang, getRuang, getRuangById, updateRuang } from '../controllers/RuangController.js'
 import { createWaktu, deleteWaktu, getCreateWaktu, getUpdateWaktu, getWaktu, getWaktuById, updateWaktu } from '../controllers/WaktuController.js'
 import { getJadwalKhusus, inputWaktuKhusus } from '../controllers/WaktuKhususController.js'
-import { verifyUser } from '../../auth/middleware/AuthUser.js'
+import { staffOnly, verifyUser } from '../../auth/middleware/AuthUser.js'
 
 const router = express.Router()
 
@@ -30,35 +30,36 @@ router.get('/hari', verifyUser, getHari)
 router.post('/inserthari', verifyUser, createHari)
 
 // Manage range waktu Data
-router.get('/formwaktu', verifyUser, getCreateWaktu)
-router.get('/editwaktu/:id', verifyUser, getUpdateWaktu)
+router.get('/formwaktu', verifyUser, staffOnly, getCreateWaktu)
+router.get('/editwaktu/:id', verifyUser, staffOnly, getUpdateWaktu)
 
-router.get('/waktu', verifyUser, getWaktu)
-router.get('/waktu/:id', verifyUser, getWaktuById)
-router.post('/insertwaktu', verifyUser, createWaktu)
-router.post('/updatewaktu/:id', verifyUser, updateWaktu)
-router.post('/deletewaktu/:id', verifyUser, deleteWaktu)
+router.get('/waktu', verifyUser, staffOnly, getWaktu)
+router.get('/waktu/:id', verifyUser, staffOnly, getWaktuById)
+router.post('/insertwaktu', verifyUser, staffOnly, createWaktu)
+router.post('/updatewaktu/:id', verifyUser, staffOnly, updateWaktu)
+router.post('/deletewaktu/:id', verifyUser, staffOnly, deleteWaktu)
 
 // Manage Matkul Data
 router.get('/formmatkul', verifyUser, getCreateMatkul)
 router.get('/editmatkul/:id', verifyUser, getEditMatkul)
 
 router.get('/matkul', verifyUser, getMatkul)
+router.get('/matkul/:prodi', verifyUser, getMatkulByProdi)
+router.get('/matkul/:prodi/:semester', verifyUser, getMatkul)
 router.get('/getmatkul/:id', verifyUser, getMatkulById)
-router.get('/matkul/:semester', verifyUser, getMatkul)
 router.post('/insertmatkul', verifyUser, createMatkul)
 router.post('/updatematkul/:id', verifyUser, updateMatkul)
 router.post('/deletematkul/:id', verifyUser, deleteMatkul)
 
 // Manage Data Ruang
-router.get('/formruang', verifyUser, getCreateRuang)
-router.get('/editruang/:id', verifyUser, getEditRuang)
+router.get('/formruang', verifyUser, staffOnly, getCreateRuang)
+router.get('/editruang/:id', verifyUser, staffOnly, getEditRuang)
 
-router.get('/ruang', verifyUser, getRuang)
-router.get('/ruang/:id', verifyUser, getRuangById)
-router.post('/insertruang', verifyUser, createRuang)
-router.post('/updateruang/:id', verifyUser, updateRuang)
-router.post('/deleteruang/:id', verifyUser, deleteRuang)
+router.get('/ruang', verifyUser, staffOnly, getRuang)
+router.get('/ruang/:id', verifyUser, staffOnly, getRuangById)
+router.post('/insertruang', verifyUser, staffOnly, createRuang)
+router.post('/updateruang/:id', verifyUser, staffOnly, updateRuang)
+router.post('/deleteruang/:id', verifyUser, staffOnly, deleteRuang)
 
 // Manage Data Pengampu
 router.get('/pengampu', verifyUser, getPengampu)
@@ -72,13 +73,13 @@ router.post('/updatepengampu/:id', verifyUser, updatePengampu)
 router.post('/deletepengampu/:id', verifyUser, deletePengampu)
 
 // Manage Waktu tidak bersedia
-router.get('/waktu-tidak-bersedia', verifyUser, getJadwalKhusus)
-router.get('/waktu-tidak-bersedia/:id', verifyUser, getJadwalKhusus)
-router.post('/insert-waktu', verifyUser, inputWaktuKhusus)
+router.get('/waktu-tidak-bersedia', verifyUser, staffOnly, getJadwalKhusus)
+router.get('/waktu-tidak-bersedia/:id', verifyUser, staffOnly, getJadwalKhusus)
+router.post('/insert-waktu', verifyUser, staffOnly, inputWaktuKhusus)
 
 // Manage Jadwal Kuliah
-router.get('/jadwalkuliah', verifyUser, getJadwal)
-router.post('/getprocess', verifyUser, processPenjadwalan)
+router.get('/jadwalkuliah', verifyUser, staffOnly, getJadwal)
+router.post('/getprocess', verifyUser, staffOnly, processPenjadwalan)
 router.get('/getreport', getJadwalReport)
 
 export default router

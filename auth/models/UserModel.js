@@ -41,6 +41,13 @@ const Users = db.define('users', {
         validate: {
             notEmpty: true,
         }
+    },
+    prodi: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        validate: {
+            notEmpty: true,
+        }
     }
 }, {
     freezeTableName: true

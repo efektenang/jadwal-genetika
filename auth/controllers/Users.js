@@ -39,7 +39,7 @@ export const getUserById = async (req, res) => {
 }
 
 export const createUser = async (req, res) => {
-    const {name, email, password, confPassword, role} = req.body;
+    const {name, email, password, confPassword, role, prodi} = req.body;
 
     const user = await User.findOne({
         where: {
@@ -65,7 +65,8 @@ export const createUser = async (req, res) => {
             name: name,
             email: email,
             password: hashPassword,
-            role: role
+            role: role,
+            prodi: prodi
         });
         req.flash('msg', 'Daftar Berhasil! Silahkan Login')
         res.redirect('/login')

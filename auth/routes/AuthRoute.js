@@ -14,7 +14,7 @@ const router = express.Router()
 router.get('/profile', Me);
 router.get('/login', getLogin);
 router.get('/error', getError);
-router.get('/register', getRegister)
+router.get('/register', verifyUser, adminOnly, getRegister)
 router.post('/auth/login', Login);
 router.post('/auth/logout', Logout)
 

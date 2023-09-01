@@ -8,7 +8,7 @@ import { dataPengampu } from '../models/PengampuModel.js'
 export const getDashboard = async (req, res) => {
     try {
         const user = await Users.findOne({
-            attributes: ['id', 'uuid', 'name', 'email', 'role'],
+            attributes: ['id', 'uuid', 'name', 'email', 'role', 'prodi'],
             where: {
                 uuid: req.session.userId
             }

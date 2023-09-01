@@ -5,7 +5,9 @@
         <div class="col-lg-6 col-md-7 mx-auto text-center">
           <h1 class="display-1 text-bolder text-white fadeIn1 fadeInBottom mt-5">Error Page</h1>
           <h2 class="fadeIn3 fadeInBottom mt-3 text-white">Something went wrong</h2>
-          <p class="lead fadeIn2 fadeInBottom text-white">This page can only be accessed by admins!</p>
+          <% if (msg.length !== 0) { %>
+            <p class="lead fadeIn2 fadeInBottom text-white"><%= msg %></p>
+          <% } %>
           <a href="/">
             <button type="button" class="btn bg-gradient-warning mt-4 fadeIn2 fadeInBottom">Go to Homepage</button>
           </a>
