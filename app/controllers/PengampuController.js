@@ -233,7 +233,7 @@ export const updatePengampu = async (req, res) => {
         // checking if dosen, mk, kelas is already
         const isAlready = await Pengampu.findOne({
             where: {
-                id_mk, id_dosen, kelas, userId: user.id
+                id_mk, id_dosen, kelas, tahun_akademik, userId: user.id
             }
         })
  

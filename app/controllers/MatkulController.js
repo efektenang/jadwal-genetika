@@ -111,8 +111,7 @@ export const getMatkulById = async (req, res) => {
         })
         const mk = await Matkul.findOne({
             where: {
-                id: req.params.id,
-                userId: user.id
+                id: req.params.id
             }
         })
         if (!mk) {
@@ -199,8 +198,7 @@ export const getEditMatkul = async (req, res) => {
         })
         const mk = await Matkul.findOne({
             where: {
-                id: req.params.id,
-                userId: user.id
+                id: req.params.id
             }
         })
         if (!mk) {
@@ -233,8 +231,7 @@ export const updateMatkul = async (req, res) => {
 
         const response = await Matkul.findOne({
             where: {
-                id: req.params.id,
-                userId: user.id
+                id: req.params.id
             }
         })
 
@@ -245,7 +242,7 @@ export const updateMatkul = async (req, res) => {
         const { kode_mk, matkul, sks, semester, jenis, prodi } = req.body
 
         const isReady = await Matkul.findOne({
-            where: { kode_mk, userId: user.id }
+            where: { kode_mk }
         })
 
         if (kode_mk !== req.body.oldMatkul && isReady) {
@@ -258,11 +255,11 @@ export const updateMatkul = async (req, res) => {
             kode_mk, matkul, sks, semester, jenis, prodi
         }, {
             where: {
-                id: response.id, userId: user.id
+                id: response.id
             }
         })
         req.flash('matkulmsg', response.matkul + ' Berhasil diubah!')
-        res.redirect('/matkul/' + semester)
+        res.redirect('/matkul/' + prodi + '/' + semester)
         res.status(200)
     } catch (error) {
         res.status(400).send(error.message)
@@ -289,8 +286,7 @@ export const deleteMatkul = async (req, res) => {
         // Deleting Data
         await Matkul.destroy({
             where: {
-                id: response.id,
-                userId: user.id
+                id: response.id
             }
         })
         req.flash('matkulmsg', 'Mata Kuliah berhasil dihapus!')
