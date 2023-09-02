@@ -26,14 +26,14 @@ const store = new sessionStore({
 // store.sync();
 
 // Connect to Database using mysql module
-// try {
-//     conn.connect((err) => {
-//         if (err) return console.log(err.message)
-//         console.log('penjadwalan-app is connected...')
-//     })
-// } catch (error) {
-//     console.log(error.message)
-// }
+try {
+    conn.connect((err) => {
+        if (err) return console.log(err.message)
+        console.log('penjadwalan-app is connected...')
+    })
+} catch (error) {
+    console.log(error.message)
+}
 
 // Config Flash Session 
 app.use(cookieParser('secret'))
@@ -41,14 +41,14 @@ app.use(flash())
 // end-flash
 
 // Connect to Database using Sequelize Module
-try {
-    db.authenticate()
-    console.log('Database is connected...')
-    // if we need to create table automatically, delete comment below
-    // await db.sync({force: true})
-} catch (error) {
-    console.log('Database is not connected!', error.message)
-}
+// try {
+//     db.authenticate()
+//     console.log('Database is connected...')
+//     // if we need to create table automatically, delete comment below
+//     // await db.sync({force: true})
+// } catch (error) {
+//     console.log('Database is not connected!', error.message)
+// }
 
 // set view engine use EJS
 app.set('view engine', 'ejs')
