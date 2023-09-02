@@ -2,9 +2,10 @@
 // import  from ''
 const Users = require('../../auth/models/UserModel.js')
 const Hari = require('../models/HariModel.js')
+const HariController = {}
 
 // Hari Controller
-exports.getHari = async (req, res) => {
+HariController.getHari = async (req, res) => {
     try {
         const user = await Users.findOne({
             attributes: ['uuid', 'name', 'email', 'role'],
@@ -25,7 +26,7 @@ exports.getHari = async (req, res) => {
     }
 }
 
-exports.createHari = async (req, res) => {
+HariController.createHari = async (req, res) => {
     try {
         const { hari } = req.body
         const response = await Hari.create({
@@ -37,3 +38,5 @@ exports.createHari = async (req, res) => {
         res.status(400).json({msg: 'data gagal dikirim!'})
     }
 }
+
+module.exports = HariController

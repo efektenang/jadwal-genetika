@@ -54,12 +54,9 @@ PengampuController.getPengampu = async (req, res) => {
     }
 }
 
-<<<<<<< HEAD
-export const getPengampuById = async (req, res) => {
-=======
+
 // Create Data Pengampu
 PengampuController.getCreatePengampu = async (req, res) => {
->>>>>>> 005fad5ea06d417488d6c82a79e6d31664eecc00
     try {
         const user = await Users.findOne({
             attributes: ['id', 'uuid', 'name', 'email', 'role'],
@@ -100,7 +97,48 @@ PengampuController.getCreatePengampu = async (req, res) => {
     }
 }
 
-export const getCreatePengampu = async (req, res) => {
+PengampuController.getPengampuById = async (req, res) => {
+    try {
+        const user = await Users.findOne({
+            attributes: ['id', 'uuid', 'name', 'email', 'role'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
+        const userId = user.id
+        const pengampuId = req.params.id
+
+        const dosen = await Dosen.findAll({
+            where: { userId: user.id},
+            order: [
+                ['name', 'ASC']
+            ]
+        })
+        const matkul = await Matkul.findAll({
+            where: { userId: user.id},
+            order: [
+                ['matkul', 'ASC']
+            ]
+        })
+
+        conn.query("SELECT a.id as id, b.id as `id_mk`, b.matkul as `nama_mk`, c.id as `id_dosen`, c.name as `nama_dosen`, a.kelas as kelas, a.tahun_akademik as `tahun_akademik` FROM t_pengampu a LEFT JOIN t_matkul b ON a.id_mk = b.id LEFT JOIN t_dosen c ON a.id_dosen = c.id WHERE a.id = ? AND a.userId = ?", [pengampuId, userId], function (error, rows, fields) {
+            if (error) throw error
+            res.json({
+                id: req.params.id,
+                rows,
+                dosen,
+                matkul,
+                user
+            })
+        })
+
+        res.status(200)
+    } catch (error) {
+        res.status(500).json({msg: error.message})
+    }
+}
+
+PengampuController.getCreatePengampu = async (req, res) => {
     try {
         const user = await Users.findOne({
             attributes: ['id', 'uuid', 'name', 'email', 'role'],

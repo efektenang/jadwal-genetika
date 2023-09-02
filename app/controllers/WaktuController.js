@@ -28,8 +28,7 @@ WaktuController.getWaktu = async (req, res) => {
     }
 }
 
-<<<<<<< HEAD
-export const getWaktuById = async (req, res) => {
+WaktuController.getWaktuById = async (req, res) => {
     try {
         const user = await Users.findOne({
             attributes: ['id', 'uuid', 'name', 'email', 'role'],
@@ -54,10 +53,8 @@ export const getWaktuById = async (req, res) => {
     }
 }
 
-export const getCreateWaktu = async (req, res) => {
-=======
+
 WaktuController.getCreateWaktu = async (req, res) => {
->>>>>>> 005fad5ea06d417488d6c82a79e6d31664eecc00
     try {
         const user = await Users.findOne({
             attributes: ['uuid', 'name', 'email', 'role'],

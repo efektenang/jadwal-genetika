@@ -4,7 +4,7 @@ const MatkulController = {}
 
 // Matkul Controller
 
-export const getMatkul = async (req, res) => {
+MatkulController.getMatkul = async (req, res) => {
     try {
         const user = await Users.findOne({
             attributes: ['id', 'uuid', 'name', 'email', 'role', 'prodi'],
@@ -57,7 +57,7 @@ export const getMatkul = async (req, res) => {
     }
 }
 
-export const getMatkulByProdi = async (req, res) => {
+MatkulController.getMatkulByProdi = async (req, res) => {
     try {
         const user = await Users.findOne({
             attributes: ['id', 'uuid', 'name', 'email', 'role', 'prodi'],
@@ -103,7 +103,7 @@ export const getMatkulByProdi = async (req, res) => {
     }
 }
 
-export const getMatkulById = async (req, res) => {
+MatkulController.getMatkulById = async (req, res) => {
     try {
         const user = await Users.findOne({
             attributes: ['id', 'uuid', 'name', 'email', 'role'],

@@ -143,12 +143,9 @@ JadwalController.processPenjadwalan = async (req, res) => {
 
 }
 
-<<<<<<< HEAD
+
 // downloading the excel report
-export const getJadwalReport = async (req, res) => {
-=======
 JadwalController.getJadwalReport = async (req, res) => {
->>>>>>> 005fad5ea06d417488d6c82a79e6d31664eecc00
     try {
         const filePath = 'report/jadwal-report.xlsx'
   

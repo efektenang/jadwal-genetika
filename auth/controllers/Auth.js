@@ -19,8 +19,8 @@ Auth.getLogin = async (req, res) => {
     }
 }
 
-<<<<<<< HEAD
-export const getError = async (req, res) => {
+
+Auth.getError = async (req, res) => {
     try {
         res.render('404', {
             title: 'Error',
@@ -33,10 +33,7 @@ export const getError = async (req, res) => {
 }
 
 
-export const getRegister = async (req, res) => {
-=======
 Auth.getRegister = async (req, res) => {
->>>>>>> 005fad5ea06d417488d6c82a79e6d31664eecc00
     try {
         res.render('sign-up', {
             title: 'Register Account',

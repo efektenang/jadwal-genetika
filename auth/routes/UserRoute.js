@@ -1,18 +1,3 @@
-// import express from 'express'
-// import { 
-//     getUsers,
-//     getUserById,
-//     createUser,
-//     updateUser,
-//     deleteUser,
-//     changePassword,
-//     resetPassword
-//  } from "../controllers/Users.js";
- 
-
-// import { verifyUser, adminOnly } from '../middleware/AuthUser.js';
-// import { runRegisterValidation, loginValidation, registerValidation } from '../validations/AuthValidation.js';
-
 const express = require('express')
 const Users = require('../controllers/Users.js')
 const { verifyUser, adminOnly } = require('../middleware/AuthUser.js')

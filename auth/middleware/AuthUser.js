@@ -35,7 +35,7 @@ const adminOnly = async (req, res, next) => {
     next();
 }
 
-export const staffOnly = async (req, res, next) => {
+const staffOnly = async (req, res, next) => {
     const user = await Users.findOne({
         where: {
             uuid: req.session.userId
@@ -51,4 +51,4 @@ export const staffOnly = async (req, res, next) => {
     next();
 }
 
-module.exports = { verifyUser, adminOnly }
+module.exports = { verifyUser, adminOnly, staffOnly }

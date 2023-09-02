@@ -40,13 +40,9 @@ Users.getUserById = async (req, res) => {
     }
 }
 
-<<<<<<< HEAD
-export const createUser = async (req, res) => {
-    const {name, email, password, confPassword, role, prodi} = req.body;
-=======
+
 Users.createUser = async (req, res) => {
     const {name, email, password, confPassword, role} = req.body;
->>>>>>> 005fad5ea06d417488d6c82a79e6d31664eecc00
 
     const user = await User.findOne({
         where: {
