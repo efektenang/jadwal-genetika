@@ -1,10 +1,10 @@
 import express from 'express'
 import { getDashboard } from '../controllers/Dashboard.js'
-import { createDosen, deleteDosen, getCreateDosen, getDosen, getDosenById, getEditDosen, updateDosen } from '../controllers/DosenController.js'
+import { createDosen, deleteDosen, getCreateDosen, getDosen, getDosenById, getDosenByProdi, getEditDosen, updateDosen } from '../controllers/DosenController.js'
 import { createHari, getHari } from '../controllers/HariController.js'
 import { getJadwal, getJadwalReport, processPenjadwalan } from '../controllers/JadwalController.js'
 import { createMatkul, deleteMatkul, getCreateMatkul, getEditMatkul, getMatkul, getMatkulById, getMatkulByProdi, updateMatkul } from '../controllers/MatkulController.js'
-import { createPengampu, deletePengampu, getCreatePengampu, getPengampu, getPengampuById, getUpdatePengampu, updatePengampu } from '../controllers/PengampuController.js'
+import { createPengampu, deletePengampu, getCreatePengampu, getPengampu, getPengampuById, getPengampuByProdi, getUpdatePengampu, updatePengampu } from '../controllers/PengampuController.js'
 import { createRuang, deleteRuang, getCreateRuang, getEditRuang, getRuang, getRuangById, updateRuang } from '../controllers/RuangController.js'
 import { createWaktu, deleteWaktu, getCreateWaktu, getUpdateWaktu, getWaktu, getWaktuById, updateWaktu } from '../controllers/WaktuController.js'
 import { getJadwalKhusus, inputWaktuKhusus } from '../controllers/WaktuKhususController.js'
@@ -19,7 +19,8 @@ router.get('/dashboard', verifyUser, getDashboard)
 router.get('/formdosen', verifyUser, getCreateDosen)
 router.get('/editdosen/:id', verifyUser, getEditDosen)
 
-router.get('/dosen', verifyUser, getDosen)
+router.get('/dosen', verifyUser, staffOnly, getDosen)
+router.get('/dosen-prodi', verifyUser, getDosenByProdi)
 router.get('/dosen/:id', verifyUser, getDosenById)
 router.post('/insertdosen', verifyUser, createDosen)
 router.post('/updatedosen/:id', verifyUser, updateDosen)
@@ -43,7 +44,7 @@ router.post('/deletewaktu/:id', verifyUser, staffOnly, deleteWaktu)
 router.get('/formmatkul', verifyUser, getCreateMatkul)
 router.get('/editmatkul/:id', verifyUser, getEditMatkul)
 
-router.get('/matkul', verifyUser, getMatkul)
+router.get('/matkul', verifyUser, staffOnly, getMatkul)
 router.get('/matkul/:prodi', verifyUser, getMatkulByProdi)
 router.get('/matkul/:prodi/:semester', verifyUser, getMatkul)
 router.get('/getmatkul/:id', verifyUser, getMatkulById)
@@ -62,8 +63,10 @@ router.post('/updateruang/:id', verifyUser, staffOnly, updateRuang)
 router.post('/deleteruang/:id', verifyUser, staffOnly, deleteRuang)
 
 // Manage Data Pengampu
-router.get('/pengampu', verifyUser, getPengampu)
-router.get('/pengampu/:tahun_akademik', verifyUser, getPengampu)
+router.get('/pengampu', verifyUser, staffOnly, getPengampu)
+router.get('/pengampu/:tahun_akademik', verifyUser, staffOnly, getPengampu)
+router.get('/pengampu-prodi', verifyUser, getPengampuByProdi)
+router.get('/pengampu-prodi/:tahun_akademik', verifyUser, getPengampuByProdi)
 router.get('/formpengampu', verifyUser, getCreatePengampu)
 router.get('/getpengampu/:id', verifyUser, getPengampuById)
 router.get('/editpengampu/:id', verifyUser, getUpdatePengampu)

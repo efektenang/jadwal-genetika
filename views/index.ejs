@@ -39,7 +39,7 @@
                   <div class="numbers">
                     <p class="text-sm mb-0 text-uppercase font-weight-bold">Jumlah Pengampu</p>
                     <h5 class="font-weight-bolder">
-                      <%- pengampu %>
+                      <%= user.role === 'prodi' ? pgpProdi : pengampu %>
                     </h5>
                   </div>
                 </div>

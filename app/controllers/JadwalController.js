@@ -49,7 +49,7 @@ export const processPenjadwalan = async (req, res) => {
             tahun_akademik
         } = req.body
 
-        const jadwal = await resData(semester_tipe, tahun_akademik, userId)
+        const jadwal = await resData(semester_tipe, tahun_akademik)
         
         const start = performance.now()
         if (jadwal.length < 40) {

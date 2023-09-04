@@ -3,7 +3,7 @@ import Matkul from '../models/MatkulModel.js'
 import Ruang from '../models/RuangModel.js'
 import Users from '../../auth/models/UserModel.js' 
 import { getResult } from '../models/JadwalModel.js'
-import { dataPengampu } from '../models/PengampuModel.js'
+import { dataPengampu, pengampuProdi } from '../models/PengampuModel.js'
 
 export const getDashboard = async (req, res) => {
     try {
@@ -18,7 +18,9 @@ export const getDashboard = async (req, res) => {
         const getDosen = await Dosen.findAll({
             where: { userId: user.id }
         })
-        const getPengampu = await dataPengampu(tahun_akademik, userId)
+        const getPengampu = await dataPengampu(tahun_akademik)
+        const pgpProdi = await pengampuProdi(tahun_akademik, userId)
+
         const getMatkul = await Matkul.findAll({
             where: { userId: user.id }
         })
@@ -32,6 +34,7 @@ export const getDashboard = async (req, res) => {
             layout: 'layouts/templates',
             dosen: getDosen.length,
             pengampu: getPengampu.length,
+            pgpProdi: pgpProdi.length,
             matkul: getMatkul.length,
             ruang: getRuang.length,
             msg: req.flash('loginmsg'),

@@ -14,7 +14,6 @@ export const getJadwalKhusus = async (req, res) => {
             }
         })
         const dosen = await Dosen.findAll({
-            where: { userId: user.id },
             order: ['name']
         })
         const t_hari = await Hari.findAll()

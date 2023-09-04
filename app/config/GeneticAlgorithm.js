@@ -28,7 +28,7 @@ class GeneticAlgorithm {
     }
     
     async getAllData() {
-        await resData(this.semester_tipe, this.tahun_akademik, this.userId)
+        await resData(this.semester_tipe, this.tahun_akademik)
         await getWaktu(this.userId)
         await getHari()
         await getRuangLab(this.userId)
@@ -38,7 +38,7 @@ class GeneticAlgorithm {
 
     async getData() {
         // create array of data pengampu
-        const rsData = await resData(this.semester_tipe, this.tahun_akademik, this.userId)
+        const rsData = await resData(this.semester_tipe, this.tahun_akademik)
         for ( let i = 0; i < rsData.length; i++) {
             this.pengampu[i] = parseInt(rsData[i].id)
             this.sks[i] = parseInt(rsData[i].sks)

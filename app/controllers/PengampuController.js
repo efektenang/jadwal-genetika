@@ -1,7 +1,7 @@
 import Dosen from '../models/DosenModel.js'
 import Matkul from '../models/MatkulModel.js'
 import conn from "../config/ConnectDB.js"
-import { Pengampu, dataPengampu } from '../models/PengampuModel.js'
+import { Pengampu, dataPengampu, pengampuProdi } from '../models/PengampuModel.js'
 import Users from '../../auth/models/UserModel.js'
 
 //Pengampu Controller 
@@ -20,17 +20,13 @@ export const getPengampu = async (req, res) => {
             tahun_akademik = '2020-2021'
         }
 
-        let userId = user.id
-
-        const pengampu = await dataPengampu(tahun_akademik, userId)
+        const pengampu = await dataPengampu(tahun_akademik)
         const dosen = await Dosen.findAll({
-            where: { userId: user.id },
             order: [
                 ['name', 'ASC']
             ]
         })
         const matkul = await Matkul.findAll({
-            where: { userId: user.id },
             order: [
                 ['matkul', 'ASC']
             ]
@@ -53,6 +49,53 @@ export const getPengampu = async (req, res) => {
     }
 }
 
+export const getPengampuByProdi = async (req, res) => {
+    try {
+        const user = await Users.findOne({
+            attributes: ['id', 'uuid', 'name', 'email', 'role', 'prodi'],
+            where: {
+                uuid: req.session.userId
+            }
+        })
+        
+        let tahun_akademik = req.params.tahun_akademik
+
+        if (tahun_akademik === undefined) {
+            tahun_akademik = '2020-2021'
+        }
+
+        let userId = user.id
+
+        const pengampu = await pengampuProdi(tahun_akademik, userId)
+        const dosen = await Dosen.findAll({
+            where: { userId: user.id },
+            order: [
+                ['name', 'ASC']
+            ]
+        })
+        const matkul = await Matkul.findAll({
+            where: { userId: user.id },
+            order: [
+                ['matkul', 'ASC']
+            ]
+        })
+
+        res.render('pagepengampu/pengampuprodi', {
+            title: 'Menu Dosen Pengampu',
+            layout: 'layouts/templates',
+            msg: req.flash('pengampumsg'),
+            tahun_akademik,
+            pengampu,
+            user,
+            dosen,
+            matkul
+        })
+        res.status(200)
+    } catch (error) {
+        res.status(400).json({msg: error.message})
+    }
+}
+
 export const getPengampuById = async (req, res) => {
     try {
         const user = await Users.findOne({
@@ -61,30 +104,27 @@ export const getPengampuById = async (req, res) => {
                 uuid: req.session.userId
             }
         })
-        const userId = user.id
+        
         const pengampuId = req.params.id
 
         const dosen = await Dosen.findAll({
-            where: { userId: user.id},
             order: [
                 ['name', 'ASC']
             ]
         })
         const matkul = await Matkul.findAll({
-            where: { userId: user.id},
             order: [
                 ['matkul', 'ASC']
             ]
         })
 
-        conn.query("SELECT a.id as id, b.id as `id_mk`, b.matkul as `nama_mk`, c.id as `id_dosen`, c.name as `nama_dosen`, a.kelas as kelas, a.tahun_akademik as `tahun_akademik` FROM t_pengampu a LEFT JOIN t_matkul b ON a.id_mk = b.id LEFT JOIN t_dosen c ON a.id_dosen = c.id WHERE a.id = ? AND a.userId = ?", [pengampuId, userId], function (error, rows, fields) {
+        conn.query("SELECT a.id as id, b.id as `id_mk`, b.matkul as `nama_mk`, c.id as `id_dosen`, c.name as `nama_dosen`, a.kelas as kelas, a.tahun_akademik as `tahun_akademik` FROM t_pengampu a LEFT JOIN t_matkul b ON a.id_mk = b.id LEFT JOIN t_dosen c ON a.id_dosen = c.id WHERE a.id = ?", [pengampuId], function (error, rows, fields) {
             if (error) throw error
             res.json({
                 id: req.params.id,
                 rows,
                 dosen,
-                matkul,
-                user
+                matkul
             })
         })
 
@@ -131,7 +171,7 @@ export const getCreatePengampu = async (req, res) => {
 export const createPengampu = async (req, res) => {
     try {
         const user = await Users.findOne({
-            attributes: ['id', 'uuid'],
+            attributes: ['id', 'uuid', 'role'],
             where: {
                 uuid: req.session.userId
             }
@@ -155,6 +195,12 @@ export const createPengampu = async (req, res) => {
         await Pengampu.create({
             id_mk, id_dosen, kelas, tahun_akademik, userId: user.id
         })
+
+        if (user.role == 'prodi') {
+            req.flash('pengampumsg', 'Dosen Pengampu berhasil ditambahkan!')
+            res.redirect('/pengampu-prodi/' + tahun_akademik)
+            return res.status(200)
+        }
         req.flash('pengampumsg', 'Dosen Pengampu berhasil ditambahkan!')
         res.redirect('/pengampu/' + tahun_akademik)
         res.status(200)
@@ -212,7 +258,7 @@ export const getUpdatePengampu = async (req, res) => {
 export const updatePengampu = async (req, res) => {
     try {
         const user = await Users.findOne({
-            attributes: ['id', 'uuid'],
+            attributes: ['id', 'uuid', 'role'],
             where: {
                 uuid: req.session.userId
             }
@@ -251,6 +297,12 @@ export const updatePengampu = async (req, res) => {
                 userId: user.id
             }
         })
+
+        if (user.role == 'prodi') {
+            req.flash('pengampumsg', 'Dosen Pengampu berhasil disimpan!')
+            res.redirect('/pengampu-prodi/' + tahun_akademik)
+            return res.status(200)
+        }
 
         req.flash('pengampumsg', 'Dosen Pengampu berhasil disimpan!')
         res.redirect('/pengampu/' + tahun_akademik)

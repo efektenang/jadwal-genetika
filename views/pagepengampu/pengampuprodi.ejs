@@ -1,0 +1,233 @@
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5>Tabel Dosen Pengampu Terdaftar</h5>
+                            <% if (msg.length !== 0) { %>
+                              <div class="alert alert-success alert-dismissible text-white" role="alert">
+                                <strong>Good!</strong> <%- msg %>
+                                <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                            <% } %>
+                        </div>
+                        <button data-bs-toggle="modal" data-bs-target="#tambahPengampuModal" class="btn btn-icon btn-3 btn-primary" type="button" style="width: 200px; margin: 20px 0 0 20px;">
+                            <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+                            <span class="btn-inner--text">Tambah Pengampu</span>
+                        </button>
+                        <div class="card-body px-0 pt-0 pb-2">
+                            <div class="mb-3" style="width: 500px; margin: 20px 0 0 20px;">
+                                <label for="tahun_akademik" class="form-label">Tahun Akademik</label>  
+                                <select onchange="change_filter_pengampu()" class="form-select" id="tahun_akademik" name="tahun_akademik" aria-label="Default select example">
+                                    <option value="2020-2021" <%- tahun_akademik === '2020-2021' ? 'selected' : '' %>>2020-2021</option>
+                                    <option value="2021-2022" <%- tahun_akademik === '2021-2022' ? 'selected' : '' %>>2021-2022</option>
+                                    <option value="2022-2023" <%- tahun_akademik === '2022-2023' ? 'selected' : '' %>>2022-2023</option>
+                                    <option value="2023-2024" <%- tahun_akademik === '2023-2024' ? 'selected' : '' %>>2023-2024</option>
+                                  </select>
+                            </div>
+                            <div class="table-responsive p-0">
+                                <table class="table align-items-center mb-0" id="datatable-basic">
+                                    <thead>
+                                        <tr>
+                                            <th>No.</th>
+                                            <th>Mata Kuliah</th>
+                                            <th>Nama Dosen Pengampu</th>
+                                            <th>Kelas</th>
+                                            <th>Program Studi</th>
+                                            <th>Tahun Akademik</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>No.</th>
+                                            <th>Mata Kuliah</th>
+                                            <th>Nama Dosen Pengampu</th>
+                                            <th>Kelas</th>
+                                            <th>Program Studi</th>
+                                            <th>Tahun Akademik</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        <% let no = 1; %> 
+                                        <% pengampu.forEach(pgp => { %>
+                                          <% 
+                                            let a = pgp.prodi
+                                            let prdi = a.split('-')
+                                          %>
+                                            <tr>
+                                                <td class="text-sm font-weight-normal"><%= no++ %> </td>
+                                                <td class="text-sm font-weight-normal"><%- pgp.nama_mk %> </td>
+                                                <td class="text-sm font-weight-normal"><%- pgp.nama_dosen %> </td>
+                                                <td class="text-sm font-weight-normal"><%- pgp.kelas %></td>
+                                                <td class="text-sm font-weight-normal" style="text-transform: capitalize;"><%- prdi[0].concat(' ', prdi[1]) %></td>
+                                                <td class="text-sm font-weight-normal"><%- pgp.tahun_akademik %></td>
+                                                <td width="12%" class="text-sm font-weight-normal">
+                                                    <button data-bs-toggle="modal" id="<%= pgp.id%>" data-bs-target="#editPengampuModal" class="btn bg-gradient-warning btn-icon editbutton">
+                                                        <i class="fas fa-edit" title="edit"></i>
+                                                    </button>
+                                                    <form action="/deletepengampu/<%= pgp.id%>?_method=DELETE" method="post"  style="display: inline;">
+                                                        <button class="btn bg-gradient-danger btn-icon" onclick="return confirm('Apakah anda yakin ingin menghapus?');"><i class="fas fa-trash"></i></button>
+                                                    </form>
+                                                </td>
+                                            </tr>                             
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- add modal -->
+<div class="modal fade" id="tambahPengampuModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalSignTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card card-plain">
+            <div class="card-header pb-0 text-left">
+                <h3 class="font-weight-bolder text-primary text-gradient">Tambah Dosen Pengampu Baru</h3>
+                <p class="mb-0">Pastikan terisi dengan benar</p>
+            </div>
+            <div class="card-body pb-3">
+              <form action="/insertpengampu" method="post" role="form text-left">
+                <div class="mb-3">
+                    <label for="id_mk" class="form-label">Mata Kuliah</label>
+                    <select class="form-select" name="id_mk" aria-label="Default select example">
+                        <% matkul.forEach(mk => { %>
+                            <option value="<%- mk.id %>"><%- mk.matkul %></option>
+                        <% }) %> 
+                      </select>
+                </div>
+                <div class="mb-3">
+                    <label for="id_dosen" class="form-label">Nama Dosen</label>
+                    <select class="form-select" id="id_dosen" name="id_dosen" aria-label="Default select example">
+                        <% dosen.forEach(dsn => { %>
+                            <option value="<%- dsn.id %>"><%- dsn.name %></option>
+                        <% }) %> 
+                      </select>
+                </div>
+                <div class="mb-3">
+                    <label for="kelas" class="form-label">Kelas</label>  
+                    <input type="text" class="form-control" id="kelas" name="kelas" aria-describedby="no_ruangHelp"  placeholder="cth. A1">
+                </div>
+                <div class="mb-3">
+                    <label for="choices-sample" class="form-label">Tahun Akademik</label>  
+                    <select class="form-select" name="tahun_akademik" aria-label="Default select example">
+                        <option value="2020-2021">2020-2021</option>
+                        <option value="2021-2022">2021-2022</option>
+                        <option value="2022-2023">2022-2023</option>
+                        <option value="2023-2024">2023-2024</option>
+                      </select>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn bg-gradient-primary">Tambahkan</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- close add modal -->
+
+<!-- edit modal -->
+<div class="modal fade" id="editPengampuModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalSignTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card card-plain">
+            <div class="card-header pb-0 text-left">
+                <h3 class="font-weight-bolder text-primary text-gradient">Edit Dosen Pengampu</h3>
+                <p class="mb-0">Pastikan terisi dengan benar</p>
+            </div>
+            <div class="card-body pb-3">
+              <form action="" id="editForm" method="post" role="form text-left">
+                <div class="mb-3">
+                    <label for="id_mk" class="form-label">Mata Kuliah</label>
+                    <select class="form-select" name="id_mk" aria-label="Default select example">
+                      <option value="" selected></option>
+                        <% matkul.forEach(mk => { %>
+                            <option value="<%- mk.id %>"><%- mk.matkul %></option>
+                        <%}) %> 
+                      </select>
+                </div>
+                <div class="mb-3">
+                    <label for="id_dosen" class="form-label">Nama Dosen</label>
+                    <select class="form-select" id="id_dosen" name="id_dosen" aria-label="Default select example">
+                      <option value=""></option>
+                        <% dosen.forEach(dsn => { %>
+                            <option value="<%- dsn.id %>"><%- dsn.name %></option>
+                        <% }) %> 
+                      </select>
+                </div>
+                <div class="mb-3">
+                    <label for="kelas" class="form-label">Kelas</label>  
+                    <input value="" type="text" class="form-control" id="kelas" name="kelas" aria-describedby="no_ruangHelp"  placeholder="cth. A1">
+                </div>
+                <div class="mb-3">
+                    <label for="choices-sample" class="form-label">Tahun Akademik</label>  
+                    <select class="form-select" name="tahun_akademik" aria-label="Default select example">
+                        <option value="2020-2021">2020-2021</option>
+                        <option value="2021-2022">2021-2022</option>
+                        <option value="2022-2023">2022-2023</option>
+                        <option value="2023-2024">2023-2024</option>
+                      </select>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn bg-gradient-primary">Simpan Perubahan</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- close edit modal -->
+
+<script>
+  $(document).ready(function () {
+    $('.editbutton').click(function () {
+
+      iid = $(this).attr('id')
+      $.ajax({
+        url: '/getpengampu/' + iid,
+        method: 'get',
+        data: '',
+        dataType: 'json',
+        success: function (response) {
+          $('#editPengampuModal').find('[name=id_mk]').val(response.rows[0].id_mk).end()
+          $('#editPengampuModal').find('[name=id_dosen]').val(response.rows[0].id_dosen).end()
+          $('#editPengampuModal').find('[name=kelas]').val(response.rows[0].kelas).end()
+          $('#editPengampuModal').find('[name=tahun_akademik]').val(response.rows[0].tahun_akademik).end()
+          $('#editForm').attr("action", '/updatepengampu/' + response.id)
+        },
+        error: function(xhr, status, error) {
+          console.error('Error fetching data:', error);
+        }
+      })
+    })
+  })
+</script>
+
+<script type="text/javascript">
+          function change_filter_pengampu() {
+            // var jenis_semester = document.getElementById('semester_tipe')
+            var thn_akademik = document.getElementById('tahun_akademik')
+            window.location.href = "/pengampu-prodi/" + tahun_akademik.options[tahun_akademik.selectedIndex].value
+        }
+</script>

@@ -104,7 +104,7 @@ export const getMatkulByProdi = async (req, res) => {
 export const getMatkulById = async (req, res) => {
     try {
         const user = await Users.findOne({
-            attributes: ['id', 'uuid', 'name', 'email', 'role'],
+            attributes: ['id', 'uuid', 'name', 'email', 'role', 'prodi'],
             where: {
                 uuid: req.session.userId
             }
