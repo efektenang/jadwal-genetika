@@ -24,11 +24,6 @@ export const getMatkul = async (req, res) => {
             prodi = arr_prodi[0]
         }
 
-        if (user.prodi !== req.params.prodi && user.role === 'prodi') {
-            res.redirect('/matkul/' + user.prodi + '/' + smstr)
-            return res.status(400)
-        }
-
         const matkul = await Matkul.findAll({
             where: {
                 prodi,
@@ -133,7 +128,7 @@ export const getMatkulById = async (req, res) => {
 export const getCreateMatkul = async (req, res) => {
     try {
         const user = await Users.findOne({
-            attributes: ['uuid', 'name', 'email', 'role'],
+            attributes: ['uuid', 'name', 'email', 'role', 'prodi'],
             where: {
                 uuid: req.session.userId
             }
@@ -154,7 +149,7 @@ export const getCreateMatkul = async (req, res) => {
 export const createMatkul = async (req, res) => {
     try {
         const user = await Users.findOne({
-            attributes: ['id', 'uuid', 'prodi'],
+            attributes: ['id', 'uuid', 'prodi', 'role'],
             where: {
                 uuid: req.session.userId
             }
@@ -180,6 +175,12 @@ export const createMatkul = async (req, res) => {
             kode_mk, matkul, sks, semester, jenis, prodi, userId: user.id
         })
 
+        if (user.role == 'prodi') {
+            req.flash('matkulmsg', newMatkul.matkul + ' berhasil ditambahkan!')
+            res.redirect('/matkul-prodi/'+ prodi + '/' + semester)
+            return res.status(200)
+        }
+
         req.flash('matkulmsg', newMatkul.matkul + ' berhasil ditambahkan!')
         res.redirect('/matkul/'+ prodi + '/' + semester)
         res.status(200)
@@ -191,7 +192,7 @@ export const createMatkul = async (req, res) => {
 export const getEditMatkul = async (req, res) => {
     try {
         const user = await Users.findOne({
-            attributes: ['id', 'uuid', 'name', 'email', 'role'],
+            attributes: ['id', 'uuid', 'name', 'email', 'role', 'prodi'],
             where: {
                 uuid: req.session.userId
             }
@@ -258,6 +259,13 @@ export const updateMatkul = async (req, res) => {
                 id: response.id
             }
         })
+
+        if (user.role == 'prodi') {
+            req.flash('matkulmsg', response.matkul + ' Berhasil diubah!')
+            res.redirect('/matkul-prodi/'+ prodi + '/' + semester)
+            return res.status(200)
+        }
+
         req.flash('matkulmsg', response.matkul + ' Berhasil diubah!')
         res.redirect('/matkul/' + prodi + '/' + semester)
         res.status(200)
@@ -269,7 +277,7 @@ export const updateMatkul = async (req, res) => {
 export const deleteMatkul = async (req, res) => {
     try {
         const user = await Users.findOne({
-            attributes: ['id', 'uuid'],
+            attributes: ['id', 'uuid', 'role', 'prodi'],
             where: {
                 uuid: req.session.userId
             }
@@ -289,6 +297,13 @@ export const deleteMatkul = async (req, res) => {
                 id: response.id
             }
         })
+
+        if (user.role == 'prodi') {
+            req.flash('matkulmsg', 'Mata Kuliah berhasil dihapus!')
+            res.redirect('/matkul-prodi/' + user.prodi)
+            return res.status(200)
+        }
+
         req.flash('matkulmsg', 'Mata Kuliah berhasil dihapus!')
         res.redirect('/matkul')
         res.status(200)
