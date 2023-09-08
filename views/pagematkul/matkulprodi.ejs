@@ -106,7 +106,7 @@
             <form action="/insertmatkul" method="post" role="form text-left">
               <div class="mb-3">
                   <label for="kode_mk" class="form-label">Kode Mata Kuliah</label>  
-                  <input type="text" class="form-control" id="kode_mk" name="kode_mk" aria-describedby="kode_mkHelp" autofocus>
+                  <input type="text" class="form-control" id="kode_mk" name="kode_mk" aria-describedby="kode_mkHelp" required autofocus>
               </div>
               <div class="mb-3">
                   <label for="matkul" class="form-label">Mata Kuliah</label>
@@ -119,6 +119,8 @@
                       <option value="2">2 sks</option>
                       <option value="3">3 sks</option>
                       <option value="4">4 sks</option>
+                      <option value="5">5 sks</option>
+                      <option value="6">6 sks</option>
                     </select>
               </div>
               <div class="mb-3">
@@ -143,10 +145,12 @@
               </div>
               <div class="mb-3">
                   <label for="prodi" class="form-label">Program Studi</label>
-                  <select class="form-select" name="prodi" aria-label="Default select example">
-                      <option value="sistem-informasi" selected>Sistem Informasi</option>
-                      <option value="teknologi-informasi">Teknologi Informasi</option>
-                      <option value="sains-data">Sains Data</option>
+                  <select class="form-select" name="prodi" aria-label="Default select example" style="text-transform: capitalize;">
+                    <% 
+                      let a = user.prodi
+                      let prdi = a.split('-')
+                    %>
+                      <option value="<%- a %>" selected><%- prdi[0].concat(' ', prdi[1]) %></option>
                     </select>
               </div>
               <div class="modal-footer">
@@ -190,6 +194,8 @@
                             <option value="2">2 sks</option>
                             <option value="3">3 sks</option>
                             <option value="4">4 sks</option>
+                            <option value="5">5 sks</option>
+                            <option value="6">6 sks</option>
                           </select>
                     </div>
                     <div class="mb-3">
@@ -265,7 +271,7 @@
           function change_filter_matkul() {
             var prodi = document.getElementById('prdi').value
             var smstr = document.getElementById('smstr')
-            window.location.href = "/matkul/" + prodi + '/' + smstr.options[smstr.selectedIndex].value
+            window.location.href = "/matkul-prodi/" + prodi + '/' + smstr.options[smstr.selectedIndex].value
         }
 </script>
 
