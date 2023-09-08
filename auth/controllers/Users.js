@@ -4,13 +4,13 @@ import argon2 from 'argon2';
 export const getUsers = async (req, res) => {
     try {
         const user = await User.findOne({
-            attributes: ['uuid', 'name', 'email', 'role'],
+            attributes: ['uuid', 'name', 'email', 'role', 'prodi'],
             where: {
                 uuid: req.session.userId
             }
         });
         const response = await User.findAll({
-            attributes: ['uuid', 'name', 'email', 'role']
+            attributes: ['uuid', 'name', 'email', 'role', 'prodi']
         });
         res.render('users-menu', {
             title: 'Users Menu',
@@ -27,7 +27,7 @@ export const getUsers = async (req, res) => {
 export const getUserById = async (req, res) => {
     try {
         const response = await User.findOne({
-            attributes: ['uuid', 'name', 'email', 'role'],
+            attributes: ['uuid', 'name', 'email', 'role', 'prodi'],
             where: {
                 uuid: req.params.uuid
             }

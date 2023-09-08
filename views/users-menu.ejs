@@ -18,6 +18,7 @@
                                         <th>No.</th>
                                         <th>Name</th>
                                         <th>Email</th>
+                                        <th>Program Studi</th>
                                         <th>Role</th>
                                         <th>Action</th>
                                     </tr>
@@ -27,6 +28,7 @@
                                         <th>No.</th>
                                         <th>Name</th>
                                         <th>Email</th>
+                                        <th>Program Studi</th>
                                         <th>Role</th>
                                         <th>Action</th>
                                     </tr>
@@ -38,6 +40,7 @@
                                             <td><%= no++ %> </td>
                                             <td style="text-transform: capitalize;"><%- tabel.name %> </td>
                                             <td><%- tabel.email %></td>
+                                            <td><%- tabel.prodi %></td>
                                             <td><%- tabel.role %></td>
                                             <td width="12%">
                                                 <button type="button" id="<%- tabel.uuid %>" data-bs-toggle="modal" data-bs-target="#detailUserModal" class="btn bg-gradient-info btn-icon editbutton">
@@ -75,6 +78,8 @@
                         <input class="form-control" name="name" type="text" value="" disabled/>
                         <label class="mt-4">Email </label>
                         <input class="form-control" name="email" type="text" value="" disabled/>
+                        <label class="mt-4">Program Studi </label>
+                        <input class="form-control" name="prodi" type="text" value="" disabled/>
                         <label class="mt-4">Role</label>
                         <input class="form-control" name="role" type="text" value="role" disabled/>
                     </div>
@@ -100,6 +105,7 @@
           success: function (response) {
             $('#detailUserModal').find('[name=name]').val(response.name).end()
             $('#detailUserModal').find('[name=email]').val(response.email).end()
+            $('#detailUserModal').find('[name=prodi]').val(response.prodi).end()
             $('#detailUserModal').find('[name=role]').val(response.role).end()
           },
           error: function(xhr, status, error) {
